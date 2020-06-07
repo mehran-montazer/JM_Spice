@@ -8,5 +8,6 @@ public class Main {
         int b = 4;
         if (b == 4)
             System.out.println("Mahyar khare");
+        int h =0 ;
     }
 }
