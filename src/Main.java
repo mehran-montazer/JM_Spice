@@ -16,5 +16,6 @@ public class Main {
 
 
         int jjjjjjj = 85 ;
+        qy = false;
     }
 }
