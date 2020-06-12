@@ -3,5 +3,7 @@ import java.io.File;
 public class Main {
     public static void main (String[] arg){
         //Rading File Section
+        File file = new File("input.txt");
+
     }
 }
