@@ -2,7 +2,7 @@ package elements;
 
 public class CurrentSource extends Element {
 
-    CurrentSource(String name, Node positiveTerminal, Node negativeTerminal, double current) {
+    public CurrentSource(String name, Node positiveTerminal, Node negativeTerminal, double current) {
         super(name, positiveTerminal, negativeTerminal);
         this.current = current;
     }

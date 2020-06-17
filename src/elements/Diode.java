@@ -2,7 +2,7 @@ package elements;
 
 public class Diode extends Element {
     boolean isON;
-    Diode(String name, Node positiveTerminal, Node negativeTerminal) {
+    public Diode(String name, Node positiveTerminal, Node negativeTerminal) {
         super(name, positiveTerminal, negativeTerminal);
     }
     /////////////////////////////////getter///////////////////////////

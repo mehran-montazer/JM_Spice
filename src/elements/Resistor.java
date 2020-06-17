@@ -3,7 +3,7 @@ package elements;
 public class Resistor extends Element {
     private double resistance;
     //////////////////////////////////////constructor//////////////////////////////
-    Resistor(String name, Node positiveTerminal, Node negativeTerminal, double resistance) {
+    public Resistor(String name, Node positiveTerminal, Node negativeTerminal, double resistance) {
         super(name, positiveTerminal, negativeTerminal);
         this.resistance = resistance;
     }

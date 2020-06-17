@@ -8,7 +8,7 @@ public class Node {
     private double voltage;
     Queue<Node> saf = new LinkedList<Node>();
     ////////////////////////////////constructor////////////////////////
-    Node (String name){
+    public Node(String name){
         this.name = name;
         voltage = 0;
     }
