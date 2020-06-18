@@ -24,7 +24,7 @@ public class Main {
             ArrayList<String> nodeName = new ArrayList<>();
             int lineNumber = 0;
             Pattern number = Pattern.compile("\\d+");
-            Pattern suffix = Pattern.compile("\\w");
+            Pattern suffix = Pattern.compile("\\w{1}");
             while (scanner.hasNextLine() && !isEnded){
                 lineNumber ++;
                 input = scanner.next();
@@ -86,7 +86,6 @@ public class Main {
                             } else if (value <= 0) {
                                 isEnded = true;
                                 System.out.println("Not valid value! check line" + lineNumber + "!");
-
                             }
                             if (tokens[0].startsWith("R") || tokens[0].startsWith("r")) {
                                 Resistor resistor;
@@ -108,7 +107,54 @@ public class Main {
                                 }
                             }
                         } else if (tokens.length == 7) {
-
+                            if (tokens[4].equals("0") && tokens[5].equals("0") && tokens[6].equals("0")){
+                                Matcher numberMatcher = number.matcher(tokens[3]);
+                                Matcher suffixMatcher = suffix.matcher(tokens[3]);
+                                double value = 0;
+                                if (numberMatcher.find()) {
+                                    value = Double.parseDouble(numberMatcher.group());
+                                }
+                                String suffixTemp = null;
+                                if (suffixMatcher.find()) {
+                                    suffixTemp = suffixMatcher.group();
+                                }
+                                if (value > 0 && suffixTemp != null) {
+                                    if (suffixTemp.equals("p")) {
+                                        value *= Math.pow(10, -12);
+                                    } else if (suffixTemp.equals("n")) {
+                                        value *= Math.pow(10, -9);
+                                    } else if (suffixTemp.equals("u")) {
+                                        value *= Math.pow(10, -6);
+                                    } else if (suffixTemp.equals("m")) {
+                                        value *= Math.pow(10, -3);
+                                    } else if (suffixTemp.equals("k")) {
+                                        value *= Math.pow(10, +3);
+                                    } else if (suffixTemp.equals("M")) {
+                                        value *= Math.pow(10, +6);
+                                    } else if (suffixTemp.equals("G")) {
+                                        value *= Math.pow(10, +9);
+                                    } else {
+                                        isEnded = true;
+                                        System.out.println("Not valid suffix! check line" + lineNumber + "!");
+                                    }
+                                }
+                                else if (value <= 0) {
+                                    isEnded = true;
+                                    System.out.println("Not valid value! check line" + lineNumber + "!");
+                                }
+                                if ( ( tokens[0].startsWith("v") || tokens[0].startsWith("V") ) && !isEnded){
+                                    VoltageSource voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, value);
+                                    elements.put(voltageSource.getName(), voltageSource);
+                                }
+                                else if ( ( tokens[0].startsWith("i") || tokens[0].startsWith("I") ) && !isEnded){
+                                    CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, value);
+                                    elements.put(currentSource.getName(), currentSource);
+                                }
+                                else if (!isEnded){
+                                    isEnded = true;
+                                    System.out.println("Not valid input! Check line" + lineNumber);
+                                }
+                            }
                         }
                         else if (tokens.length == 6){
 
