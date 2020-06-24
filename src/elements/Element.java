@@ -13,6 +13,7 @@ public abstract class Element {
     Element(String name, Node positiveTerminal, Node negativeTerminal){
         this.positiveTerminal = positiveTerminal;
         this.negativeTerminal = negativeTerminal;
+        this.name = name;
     }
     /////////////////////////////////getter///////////////////////////
     public double getCurrent() {

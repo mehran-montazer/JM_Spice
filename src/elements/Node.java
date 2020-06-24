@@ -6,7 +6,8 @@ import java.util.Queue;
 public class Node {
     private String name;
     private double voltage;
-    Queue<Node> saf = new LinkedList<Node>();
+    private int union;
+    private Queue<Node> saf = new LinkedList<>();
     ////////////////////////////////constructor////////////////////////
     public Node(String name){
         this.name = name;
@@ -22,11 +23,30 @@ public class Node {
     public double getVoltage() {
         return voltage;
     }
+
+    public Queue<Node> getSaf() {
+        return saf;
+    }
+
+    public int getUnion() {
+        return union;
+    }
+
     /////////////////////////////////setter////////////////////////////
     public void setName(String name) {
         this.name = name;
     }
     public void setVoltage(double voltage) {
         this.voltage = voltage;
+    }
+    public void setUnion(int union) {
+        this.union = union;
+    }
+    public void setSaf(Queue<Node> saf) {
+        this.saf = saf;
+    }
+    ///////////////////////////////////////////////////////////////////
+    public void updateVoltage (double dv){
+        voltage += dv;
     }
 }
