@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -17,6 +16,8 @@ public class Main {
         HashMap<String, Element> elements = new HashMap<>();
         ArrayList <Node> nodes = new ArrayList<>();
         ArrayList <String> dependentSources = new ArrayList<>();
+        ArrayList <VoltageSource> voltageSources = new ArrayList<>();
+        ArrayList <Union> unions = new ArrayList<>();
         File file = new File("input.txt");
         double dv;
         double dt;
@@ -101,6 +102,7 @@ public class Main {
                                 if ( ( tokens[0].startsWith("v") || tokens[0].startsWith("V") ) && !isEnded){
                                     VoltageSource voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, value);
                                     elements.put(voltageSource.getName(), voltageSource);
+                                    voltageSources.add(voltageSource);
                                 }
                                 else if ( ( tokens[0].startsWith("i") || tokens[0].startsWith("I") ) && !isEnded){
                                     CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, value);
@@ -206,6 +208,7 @@ public class Main {
                                 VoltageSource voltageSource;
                                 voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, positiveDependentNode, negativeDependentNode, value);
                                 elements.put(voltageSource.getName(), voltageSource);
+                                voltageSources.add(voltageSource);
                             }
                             else{
                                 isEnded = true;
@@ -234,6 +237,7 @@ public class Main {
                                 VoltageSource voltageSource;
                                 voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, majorElement, value);
                                 elements.put(voltageSource.getName(), voltageSource);
+                                voltageSources.add(voltageSource);
                             }
                             else {
                                 isEnded = true;
@@ -251,7 +255,37 @@ public class Main {
         catch (FileNotFoundException e){
             e.printStackTrace();
         }
-
+        //setting unions
+        for (Node node : nodes) {
+            if (node.getName().equals("gnd") || node.getName().equals("0")) {
+                node.setUnion(0);
+            }
+        }
+        int tempU = 1;
+        for (VoltageSource voltageSource : voltageSources) {
+            if (voltageSource.getPositiveTerminal().getUnion() == -1 && voltageSource.getNegativeTerminal().getUnion() == -1) {
+                voltageSource.getPositiveTerminal().setUnion(tempU);
+                voltageSource.getNegativeTerminal().setUnion(tempU);
+                tempU++;
+            } else if (voltageSource.getPositiveTerminal().getUnion() != -1 && voltageSource.getNegativeTerminal().getUnion() == -1)
+                voltageSource.getNegativeTerminal().setUnion(voltageSource.getPositiveTerminal().getUnion());
+            else if (voltageSource.getPositiveTerminal().getUnion() == -1 && voltageSource.getNegativeTerminal().getUnion() != -1)
+                voltageSource.getPositiveTerminal().setUnion(voltageSource.getNegativeTerminal().getUnion());
+        }
+        for (Node node : nodes) {
+            if (node.getUnion() == -1) {
+                node.setUnion(tempU);
+                tempU++;
+            }
+        }
+        //end of setting unions
+        for (int i = 0; i < tempU; i++){
+            Union union = new Union(i);
+            for (Node node : nodes) {
+                if (node.getUnion() == i)
+                    union.addNode(node);
+            }
+        }
     }
     static double valueCalculator(Matcher numberMatcher, Matcher suffixMatcher){
         double value = 0;

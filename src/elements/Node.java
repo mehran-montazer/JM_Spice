@@ -6,7 +6,7 @@ import java.util.Queue;
 public class Node {
     private String name;
     private double voltage;
-    private int union;
+    private int union = -1;
     private Queue<Node> saf = new LinkedList<>();
     ////////////////////////////////constructor////////////////////////
     public Node(String name){
