@@ -285,6 +285,7 @@ public class Main {
                 if (node.getUnion() == i)
                     union.addNode(node);
             }
+            unions.add(union);
         }
     }
     static double valueCalculator(Matcher numberMatcher, Matcher suffixMatcher){
