@@ -7,11 +7,18 @@ public class Node {
     private String name;
     private double voltage;
     private int union = -1;
+    double I_p,I_n,V_p,V_n,I,V;
     private Queue<Node> saf = new LinkedList<>();
     ////////////////////////////////constructor////////////////////////
     public Node(String name){
         this.name = name;
         voltage = 0;
+        this.I_p=0;
+        this.I_n=0;
+        this.V_p=0;
+        this.V_n=0;
+        this.I =0 ;
+        this.V = 0;
     }
     public void adder(Node node){
         saf.add(node);
