@@ -44,10 +44,10 @@ public class Union {
     public void addNode(Node node){
         nodes.add(node);
     }
-    public void updateVoltages (double dv){
-        mainNode.updateVoltage(dv);
+    public void updateVoltages (double dv, double t){
+        mainNode.updateVoltageMain(dv);
         for (Node node : nodes){
-            node.updateVoltage();
+            node.updateVoltage(t);
         }
     }
 }

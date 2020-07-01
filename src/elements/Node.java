@@ -102,15 +102,20 @@ public class Node implements Comparable{
     public void updateDependency(){
         isDependent = union != nameNumber;
     }
-    public void updateVoltage (double dv){
+    public void updateVoltageMain (double dv){
         voltage += dv;
     }
     public void addVoltageSource (VoltageSource voltageSource){
         voltageSources.add(voltageSource);
         hasVoltageSource = true;
     }
-    public void updateVoltage(){
-        connector.calculateVoltage();
+    public void updateVoltage(double t){
+        if (connector.isAC()) {
+            connector.calculateVoltage(t);
+        }
+        else {
+            connector.calculateVoltage();
+        }
         if (isConnectorNormal) {
             V = parentNode.getVoltage() + connector.getVoltage();
         }

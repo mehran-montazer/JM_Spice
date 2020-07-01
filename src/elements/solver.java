@@ -1,9 +1,7 @@
 package elements;
 
-import jdk.tools.jaotc.Main;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class solver {
 //lets solve this mother fucker!!!
