@@ -51,8 +51,8 @@ public abstract class Element {
             this.I_p = (this.positiveTerminal.V - this.negativeTerminal.V + dv) / this.value ;
         }
         else if (this.type == 'l') {
-            this.I += ((this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p) * dt) / this.value;
-            this.I_p += ((this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p + dv) * dt) / this.value;
+            this.I += ((this.positiveTerminal.V -  - this.negativeTerminal.V ) * dt) / this.value;
+            this.I_p += ((this.positiveTerminal.V -  - this.negativeTerminal.V  + dv) * dt) / this.value;
         }
         else if (this.type == 'c') {
             this.I = (this.value * (this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p)) / dt;

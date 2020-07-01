@@ -7,9 +7,12 @@ public class Union {
     private ArrayList<Node> nodes;
     private boolean visited;
     private Node mainNode;
+    int I_p,I_n;
     /////////////////////////////////constructor///////////////////////////
     public Union(int number){
         this.number = number;
+        I_p=0;
+        I_n=0;
     }
     /////////////////////////////////setter///////////////////////////
     public void setNumber(int number) {

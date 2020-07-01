@@ -112,10 +112,10 @@ public class Node implements Comparable{
     public void updateVoltage(){
         connector.calculateVoltage();
         if (isConnectorNormal) {
-            voltage = parentNode.getVoltage() + connector.getVoltage();
+            V = parentNode.getVoltage() + connector.getVoltage();
         }
         else {
-            voltage = parentNode.getVoltage() - connector.getVoltage();
+            V = parentNode.getVoltage() - connector.getVoltage();
         }
     }
 
