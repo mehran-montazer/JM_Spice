@@ -11,24 +11,24 @@ public class VoltageSource extends Element {
     private Element dependentCurrentElement = null;
     /////////////////////////////////constructor///////////////////////////
     public VoltageSource(String name, Node positiveTerminal, Node negativeTerminal, double VoffSet, double Vamp, double frequency, double phase){
-        super(name, positiveTerminal, negativeTerminal);
+        super(name, positiveTerminal, negativeTerminal, 0,'v');
         this.VoffSet = VoffSet;
         this.frequency = frequency;
         this.Vamp = Vamp;
         this.phase = phase;
     }
     public VoltageSource(String name, Node positiveTerminal, Node negativeTerminal, double voltage) {
-        super(name, positiveTerminal, negativeTerminal);
+        super(name, positiveTerminal, negativeTerminal, 0, 'v');
         this.voltage = voltage;
     }
     public VoltageSource(String name, Node positiveTerminal, Node negativeTerminal, Node positiveDependent, Node negativeDependent, double gain){
-        super(name, positiveTerminal, negativeTerminal);
+        super(name, positiveTerminal, negativeTerminal, 0, 'v');
         this.positiveDependent = positiveDependent;
         this.negativeDependent = negativeDependent;
         this.gain = gain;
     }
     public VoltageSource(String name, Node positiveTerminal, Node negativeTerminal, Element dependentCurrentElement, double gain){
-        super(name, positiveTerminal, negativeTerminal);
+        super(name, positiveTerminal, negativeTerminal,0, 'v');
         this.dependentCurrentElement = dependentCurrentElement;
         this.gain = gain;
     }
@@ -98,6 +98,6 @@ public class VoltageSource extends Element {
 
     }
     public void calculateVoltage(double time){
-        current = VoffSet + Vamp * Math.cos(2 * Math.PI * frequency + phase);
+        voltage = VoffSet + Vamp * Math.cos(2 * Math.PI * frequency + phase);
     }
 }

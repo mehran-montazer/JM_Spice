@@ -5,7 +5,7 @@ public class Inductor extends Element {
     double initialCurrent;
     //////////////////////////////////////constructor//////////////////////////////
     public Inductor(String name, Node positiveTerminal, Node negativeTerminal, double inductance) {
-        super(name, positiveTerminal, negativeTerminal);
+        super(name, positiveTerminal, negativeTerminal, inductance, 'l');
         this.inductance = inductance;
         this.initialCurrent = 0;
     }

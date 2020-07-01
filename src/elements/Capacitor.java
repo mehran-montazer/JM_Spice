@@ -5,7 +5,7 @@ public class Capacitor extends Element{
     private double capacity;
     //////////////////////////////////////constructor//////////////////////////////
     public Capacitor(String name, Node positiveTerminal, Node negativeTerminal, double capacity){
-        super(name, positiveTerminal, negativeTerminal);
+        super(name, positiveTerminal, negativeTerminal, capacity, 'c');
         this.capacity = capacity;
         this.initialVoltage = 0;
     }

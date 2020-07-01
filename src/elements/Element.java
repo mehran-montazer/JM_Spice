@@ -7,8 +7,8 @@ public abstract class Element {
     protected double voltage;
     protected String name;
     protected double power;
-    double value ;
-    String  type;
+    protected double value ;
+    protected char  type;
     double I_p,I_n,V_p,V_n,I,V;
     double dv,dt;
     public abstract void calculateVoltage();
@@ -20,12 +20,20 @@ public abstract class Element {
 //        this.name = name;
 //    }
     //constuctor jadid
-    Element(String name,Node positiveTerminal,Node negativeTerminal,double value,String type){
+    Element(String name,Node positiveTerminal,Node negativeTerminal,double value,char type){
         this.positiveTerminal = positiveTerminal;
         this.negativeTerminal = negativeTerminal;
         this.name = name;
-        this.value = value;
         this.type = type;
+        if (type == 'i'){
+            this.value = current;
+        }
+        else if (type == 'v'){
+            this.value = voltage;
+        }
+        else {
+            this.value = value;
+        }
         this.I_p=0;
         this.I_n=0;
        // this.V_p=0;
@@ -34,23 +42,23 @@ public abstract class Element {
        // this.V = 0;
     }
     public void update_element(double dt,double dv){
-        if (this.type.equals("I")) {
+        if (this.type == 'i') {
             this.I = this.value;
             this.I_p = this.I;
         }
-        else if (this.type.equals("R")) {
+        else if (this.type == 'r') {
             this.I = (this.positiveTerminal.V - this.negativeTerminal.V) / this.value;
             this.I_p = (this.positiveTerminal.V - this.negativeTerminal.V + dv) / this.value ;
         }
-        else if (this.type == "L") {
+        else if (this.type == 'l') {
             this.I += ((this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p) * dt) / this.value;
             this.I_p += ((this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p + dv) * dt) / this.value;
         }
-        else if (this.type == "C") {
+        else if (this.type == 'c') {
             this.I = (this.value * (this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p)) / dt;
             this.I_p = (this.value * (this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p + dv)) / dt;
         }
-        else if (this.type == "V"){
+        else if (this.type == 'v'){
         }
     }
 

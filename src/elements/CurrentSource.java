@@ -11,25 +11,25 @@ public class CurrentSource extends Element {
     private Element dependentCurrentElement = null;
     /////////////////////////////////constructor///////////////////////////
     public CurrentSource(String name, Node positiveTerminal, Node negativeTerminal, Node positiveDependent, Node negativeDependent, double gain){
-        super(name, positiveTerminal, negativeTerminal);
+        super(name, positiveTerminal, negativeTerminal,0,'i');
         this.positiveDependent = positiveDependent;
         this.negativeDependent = negativeDependent;
         this.gain = gain;
     }
     public CurrentSource(String name, Node positiveTerminal, Node negativeTerminal, Element dependentCurrentElement, double gain){
-        super(name, positiveTerminal, negativeTerminal);
+        super(name, positiveTerminal, negativeTerminal,0,'i');
         this.dependentCurrentElement = dependentCurrentElement;
         this.gain = gain;
     }
     public CurrentSource(String name, Node positiveTerminal, Node negativeTerminal, double IoffSet, double Iamp, double frequency, double phase){
-        super(name, positiveTerminal, negativeTerminal);
+        super(name, positiveTerminal, negativeTerminal,0, 'i');
         this.IoffSet = IoffSet;
         this.frequency = frequency;
         this.Iamp = Iamp;
         this.phase = phase;
     }
     public CurrentSource(String name, Node positiveTerminal, Node negativeTerminal, double current) {
-        super(name, positiveTerminal, negativeTerminal);
+        super(name, positiveTerminal, negativeTerminal,0, 'i');
         this.current = current;
     }
     /////////////////////////////////getter///////////////////////////

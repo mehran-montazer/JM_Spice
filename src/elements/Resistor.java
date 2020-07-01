@@ -4,7 +4,7 @@ public class Resistor extends Element {
     private double resistance;
     //////////////////////////////////////constructor//////////////////////////////
     public Resistor(String name, Node positiveTerminal, Node negativeTerminal, double resistance) {
-        super(name, positiveTerminal, negativeTerminal);
+        super(name, positiveTerminal, negativeTerminal, resistance, 'r');
         this.resistance = resistance;
     }
     /////////////////////////////////getter////////////////////////////
