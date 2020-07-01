@@ -33,6 +33,7 @@ public abstract class Element {
         this.I =0 ;
        // this.V = 0;
     }
+
     public void update_element(double dt,double dv){
         if (this.type.equals("I")) {
             this.I = this.value;
@@ -43,8 +44,8 @@ public abstract class Element {
             this.I_p = (this.positiveTerminal.V - this.negativeTerminal.V + dv) / this.value ;
         }
         else if (this.type == "L") {
-            this.I += ((this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p) * dt) / this.value;
-            this.I_p += ((this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p + dv) * dt) / this.value;
+            this.I += ((this.positiveTerminal.V  - this.negativeTerminal.V ) * dt) / this.value;
+            this.I_p += ((this.positiveTerminal.V  - this.negativeTerminal.V  + dv) * dt) / this.value;
         }
         else if (this.type == "C") {
             this.I = (this.value * (this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p)) / dt;
@@ -53,7 +54,7 @@ public abstract class Element {
         else if (this.type == "V"){
         }
     }
-
+    ///////////////////////////
     /////////////////////////////////getter///////////////////////////
     public double getCurrent() {
         return current;
