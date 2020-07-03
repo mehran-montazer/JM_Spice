@@ -1,6 +1,6 @@
 package elements;
 
-import jdk.tools.jaotc.Main;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public class solver {
             else {
                 boolean visited = false;
                 boolean is_gnd_included = false;
-                int I_n=0,I_p=0;
+                double I_n=0,I_p=0;
                 ArrayList<Node> present = new ArrayList<>();
                 Node Main_present = null;
                 int number = n.getUnion();
