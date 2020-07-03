@@ -33,8 +33,9 @@ public class Main {
         }
         Solver solver = new Solver(elements, nodes, unions, dt, dv, di);
         solver.update_nodes();
-//        for (Node node:nodes){
-//            System.out.println(node.getVoltage());
-//        }
+        for (Node node:nodes){
+            node.nahaeekardan();
+            System.out.println(node.getVoltage());
+        }
     }
 }

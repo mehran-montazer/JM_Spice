@@ -123,7 +123,9 @@ public class Node implements Comparable{
             V = parentNode.getVoltage() - connector.getVoltage();
         }
     }
-
+    public void nahaeekardan(){
+        this.voltage = this.V;
+    }
     @Override
     public int compareTo(Object obj) {
         Node compareNode = (Node) obj;
