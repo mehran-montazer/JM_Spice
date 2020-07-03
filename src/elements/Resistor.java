@@ -28,7 +28,7 @@ public class Resistor extends Element {
 
     @Override
     public double calculateCurrentR() {
-        current = this.positiveTerminal.V-this.negativeTerminal.V / resistance;
+        current = (this.positiveTerminal.V-this.negativeTerminal.V) / resistance;
         return current;
     }
     public double calculateCurrentRplus() {

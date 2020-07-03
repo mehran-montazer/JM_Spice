@@ -35,7 +35,7 @@ public class Main {
         solver.update_nodes();
         for (Node node:nodes){
             node.nahaeekardan();
-            System.out.println(node.getVoltage());
+            System.out.println(node.getName() + ":" + "\t" + node.getVoltage() );
         }
     }
 }

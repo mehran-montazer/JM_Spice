@@ -383,7 +383,7 @@ public class Solver {
         }
     }
     public boolean is_over(){
-        boolean right=false;
+        boolean right=true;
 //        for (Union n : this.unions){
 //            double i =0;
 //            ArrayList<Node> node = n.getNodes();
@@ -397,12 +397,12 @@ public class Solver {
         for (Union n:this.unions){
             if (n.getMainNode().getNameNumber() != 0) {
                 if (!n.getMainNode().hasVoltageSource()) {
-                    if (Math.abs(n.getMainNode().I_n) < 0.001) {
-                        right = true;
+                    if (Math.abs(n.getMainNode().I_n) >= di) {
+                        right = false;
                     }
                 } else {
-                    if (Math.abs(n.getI_n()) < 0.001) {
-                        right = true;
+                    if (Math.abs(n.getI_n()) >= di) {
+                        right = false;
                     }
                 }
             }

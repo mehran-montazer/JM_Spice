@@ -1,7 +1,8 @@
 *test on current source and two resistors
 i1 0 1 4m 0 0 0
-r1 0 1 2k
-r2 0 1 6k
+r1 1 2 2k
+r2 0 2 6k
+r3 0 2 3k
 dv 1m
 di 1m
 dt 1m
