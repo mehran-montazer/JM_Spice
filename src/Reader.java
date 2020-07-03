@@ -93,7 +93,6 @@ public class Reader {
                             isEnded = true;
                             System.out.println("check line" + lineNumber + "!");
                         }
-                        System.out.println(value);
                         if (tokens[0].startsWith("R") || tokens[0].startsWith("r")) {
                             Resistor resistor;
                             if (!isEnded) {

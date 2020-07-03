@@ -144,6 +144,6 @@ public class CurrentSource extends Element {
     }
 
     public void calculateCurrent(double time){
-        current = IoffSet + Iamp * Math.cos(2 * Math.PI * frequency + phase);
+        current = IoffSet + Iamp * Math.cos(2 * Math.PI * frequency * time + phase);
     }
 }

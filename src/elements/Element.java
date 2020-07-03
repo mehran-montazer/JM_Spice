@@ -1,6 +1,9 @@
 package elements;
 
 public abstract class Element {
+    protected static double di;
+    protected static double dv;
+    protected static double dt;
     protected Node positiveTerminal;
     protected Node negativeTerminal;
     protected double current;
@@ -10,7 +13,6 @@ public abstract class Element {
     protected double value ;
     protected char  type;
     double I_p,I_n,V_p,V_n,I,V;
-    double dv,dt;
     public abstract void calculateVoltage();
     public abstract void calculateCurrentI();
     public abstract double calculateCurrentR();
@@ -84,6 +86,15 @@ public abstract class Element {
     public String getName() {
         return name;
     }
+    public static double getDt() {
+        return dt;
+    }
+    public static double getDv() {
+        return dv;
+    }
+    public static double getDi() {
+        return di;
+    }
     /////////////////////////////////setter////////////////////////////
     public void setVoltage(double voltage) {
         this.voltage = voltage;
@@ -102,5 +113,14 @@ public abstract class Element {
     }
     public void setPower(double power) {
         this.power = power;
+    }
+    public static void setDi(double di) {
+        Element.di = di;
+    }
+    public static void setDt(double dt) {
+        Element.dt = dt;
+    }
+    public static void setDv(double dv) {
+        Element.dv = dv;
     }
 }

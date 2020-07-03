@@ -24,6 +24,9 @@ public class Main {
             dv = reader.getDv();
             di = reader.getDi();
             dt = reader.getDt();
+            Element.setDi(di);
+            Element.setDv(dv);
+            Element.setDt(dt);
             t = reader.getT();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
