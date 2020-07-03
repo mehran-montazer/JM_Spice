@@ -1,0 +1,9 @@
+*RLC circuit
+Iin 0  1  1
+r1 0 1 1
+c1 0 1 1
+l1 0 1 1
+dv 1m
+di 1m
+dt 1m
+.tran 4

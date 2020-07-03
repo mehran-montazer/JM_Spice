@@ -1,0 +1,9 @@
+*RC circuit with current source
+Iin 0 1 5
+r1 0 1 1
+r2 1 2 2
+c1 2 0 1
+dv 1m
+di 1m
+dt 100u
+.tran 3

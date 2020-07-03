@@ -1,3 +1,4 @@
+/*
 package elements;
 
 public class Diode extends Element {
@@ -24,3 +25,4 @@ public class Diode extends Element {
 
     }
 }
+*/

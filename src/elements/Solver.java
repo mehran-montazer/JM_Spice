@@ -5,13 +5,13 @@ package elements;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class solver {
+public class Solver {
 //lets solve this mother fucker!!!
     ArrayList<Element> elements = new ArrayList<>();
     ArrayList<Node> nodes = new ArrayList<>();
     ArrayList <Union> unions = new ArrayList<>();
     double dt,dv,di;
-    public solver(ArrayList<Element> elements, ArrayList<Node> nodes, ArrayList<Union> unions, double dt, double dv,double di) {
+    public Solver(ArrayList<Element> elements, ArrayList<Node> nodes, ArrayList<Union> unions, double dt, double dv,double di) {
         this.elements = elements;
         this.nodes = nodes;
         this.unions = unions;
@@ -66,8 +66,8 @@ public class solver {
                             present = union.getNodes();
                             Main_present = union.getMainNode();
                             union.setVisited(true);
-                            I_n = union.I_n;
-                            I_p=union.I_p;
+                            I_n = union.getI_n();
+                            I_p=union.getI_p();
                         }
                     }
                     for (Element e : this.elements) {
@@ -112,8 +112,8 @@ public class solver {
                     }
                     for (Union union : unions){
                         if (union.getNumber()==number){
-                            union.I_n = I_n;
-                            union.I_p= I_p;
+                            union.setI_n(I_n);
+                            union.setI_p(I_p);
                         }
                     }
                 }
@@ -147,7 +147,7 @@ public class solver {
                 else {
                     boolean visited = false;
                     boolean is_gnd_included = false;
-                    int I_n=0,I_p=0;
+                    double I_n=0,I_p=0;
                     ArrayList<Node> present = new ArrayList<>();
                     Node Main_present = null;
                     int number = n.getUnion();
@@ -162,8 +162,8 @@ public class solver {
                                 present = union.getNodes();
                                 Main_present = union.getMainNode();
                                 union.setVisited(true);
-                                I_n = union.I_n;
-                                I_p=union.I_p;
+                                I_n = union.getI_n();
+                                I_p = union.getI_p();
                             }
                         }
                         for (Element e : this.elements) {
@@ -208,8 +208,8 @@ public class solver {
                         }
                         for (Union union : unions){
                             if (union.getNumber()==number){
-                                union.I_n = I_n;
-                                union.I_p= I_p;
+                                union.setI_n(I_n);
+                                union.setI_p(I_p);
                             }
                         }
                     }
@@ -221,7 +221,7 @@ public class solver {
     public boolean is_over(){
         boolean right=true;
         for (Union n:this.unions){
-            if (n.I_n > 0.01){
+            if (n.getI_n() > 0.01){
                 right = false;
             }
         }

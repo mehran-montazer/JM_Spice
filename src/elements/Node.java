@@ -109,13 +109,13 @@ public class Node implements Comparable{
         voltageSources.add(voltageSource);
         hasVoltageSource = true;
     }
-    public void updateVoltage(double t){
-        if (connector.isAC()) {
-            connector.calculateVoltage(t);
-        }
-        else {
+    public void updateVoltage(){
+        //if (connector.isAC()) {
+         //   connector.calculateVoltage(t);
+        //}
+        //else {
             connector.calculateVoltage();
-        }
+        //}
         if (isConnectorNormal) {
             V = parentNode.getVoltage() + connector.getVoltage();
         }

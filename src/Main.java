@@ -5,15 +5,15 @@ import elements.*;
 //har gooneh copy bardari as in code shar'an haram ast :)
 public class Main {
     public static void main (String[] arg){
-        ArrayList<Element> elements;
-        ArrayList<Node> nodes;
-        ArrayList<Union> unions;
-        double dv;
-        double dt;
-        double di;
+        ArrayList<Element> elements = null;
+        ArrayList<Node> nodes = null;
+        ArrayList<Union> unions = null;
+        double dv = 0;
+        double dt = 0;
+        double di = 0;
         double t;
         //Reading File Section
-        File file = new File("input.txt");
+        File file = new File("test/Test1.txt");
         Reader reader;
         try {
             reader = new Reader(file);
@@ -28,5 +28,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        Solver solver = new Solver(elements, nodes, unions, dt, dv, di);
+        solver.update_nodes();
     }
 }
