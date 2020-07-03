@@ -141,6 +141,51 @@ public class Reader {
                                 System.out.println("Not valid input! Check line" + lineNumber);
                             }
                         }
+                        else {
+                            Matcher numberMatcher = number.matcher(tokens[3]);
+                            Matcher suffixMatcher = suffix.matcher(tokens[3]);
+                            double offSet = valueCalculator(numberMatcher, suffixMatcher);
+                            if (offSet == -1) {
+                                isEnded = true;
+                                System.out.println("check line" + lineNumber + "!");
+                            }
+                            numberMatcher = number.matcher(tokens[4]);
+                            suffixMatcher = suffix.matcher(tokens[4]);
+                            double amp = valueCalculator(numberMatcher, suffixMatcher);
+                            if (amp == -1) {
+                                isEnded = true;
+                                System.out.println("check line" + lineNumber + "!");
+                            }
+                            numberMatcher = number.matcher(tokens[5]);
+                            suffixMatcher = suffix.matcher(tokens[5]);
+                            double freq = valueCalculator(numberMatcher, suffixMatcher);
+                            if (freq == -1) {
+                                isEnded = true;
+                                System.out.println("check line" + lineNumber + "!");
+                            }
+                            numberMatcher = number.matcher(tokens[6]);
+                            suffixMatcher = suffix.matcher(tokens[6]);
+                            double phase = valueCalculator(numberMatcher, suffixMatcher);
+                            if (phase == -1) {
+                                isEnded = true;
+                                System.out.println("check line" + lineNumber + "!");
+                            }
+                            if ((tokens[0].startsWith("v") || tokens[0].startsWith("V")) && !isEnded) {
+                                VoltageSource voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, offSet, amp, freq, phase);
+                                elementHashMap.put(voltageSource.getName(), voltageSource);
+                                voltageSources.add(voltageSource);
+                                elements.add(voltageSource);
+                                positiveTerminal.addVoltageSource(voltageSource);
+                                negativeTerminal.addVoltageSource(voltageSource);
+                            } else if ((tokens[0].startsWith("i") || tokens[0].startsWith("I")) && !isEnded) {
+                                CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, offSet, amp, freq, phase);
+                                elementHashMap.put(currentSource.getName(), currentSource);
+                                elements.add(currentSource);
+                            } else if (!isEnded) {
+                                isEnded = true;
+                                System.out.println("Not valid input! Check line" + lineNumber);
+                            }
+                        }
                     } else if (tokens.length == 6 || tokens.length == 5) {
                         String temp = input + " " + lineNumber;
                         dependentSources.add(temp);
@@ -312,7 +357,7 @@ public class Reader {
             for (Node node : nodes){
                 if (node.getNameNumber() == unionTemp)
                     mainNode = node;
-                else
+                else if (node.getUnion() == unionTemp)
                     union.addNode(node);
             }
             union.setMainNode(mainNode);
