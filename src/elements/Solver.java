@@ -29,6 +29,9 @@ public class Solver {
         for (Union union : unions){
             union.setVisited(false);
         }
+        for (Element element:elements){
+            element.update_element(dt,dv);
+        }
         for (Node n: this.nodes) {
             if (!n.hasVoltageSource()) {
                 for (Element e : this.elements) {
@@ -124,6 +127,9 @@ public class Solver {
             cnt = 0;
             for (Union union : unions){
                 union.setVisited(false);
+            }
+            for (Element element:elements){
+                element.update_element(dt,dv);
             }
             for (Node n: this.nodes) {
                 if (!n.hasVoltageSource()) {
