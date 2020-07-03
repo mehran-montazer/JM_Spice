@@ -25,15 +25,7 @@ public abstract class Element {
         this.negativeTerminal = negativeTerminal;
         this.name = name;
         this.type = type;
-        if (type == 'i'){
-            this.value = current;
-        }
-        else if (type == 'v'){
-            this.value = voltage;
-        }
-        else {
-            this.value = value;
-        }
+        this.value = value;
         this.I_p=0;
         this.I_n=0;
        // this.V_p=0;
@@ -43,7 +35,7 @@ public abstract class Element {
     }
     public void update_element(double dt,double dv){
         if (this.type == 'i') {
-            this.I = this.value;
+            this.I = current;
             this.I_p = this.I;
         }
         else if (this.type == 'r') {
@@ -100,5 +92,4 @@ public abstract class Element {
     public void setPower(double power) {
         this.power = power;
     }
-
 }
