@@ -20,8 +20,54 @@ public class Resistor extends Element {
     public void calculateVoltage() {
         voltage = positiveTerminal.getVoltage() - negativeTerminal.getVoltage();
     }
+
     @Override
-    public void calculateCurrent() {
-        current = voltage / resistance;
+    public void calculateCurrentI() {
+
     }
+
+    @Override
+    public double calculateCurrentR() {
+        current = this.positiveTerminal.V-this.negativeTerminal.V / resistance;
+        return current;
+    }
+    public double calculateCurrentRplus() {
+        current = (this.positiveTerminal.V-this.negativeTerminal.V+dv) / resistance;
+        return current;
+    }
+    public double calculateCurrentRminus() {
+        current = (this.positiveTerminal.V-this.negativeTerminal.V-dv) / resistance;
+        return current;
+    }
+
+    @Override
+    public double calculateCurrentC() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentCplus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentCminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentL() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentLminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentLplus() {
+        return 0;
+    }
+
 }

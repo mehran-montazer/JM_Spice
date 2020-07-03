@@ -105,9 +105,56 @@ public class VoltageSource extends Element {
     }
 
     @Override
-    public void calculateCurrent() {
+    public void calculateCurrentI() {
 
     }
+
+    @Override
+    public double calculateCurrentR() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentRplus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentRminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentC() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentCplus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentCminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentL() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentLminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentLplus() {
+        return 0;
+    }
+
+
     public void calculateVoltage(double time){
         voltage = VoffSet + Vamp * Math.cos(2 * Math.PI * frequency * time + phase);
     }

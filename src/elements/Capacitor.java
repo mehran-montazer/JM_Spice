@@ -30,7 +30,51 @@ public class Capacitor extends Element{
     }
 
     @Override
-    public void calculateCurrent() {
+    public void calculateCurrentI() {
 
+    }
+
+    @Override
+    public double calculateCurrentR() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentRplus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentRminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentC() {
+        this.I = (this.value * (this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p)) / dt;
+        return I;
+    }
+    public double calculateCurrentCplus() {
+        this.I_p = (this.value * (this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p + dv)) / dt;
+        return I_p;
+    }
+    public double calculateCurrentCminus() {
+        this.I_p = (this.value * (this.positiveTerminal.V - this.positiveTerminal.V_p - this.negativeTerminal.V + this.negativeTerminal.V_p - dv)) / dt;
+        return I_p;
+    }
+
+    @Override
+    public double calculateCurrentL() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentLminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentLplus() {
+        return 0;
     }
 }

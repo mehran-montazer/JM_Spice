@@ -30,7 +30,52 @@ public class Inductor extends Element {
     }
 
     @Override
-    public void calculateCurrent() {
+    public void calculateCurrentI() {
 
     }
+
+    @Override
+    public double calculateCurrentR() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentRplus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentRminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentC() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentCplus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentCminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentL() {
+        this.I_n += ((this.positiveTerminal.V -  - this.negativeTerminal.V ) * dt) / this.value;
+        return I_n;
+    }
+    public double calculateCurrentLplus() {
+        this.I_p += ((this.positiveTerminal.V -  - this.negativeTerminal.V  + dv) * dt) / this.value;
+        return I_p;
+    }
+    public double calculateCurrentLminus() {
+        this.I_p += ((this.positiveTerminal.V -  - this.negativeTerminal.V  - dv) * dt) / this.value;
+        return I_p;
+    }
+
 }

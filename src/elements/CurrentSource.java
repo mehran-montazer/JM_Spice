@@ -89,7 +89,52 @@ public class CurrentSource extends Element {
     }
 
     @Override
-    public void calculateCurrent() {
+    public double calculateCurrentR() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentRplus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentRminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentC() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentCplus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentCminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentL() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentLminus() {
+        return 0;
+    }
+
+    @Override
+    public double calculateCurrentLplus() {
+        return 0;
+    }
+
+    @Override
+    public void calculateCurrentI() {
         if (!(dependentCurrentElement == null)){
             current = gain * dependentCurrentElement.getCurrent();
         }

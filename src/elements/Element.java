@@ -12,7 +12,18 @@ public abstract class Element {
     double I_p,I_n,V_p,V_n,I,V;
     double dv,dt;
     public abstract void calculateVoltage();
-    public abstract void calculateCurrent();
+    public abstract void calculateCurrentI();
+    public abstract double calculateCurrentR();
+    public abstract double calculateCurrentRplus();
+    public abstract double calculateCurrentRminus();
+    public abstract double calculateCurrentC();
+    public abstract double calculateCurrentCplus();
+    public abstract double calculateCurrentCminus();
+    public abstract double calculateCurrentL();
+    public abstract double calculateCurrentLminus();
+    public abstract double calculateCurrentLplus();
+
+
     //////////////////////////////////////constructor//////////////////////////////
 //    Element(String name, Node positiveTerminal, Node negativeTerminal){
 //        this.positiveTerminal = positiveTerminal;
