@@ -29,7 +29,7 @@ public class CurrentSource extends Element {
         this.phase = phase;
     }
     public CurrentSource(String name, Node positiveTerminal, Node negativeTerminal, double current) {
-        super(name, positiveTerminal, negativeTerminal,0, 'i');
+        super(name, positiveTerminal, negativeTerminal, current, 'i');
         this.current = current;
     }
     /////////////////////////////////getter///////////////////////////
