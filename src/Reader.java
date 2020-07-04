@@ -50,7 +50,7 @@ public class Reader {
         String input;
         ArrayList <String> dependentSources = new ArrayList<>();
         int lineNumber = 0;
-        Pattern number = Pattern.compile("\\d+");
+        Pattern number = Pattern.compile("\\d+(.\\d+)*");
         Pattern suffix = Pattern.compile("\\D");
         while (scanner.hasNextLine() && !isEnded) {
             lineNumber++;
@@ -114,6 +114,12 @@ public class Reader {
                                 elementHashMap.put(capacitor.getName(), capacitor);
                                 elements.add(capacitor);
                             }
+                        }
+                        else if ((tokens[0].startsWith("d") || tokens[0].startsWith("D")) && (value == 1)){
+                            Diode diode;
+                            diode = new Diode(name, negativeTerminal, positiveTerminal);
+                            elementHashMap.put(name, diode);
+                            elements.add(diode);
                         }
                     } else if (tokens.length == 7) {
                         if (tokens[4].equals("0") && tokens[5].equals("0") && tokens[6].equals("0")) {

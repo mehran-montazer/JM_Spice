@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 public class Solver {
 //lets solve this mother fucker!!!
-    ArrayList<Element> elements = new ArrayList<>();
-    ArrayList<Node> nodes = new ArrayList<>();
-    ArrayList <Union> unions = new ArrayList<>();
+    ArrayList<Element> elements;
+    ArrayList<Node> nodes;
+    ArrayList <Union> unions;
     double dt,dv,di;
     public Solver(ArrayList<Element> elements, ArrayList<Node> nodes, ArrayList<Union> unions, double dt, double dv,double di) {
         this.elements = elements;

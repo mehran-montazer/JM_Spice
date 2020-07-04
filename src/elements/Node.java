@@ -67,6 +67,9 @@ public class Node implements Comparable{
     public boolean isDependent() {
         return isDependent;
     }
+    public double getV() {
+        return V;
+    }
     /////////////////////////////////setter////////////////////////////
     public void setName(String name) {
         this.name = name;
@@ -122,9 +125,6 @@ public class Node implements Comparable{
         else {
             V = parentNode.getVoltage() - connector.getVoltage();
         }
-    }
-    public void nahaeekardan(){
-        this.voltage = this.V;
     }
     @Override
     public int compareTo(Object obj) {
