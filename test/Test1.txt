@@ -6,4 +6,4 @@ r3 0 2 3k
 dv 100u
 di 100n
 dt 1u
-.tran 1
+.tran 3

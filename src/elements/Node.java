@@ -41,6 +41,9 @@ public class Node implements Comparable{
     public double getVoltage() {
         return voltage;
     }
+    public double getVoltage_Step() {
+        return V_Step;
+    }
     public Queue<Node> getSaf() {
         return saf;
     }
