@@ -11,9 +11,9 @@ public class Main {
         double dv = 0;
         double dt = 0;
         double di = 0;
-        double t;
+        double t=0;
         //Reading File Section
-        File file = new File("test/Test1.txt");
+        File file = new File("test/Test2.txt");
         Reader reader;
         try {
             reader = new Reader(file);
@@ -31,11 +31,10 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Solver solver = new Solver(elements, nodes, unions, dt, dv, di);
+        Solver solver = new Solver(elements, nodes, unions, dt, dv, di,t);
         solver.update_nodes();
-        for (Node node:nodes){
-            node.nahaeekardan();
-            System.out.println(node.getName() + ":" + "\t" + node.getVoltage() );
-        }
+//        for (Node node:nodes){
+//            System.out.println(node.getName() + ":" + "\t" + node.getV() );
+//        }
     }
 }

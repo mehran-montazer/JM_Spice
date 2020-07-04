@@ -9,7 +9,7 @@ public class Node implements Comparable{
     private double voltage;
     private int union;
     private int nameNumber;
-    double I_p,I_n,V_p,V_n,I,V;
+    double I_p,I_n,V_p,V_n,I,V,V_Step;
     private ArrayList <VoltageSource> voltageSources = new ArrayList<>();
     private Queue<Node> saf = new LinkedList<>();
     private boolean hasVoltageSource = false;
@@ -29,6 +29,7 @@ public class Node implements Comparable{
         this.V_n=0;
         this.I =0 ;
         this.V = 0;
+        this.V_Step=0;
     }
     public void adder(Node node){
         saf.add(node);
@@ -112,18 +113,18 @@ public class Node implements Comparable{
         voltageSources.add(voltageSource);
         hasVoltageSource = true;
     }
-    public void updateVoltage(){
-        //if (connector.isAC()) {
-         //   connector.calculateVoltage(t);
-        //}
-        //else {
-            connector.calculateVoltage();
-        //}
-        if (isConnectorNormal) {
-            V = parentNode.getVoltage() + connector.getVoltage();
+    public void updateVoltage(double t){
+        if (connector.isAC()) {
+            connector.calculateVoltage(t);
         }
         else {
-            V = parentNode.getVoltage() - connector.getVoltage();
+            connector.calculateVoltage();
+        }
+        if (isConnectorNormal) {
+            V = parentNode.getV() + connector.getVoltage();
+        }
+        else {
+            V = parentNode.getV() - connector.getVoltage();
         }
     }
     @Override

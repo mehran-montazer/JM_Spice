@@ -1,9 +1,9 @@
 *RC circuit with current source
-Iin 0 1 5
+Iin 0 1 1 0 0 0
 r1 0 1 1
-r2 1 2 2
-c1 2 0 1
-dv 1m
+r2 1 2 1
+c1 2 0 1m
+dv 1u
 di 1m
-dt 100u
+dt 1m
 .tran 3

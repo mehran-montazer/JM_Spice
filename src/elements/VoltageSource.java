@@ -100,7 +100,7 @@ public class VoltageSource extends Element {
             voltage = gain * dependentCurrentElement.getCurrent();
         }
         else if (!(negativeDependent == null || positiveDependent == null)){
-            voltage = gain * (positiveDependent.getVoltage() - negativeDependent.getVoltage());
+            voltage = gain * (positiveDependent.getV() - negativeDependent.getV());
         }
     }
 
