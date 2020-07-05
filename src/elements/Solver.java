@@ -344,10 +344,10 @@ public class Solver {
 //            for (Node node : nodes){
 //                node.V_Step = node.V;
 //            }
-            System.out.println("t = " + zaman + "\t");
+/*            System.out.println("t = " + zaman + "\t");
             for (Node node : nodes){
                 System.out.println(node.getName()+ ":"+ "\t"+ node.getV());
-            }
+            }*/
         }
     }
     public boolean is_over(){

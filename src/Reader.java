@@ -1,4 +1,6 @@
 import elements.*;
+import handmadeExceptions.Minus1Exception;
+import handmadeExceptions.ReadingException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,10 +14,10 @@ public class Reader {
     private HashMap<String, Element> elementHashMap = new HashMap<>();
     private ArrayList<Node> nodes = new ArrayList<>();
     private ArrayList <Union> unions = new ArrayList<>();
-    private double dv;
-    private double dt;
-    private double di;
-    private double t;
+    private double dv = 0;
+    private double dt = 0;
+    private double di = 0;
+    private double t = 0;
     private Scanner scanner;
     ///////////////////////////////////constructor/////////////////////////////////
     Reader (File file) throws FileNotFoundException {
@@ -44,14 +46,14 @@ public class Reader {
         return t;
     }
     ///////////////////////////////////////////////////////////////////////////
-    public void read() {
+    public void read () throws Minus1Exception, ReadingException {
         ArrayList <VoltageSource> voltageSources = new ArrayList<>();
         String[] tokens;
         String input;
         ArrayList <String> dependentSources = new ArrayList<>();
         int lineNumber = 0;
-        Pattern number = Pattern.compile("\\d+(.\\d+)*");
-        Pattern suffix = Pattern.compile("\\D");
+        Pattern number = Pattern.compile("[-]?\\d+([.]\\d+)*");
+        Pattern suffix = Pattern.compile("[a-z]|[A-Z]");
         while (scanner.hasNextLine() && !isEnded) {
             lineNumber++;
             input = scanner.nextLine();
@@ -72,12 +74,20 @@ public class Reader {
                             negativeTerminal = nodes.get(i);
                     }
                     if (positiveTerminal == null) {
-                        positiveTerminal = new Node(positiveTerminalName);
-                        nodes.add(positiveTerminal);
+                        try {
+                            positiveTerminal = new Node(positiveTerminalName);
+                            nodes.add(positiveTerminal);
+                        }catch (Exception e){
+                            throwReadingException(lineNumber);
+                        }
                     }
                     if (negativeTerminal == null) {
-                        negativeTerminal = new Node(negativeTerminalName);
-                        nodes.add(negativeTerminal);
+                        try {
+                            negativeTerminal = new Node(negativeTerminalName);
+                            nodes.add(negativeTerminal);
+                        }catch (Exception e){
+                            throwReadingException(lineNumber);
+                        }
                     }
                     //neighbors
                     if (!positiveTerminal.getSaf().contains(negativeTerminal))
@@ -90,8 +100,7 @@ public class Reader {
                         Matcher suffixMatcher = suffix.matcher(tokens[3]);
                         double value = valueCalculator(numberMatcher, suffixMatcher);
                         if (value == -1) {
-                            isEnded = true;
-                            System.out.println("check line" + lineNumber + "!");
+                            throwReadingException(lineNumber);
                         }
                         if (tokens[0].startsWith("R") || tokens[0].startsWith("r")) {
                             Resistor resistor;
@@ -127,23 +136,21 @@ public class Reader {
                             Matcher suffixMatcher = suffix.matcher(tokens[3]);
                             double value = valueCalculator(numberMatcher, suffixMatcher);
                             if (value == -1) {
-                                isEnded = true;
-                                System.out.println("check line" + lineNumber + "!");
+                                throwReadingException(lineNumber);
                             }
-                            if ((tokens[0].startsWith("v") || tokens[0].startsWith("V")) && !isEnded) {
+                            if (tokens[0].startsWith("v") || tokens[0].startsWith("V")) {
                                 VoltageSource voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, value);
                                 elementHashMap.put(voltageSource.getName(), voltageSource);
                                 voltageSources.add(voltageSource);
                                 elements.add(voltageSource);
                                 positiveTerminal.addVoltageSource(voltageSource);
                                 negativeTerminal.addVoltageSource(voltageSource);
-                            } else if ((tokens[0].startsWith("i") || tokens[0].startsWith("I")) && !isEnded) {
+                            } else if (tokens[0].startsWith("i") || tokens[0].startsWith("I")) {
                                 CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, value);
                                 elementHashMap.put(currentSource.getName(), currentSource);
                                 elements.add(currentSource);
-                            } else if (!isEnded) {
-                                isEnded = true;
-                                System.out.println("Not valid input! Check line" + lineNumber);
+                            } else {
+                                throwReadingException(lineNumber);
                             }
                         }
                         else {
@@ -151,44 +158,39 @@ public class Reader {
                             Matcher suffixMatcher = suffix.matcher(tokens[3]);
                             double offSet = valueCalculator(numberMatcher, suffixMatcher);
                             if (offSet == -1) {
-                                isEnded = true;
-                                System.out.println("check line" + lineNumber + "!");
+                                throwReadingException(lineNumber);
                             }
                             numberMatcher = number.matcher(tokens[4]);
                             suffixMatcher = suffix.matcher(tokens[4]);
                             double amp = valueCalculator(numberMatcher, suffixMatcher);
                             if (amp == -1) {
-                                isEnded = true;
-                                System.out.println("check line" + lineNumber + "!");
+                                throwReadingException(lineNumber);
                             }
                             numberMatcher = number.matcher(tokens[5]);
                             suffixMatcher = suffix.matcher(tokens[5]);
                             double freq = valueCalculator(numberMatcher, suffixMatcher);
                             if (freq == -1) {
-                                isEnded = true;
-                                System.out.println("check line" + lineNumber + "!");
+                                throwReadingException(lineNumber);
                             }
                             numberMatcher = number.matcher(tokens[6]);
                             suffixMatcher = suffix.matcher(tokens[6]);
                             double phase = valueCalculator(numberMatcher, suffixMatcher);
                             if (phase == -1) {
-                                isEnded = true;
-                                System.out.println("check line" + lineNumber + "!");
+                                throwReadingException(lineNumber);
                             }
-                            if ((tokens[0].startsWith("v") || tokens[0].startsWith("V")) && !isEnded) {
+                            if (tokens[0].startsWith("v") || tokens[0].startsWith("V")) {
                                 VoltageSource voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, offSet, amp, freq, phase);
                                 elementHashMap.put(voltageSource.getName(), voltageSource);
                                 voltageSources.add(voltageSource);
                                 elements.add(voltageSource);
                                 positiveTerminal.addVoltageSource(voltageSource);
                                 negativeTerminal.addVoltageSource(voltageSource);
-                            } else if ((tokens[0].startsWith("i") || tokens[0].startsWith("I")) && !isEnded) {
+                            } else if (tokens[0].startsWith("i") || tokens[0].startsWith("I")) {
                                 CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, offSet, amp, freq, phase);
                                 elementHashMap.put(currentSource.getName(), currentSource);
                                 elements.add(currentSource);
-                            } else if (!isEnded) {
-                                isEnded = true;
-                                System.out.println("Not valid input! Check line" + lineNumber);
+                            } else {
+                                throwReadingException(lineNumber);
                             }
                         }
                     } else if (tokens.length == 6 || tokens.length == 5) {
@@ -200,8 +202,7 @@ public class Reader {
                     Matcher suffixMatcher = suffix.matcher(tokens[1]);
                     double value = valueCalculator(numberMatcher, suffixMatcher);
                     if (value == -1) {
-                        isEnded = true;
-                        System.out.println("check line" + lineNumber + "!");
+                        throwReadingException(lineNumber);
                     }
                     if (tokens[0].equals("dv") || tokens[0].equals("dV")) {
                         dv = value;
@@ -215,15 +216,18 @@ public class Reader {
                         isEnded = true;
                     }
                     else {
-                        isEnded = true;
-                        System.out.println("Not valid input! Check line" + lineNumber + "!");
+                        throwReadingException(lineNumber);
                     }
                 } else {
-                    System.out.println("Not valid input! Check out line" + lineNumber);
-                    isEnded = true;
+                    throwReadingException(lineNumber);
                 }
             }
         }
+        ///Handling Error -1
+        if (dt == 0 || di == 0 || dv == 0 || t == 0){
+            throw new Minus1Exception();
+        }
+        ////
         if (!dependentSources.isEmpty()) {
             for (int i = 0; i < dependentSources.size(); i++) {
                 input = dependentSources.get(i);
@@ -362,12 +366,17 @@ public class Reader {
             for (Node node : nodes){
                 if (node.getNameNumber() == unionTemp)
                     mainNode = node;
-                else if (node.getUnion() == unionTemp)
+                else if (node.getUnion() == unionTemp) {
                     union.addNode(node);
+                }
             }
             union.setMainNode(mainNode);
             unions.add(union);
         }
+    }
+    private void throwReadingException(int lineNumber) throws ReadingException {
+        ReadingException exception = new ReadingException(Integer.toString(lineNumber));
+        throw exception;
     }
     private double valueCalculator(Matcher numberMatcher, Matcher suffixMatcher){
         double value = 0;
@@ -379,22 +388,30 @@ public class Reader {
             suffixTemp = suffixMatcher.group();
         }
         if (value > 0 && suffixTemp != null) {
-            if (suffixTemp.equals("p")) {
-                value *= Math.pow(10, -12);
-            } else if (suffixTemp.equals("n")) {
-                value *= Math.pow(10, -9);
-            } else if (suffixTemp.equals("u")) {
-                value *= Math.pow(10, -6);
-            } else if (suffixTemp.equals("m")) {
-                value *= Math.pow(10, -3);
-            } else if (suffixTemp.equals("k")) {
-                value *= Math.pow(10, +3);
-            } else if (suffixTemp.equals("M")) {
-                value *= Math.pow(10, +6);
-            } else if (suffixTemp.equals("G")) {
-                value *= Math.pow(10, +9);
-            } else {
-                return -1;
+            switch (suffixTemp) {
+                case "p":
+                    value *= Math.pow(10, -12);
+                    break;
+                case "n":
+                    value *= Math.pow(10, -9);
+                    break;
+                case "u":
+                    value *= Math.pow(10, -6);
+                    break;
+                case "m":
+                    value *= Math.pow(10, -3);
+                    break;
+                case "k":
+                    value *= Math.pow(10, +3);
+                    break;
+                case "M":
+                    value *= Math.pow(10, +6);
+                    break;
+                case "G":
+                    value *= Math.pow(10, +9);
+                    break;
+                default:
+                    return -1;
             }
         }
         else if (value <= 0) {

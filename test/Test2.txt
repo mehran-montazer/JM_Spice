@@ -1,5 +1,5 @@
 *RC circuit with current source
-Iin 0 1 1 0 0 0
+Vin 0 1 1 0 0 0
 r1 0 1 1
 r2 1 2 1
 c1 2 0 1m

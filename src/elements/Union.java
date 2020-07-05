@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Union {
     private int number;
-    private ArrayList<Node> nodes;
+    private ArrayList<Node> nodes = new ArrayList<>();
     private boolean visited;
     private Node mainNode;
     private double I_p;

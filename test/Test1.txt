@@ -1,6 +1,6 @@
 *test on current source and two resistors
-v1 0 1 4m 0 0 0
-r1 1 2 2k
+v1 1 0 4 0 0 0
+r1 1 2 2.0k
 r2 0 2 6k
 r3 0 2 3k
 dv 100u
