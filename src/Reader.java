@@ -1,7 +1,5 @@
 import elements.*;
-import handmadeExceptions.Minus1Exception;
-import handmadeExceptions.ReadingException;
-
+import handmadeExceptions.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -14,6 +12,8 @@ public class Reader {
     private HashMap<String, Element> elementHashMap = new HashMap<>();
     private ArrayList<Node> nodes = new ArrayList<>();
     private ArrayList <Union> unions = new ArrayList<>();
+    private HashMap <Integer, Union> unionHashMap = new HashMap<>();
+    private ArrayList <VoltageSource> voltageSources = new ArrayList<>();
     private double dv = 0;
     private double dt = 0;
     private double di = 0;
@@ -47,7 +47,6 @@ public class Reader {
     }
     ///////////////////////////////////////////////////////////////////////////
     public void read () throws Minus1Exception, ReadingException {
-        ArrayList <VoltageSource> voltageSources = new ArrayList<>();
         String[] tokens;
         String input;
         ArrayList <String> dependentSources = new ArrayList<>();
@@ -204,19 +203,26 @@ public class Reader {
                     if (value == -1) {
                         throwReadingException(lineNumber);
                     }
-                    if (tokens[0].equals("dv") || tokens[0].equals("dV")) {
-                        dv = value;
-                    } else if (tokens[0].equals("di") || tokens[0].equals("dI")) {
-                        di = value;
-                    } else if (tokens[0].equals("dt") || tokens[0].equals("dT")) {
-                        dt = value;
-                    }
-                    else if (tokens[0].equals(".tran")){
-                        t = value;
-                        isEnded = true;
-                    }
-                    else {
-                        throwReadingException(lineNumber);
+                    switch (tokens[0]) {
+                        case "dv":
+                        case "dV":
+                            dv = value;
+                            break;
+                        case "di":
+                        case "dI":
+                            di = value;
+                            break;
+                        case "dt":
+                        case "dT":
+                            dt = value;
+                            break;
+                        case ".tran":
+                            t = value;
+                            isEnded = true;
+                            break;
+                        default:
+                            throwReadingException(lineNumber);
+                            break;
                     }
                 } else {
                     throwReadingException(lineNumber);
@@ -269,15 +275,13 @@ public class Reader {
                             negativeDependentNode = nodes.get(i);
                     }
                     if (positiveDependentNode == null || negativeDependentNode == null) {
-                        isEnded = true;
-                        System.out.println("Dependent nodes problem" + lineNumber);
+                        throwReadingException(lineNumber);
                     } else {
                         Matcher numberMatcher = number.matcher(tokens[5]);
                         Matcher suffixMatcher = suffix.matcher(tokens[5]);
                         double value = valueCalculator(numberMatcher, suffixMatcher);
                         if (value == -1) {
-                            isEnded = true;
-                            System.out.println("check line" + lineNumber + "!");
+                            throwReadingException(lineNumber);
                         }
                         if (name.startsWith("g") || name.startsWith("G")) {
                             CurrentSource currentSource;
@@ -293,8 +297,7 @@ public class Reader {
                             positiveTerminal.addVoltageSource(voltageSource);
                             negativeTerminal.addVoltageSource(voltageSource);
                         } else {
-                            isEnded = true;
-                            System.out.println(lineNumber);
+                            throwReadingException(lineNumber);
                         }
                     }
                 } else if (tokens.length == 6) {
@@ -306,8 +309,7 @@ public class Reader {
                         Matcher suffixMatcher = suffix.matcher(tokens[4]);
                         double value = valueCalculator(numberMatcher, suffixMatcher);
                         if (value == -1) {
-                            isEnded = true;
-                            System.out.println("check line" + lineNumber + "!");
+                            throwReadingException(lineNumber);
                         }
                         if (name.startsWith("f") || name.startsWith("F")) {
                             CurrentSource currentSource;
@@ -322,12 +324,10 @@ public class Reader {
                             positiveTerminal.addVoltageSource(voltageSource);
                             negativeTerminal.addVoltageSource(voltageSource);
                         } else {
-                            isEnded = true;
-                            System.out.println(lineNumber);
+                            throwReadingException(lineNumber);
                         }
                     } else {
-                        isEnded = true;
-                        System.out.println("check line" + lineNumber);
+                        throwReadingException(lineNumber);
                     }
                 }
             }
@@ -351,6 +351,7 @@ public class Reader {
                         voltageSource.getNegativeTerminal().setConnector(voltageSource);
                         voltageSource.getNegativeTerminal().setConnectorNormal(false);
                     }
+                    voltageSource.setSetAsConnector(true);
                 }
             }
         }
@@ -371,12 +372,36 @@ public class Reader {
                 }
             }
             union.setMainNode(mainNode);
+            unionHashMap.put(union.getNumber(), union);
             unions.add(union);
         }
     }
+    public void findError() throws Minus4Exception, Minus5Exception{
+        boolean hasGND = false;
+        boolean isKVLObjected = false;
+        for (Node node : nodes){
+            if (node.getNameNumber() == 0) {
+                hasGND = true;
+                break;
+            }
+        }
+        if (hasGND) {
+            for (VoltageSource voltageSource : voltageSources){
+                if (!voltageSource.isSetAsConnector()){
+                    Node positiveTerminal = voltageSource.getPositiveTerminal();
+                    Node negativeTerminal = voltageSource.getNegativeTerminal();
+                    unionHashMap.get(positiveTerminal.getUnion()).updateVoltages(0,0);
+                    if (positiveTerminal.getV() - negativeTerminal.getV() != voltageSource.getVoltage())
+                        isKVLObjected = true;
+                }
+            }
+        }
+        if (!hasGND || isKVLObjected){
+            throw new Minus4Exception();
+        }
+    }
     private void throwReadingException(int lineNumber) throws ReadingException {
-        ReadingException exception = new ReadingException(Integer.toString(lineNumber));
-        throw exception;
+        throw new ReadingException(Integer.toString(lineNumber));
     }
     private double valueCalculator(Matcher numberMatcher, Matcher suffixMatcher){
         double value = 0;

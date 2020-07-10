@@ -10,6 +10,7 @@ public class VoltageSource extends Element {
     private double gain = 0;
     private Element dependentCurrentElement = null;
     private boolean isAC;
+    private boolean isSetAsConnector = false;
     /////////////////////////////////constructor///////////////////////////
     public VoltageSource(String name, Node positiveTerminal, Node negativeTerminal, double VoffSet, double Vamp, double frequency, double phase){
         super(name, positiveTerminal, negativeTerminal, 0,'v');
@@ -65,6 +66,9 @@ public class VoltageSource extends Element {
     public void setAC(boolean AC) {
         isAC = AC;
     }
+    public void setSetAsConnector(boolean setAsConnector) {
+        isSetAsConnector = setAsConnector;
+    }
     /////////////////////////////////getter///////////////////////////
     public double getFrequency() {
         return frequency;
@@ -92,6 +96,9 @@ public class VoltageSource extends Element {
     }
     public boolean isAC() {
         return isAC;
+    }
+    public boolean isSetAsConnector() {
+        return isSetAsConnector;
     }
     ////////////////////////////////////////////////////////////////////////////////
     @Override
