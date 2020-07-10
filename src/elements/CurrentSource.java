@@ -9,17 +9,20 @@ public class CurrentSource extends Element {
     private Node negativeDependent = null;
     private double gain = 0;
     private Element dependentCurrentElement = null;
+    private boolean isAC;
     /////////////////////////////////constructor///////////////////////////
     public CurrentSource(String name, Node positiveTerminal, Node negativeTerminal, Node positiveDependent, Node negativeDependent, double gain){
         super(name, positiveTerminal, negativeTerminal,0,'i');
         this.positiveDependent = positiveDependent;
         this.negativeDependent = negativeDependent;
         this.gain = gain;
+        isAC = false;
     }
     public CurrentSource(String name, Node positiveTerminal, Node negativeTerminal, Element dependentCurrentElement, double gain){
         super(name, positiveTerminal, negativeTerminal,0,'i');
         this.dependentCurrentElement = dependentCurrentElement;
         this.gain = gain;
+        isAC = false;
     }
     public CurrentSource(String name, Node positiveTerminal, Node negativeTerminal, double IoffSet, double Iamp, double frequency, double phase){
         super(name, positiveTerminal, negativeTerminal,0, 'i');
@@ -27,6 +30,7 @@ public class CurrentSource extends Element {
         this.frequency = frequency;
         this.Iamp = Iamp;
         this.phase = phase;
+        isAC = true;
     }
     public CurrentSource(String name, Node positiveTerminal, Node negativeTerminal, double current) {
         super(name, positiveTerminal, negativeTerminal, current, 'i');
@@ -57,6 +61,9 @@ public class CurrentSource extends Element {
     public Element getDependentCurrentElement() {
         return dependentCurrentElement;
     }
+    public boolean isAC() {
+        return isAC;
+    }
     /////////////////////////////////setter///////////////////////////
     public void setIamp(double iamp) {
         Iamp = iamp;
@@ -81,6 +88,9 @@ public class CurrentSource extends Element {
     }
     public void setPositiveDependent(Node positiveDependent) {
         this.positiveDependent = positiveDependent;
+    }
+    public void setAC(boolean AC) {
+        isAC = AC;
     }
     //////////////////////////////////////////////////////////////////
     @Override
@@ -134,7 +144,7 @@ public class CurrentSource extends Element {
     }
 
     @Override
-    public void calculateCurrentI() {
+    public void calculateCurrent() {
         if (!(dependentCurrentElement == null)){
             current = gain * dependentCurrentElement.getCurrent();
         }

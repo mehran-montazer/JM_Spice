@@ -16,7 +16,7 @@ public class Main {
         double t = 0;
         boolean isEnded = false;
         //Reading File Section
-        File file = new File("test/Test4.txt");
+        File file = new File("test/Test5.txt");
         Reader reader;
         try {
             reader = new Reader(file);
@@ -35,7 +35,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        catch (Minus1Exception | ReadingException | Minus4Exception | Minus5Exception e){
+        catch (Minus1Exception | Minus2Exception | ReadingException | Minus4Exception | Minus5Exception | Minus3Exception e){
             System.out.println(e.getMessage());
             isEnded = true;
         }

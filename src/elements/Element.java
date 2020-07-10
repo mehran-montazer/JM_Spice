@@ -14,7 +14,7 @@ public abstract class Element {
     protected char  type;
     double I_p,I_n,V_p,V_n,I,V;
     public abstract void calculateVoltage();
-    public abstract void calculateCurrentI();
+    public abstract void calculateCurrent();
     public abstract double calculateCurrentR();
     public abstract double calculateCurrentRplus();
     public abstract double calculateCurrentRminus();

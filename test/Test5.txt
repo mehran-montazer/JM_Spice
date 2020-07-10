@@ -1,0 +1,13 @@
+*Test for -2 Error
+i1 1 0 2 0 0 0
+i2 1 4 2 0 0 0
+i3 1 2 1 0 0 0
+i4 3 1 5 0 0 0
+r1 0 3 1k
+r2 0 4 1k
+r3 2 4 1k
+r4 2 3 1k
+dt 1u
+dv 100u
+di 100n
+.tran 2

@@ -30,7 +30,7 @@ public class Capacitor extends Element{
     }
 
     @Override
-    public void calculateCurrentI() {
+    public void calculateCurrent() {
 
     }
 

@@ -112,7 +112,7 @@ public class VoltageSource extends Element {
     }
 
     @Override
-    public void calculateCurrentI() {
+    public void calculateCurrent() {
 
     }
 

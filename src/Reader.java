@@ -107,6 +107,7 @@ public class Reader {
                                 resistor = new Resistor(name, positiveTerminal, negativeTerminal, value);
                                 elementHashMap.put(resistor.getName(), resistor);
                                 elements.add(resistor);
+                                addElement(positiveTerminal, negativeTerminal, resistor);
                             }
                         } else if (tokens[0].startsWith("L") || tokens[0].startsWith("l")) {
                             Inductor inductor;
@@ -114,6 +115,7 @@ public class Reader {
                                 inductor = new Inductor(name, positiveTerminal, negativeTerminal, value);
                                 elementHashMap.put(inductor.getName(), inductor);
                                 elements.add(inductor);
+                                addElement(positiveTerminal, negativeTerminal, inductor);
                             }
                         } else if (tokens[0].startsWith("C") || tokens[0].startsWith("c")) {
                             Capacitor capacitor;
@@ -121,6 +123,7 @@ public class Reader {
                                 capacitor = new Capacitor(name, positiveTerminal, negativeTerminal, value);
                                 elementHashMap.put(capacitor.getName(), capacitor);
                                 elements.add(capacitor);
+                                addElement(positiveTerminal, negativeTerminal, capacitor);
                             }
                         }
                         else if ((tokens[0].startsWith("d") || tokens[0].startsWith("D")) && (value == 1)){
@@ -128,6 +131,7 @@ public class Reader {
                             diode = new Diode(name, negativeTerminal, positiveTerminal);
                             elementHashMap.put(name, diode);
                             elements.add(diode);
+                            addElement(positiveTerminal, negativeTerminal, diode);
                         }
                     } else if (tokens.length == 7) {
                         if (tokens[4].equals("0") && tokens[5].equals("0") && tokens[6].equals("0")) {
@@ -144,10 +148,12 @@ public class Reader {
                                 elements.add(voltageSource);
                                 positiveTerminal.addVoltageSource(voltageSource);
                                 negativeTerminal.addVoltageSource(voltageSource);
+                                addElement(positiveTerminal, negativeTerminal, voltageSource);
                             } else if (tokens[0].startsWith("i") || tokens[0].startsWith("I")) {
                                 CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, value);
                                 elementHashMap.put(currentSource.getName(), currentSource);
                                 elements.add(currentSource);
+                                addElement(positiveTerminal, negativeTerminal, currentSource);
                             } else {
                                 throwReadingException(lineNumber);
                             }
@@ -184,10 +190,12 @@ public class Reader {
                                 elements.add(voltageSource);
                                 positiveTerminal.addVoltageSource(voltageSource);
                                 negativeTerminal.addVoltageSource(voltageSource);
+                                addElement(positiveTerminal, negativeTerminal, voltageSource);
                             } else if (tokens[0].startsWith("i") || tokens[0].startsWith("I")) {
                                 CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, offSet, amp, freq, phase);
                                 elementHashMap.put(currentSource.getName(), currentSource);
                                 elements.add(currentSource);
+                                addElement(positiveTerminal, negativeTerminal, currentSource);
                             } else {
                                 throwReadingException(lineNumber);
                             }
@@ -288,6 +296,7 @@ public class Reader {
                             currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, positiveDependentNode, negativeDependentNode, value);
                             elementHashMap.put(currentSource.getName(), currentSource);
                             elements.add(currentSource);
+                            addElement(positiveTerminal, negativeTerminal, currentSource);
                         } else if (name.startsWith("e") || name.startsWith("E")) {
                             VoltageSource voltageSource;
                             voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, positiveDependentNode, negativeDependentNode, value);
@@ -296,6 +305,7 @@ public class Reader {
                             voltageSources.add(voltageSource);
                             positiveTerminal.addVoltageSource(voltageSource);
                             negativeTerminal.addVoltageSource(voltageSource);
+                            addElement(positiveTerminal, negativeTerminal, voltageSource);
                         } else {
                             throwReadingException(lineNumber);
                         }
@@ -316,6 +326,7 @@ public class Reader {
                             currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, majorElement, value);
                             elementHashMap.put(currentSource.getName(), currentSource);
                             elements.add(currentSource);
+                            addElement(positiveTerminal, negativeTerminal, currentSource);
                         } else if (name.startsWith("h") || name.startsWith("H")) {
                             VoltageSource voltageSource;
                             voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, majorElement, value);
@@ -323,6 +334,7 @@ public class Reader {
                             voltageSources.add(voltageSource);
                             positiveTerminal.addVoltageSource(voltageSource);
                             negativeTerminal.addVoltageSource(voltageSource);
+                            addElement(positiveTerminal, negativeTerminal, voltageSource);
                         } else {
                             throwReadingException(lineNumber);
                         }
@@ -372,13 +384,17 @@ public class Reader {
                 }
             }
             union.setMainNode(mainNode);
+            for (VoltageSource voltageSource : voltageSources){
+                if (voltageSource.getNegativeTerminal().getUnion() == unionTemp)
+                    union.addVoltageSource(voltageSource);
+            }
             unionHashMap.put(union.getNumber(), union);
             unions.add(union);
         }
     }
-    public void findError() throws Minus4Exception, Minus5Exception{
+    public void findError() throws Minus4Exception, Minus2Exception, Minus5Exception, Minus3Exception {
         boolean hasGND = false;
-        boolean isKVLObjected = false;
+        boolean isGNDNormal = true;
         for (Node node : nodes){
             if (node.getNameNumber() == 0) {
                 hasGND = true;
@@ -387,17 +403,32 @@ public class Reader {
         }
         if (hasGND) {
             for (VoltageSource voltageSource : voltageSources){
-                if (!voltageSource.isSetAsConnector()){
+                if (!voltageSource.isSetAsConnector() && voltageSource.getNegativeTerminal().getUnion() == 0){
                     Node positiveTerminal = voltageSource.getPositiveTerminal();
                     Node negativeTerminal = voltageSource.getNegativeTerminal();
                     unionHashMap.get(positiveTerminal.getUnion()).updateVoltages(0,0);
                     if (positiveTerminal.getV() - negativeTerminal.getV() != voltageSource.getVoltage())
-                        isKVLObjected = true;
+                        isGNDNormal = false;
                 }
             }
         }
-        if (!hasGND || isKVLObjected){
+        if (!hasGND || !isGNDNormal){
             throw new Minus4Exception();
+        }
+        boolean isKVLObjected = false;
+        for (VoltageSource voltageSource : voltageSources){
+            if (!voltageSource.isSetAsConnector() && voltageSource.getNegativeTerminal().getUnion() != 0){
+                Node positiveTerminal = voltageSource.getPositiveTerminal();
+                Node negativeTerminal = voltageSource.getNegativeTerminal();
+                unionHashMap.get(positiveTerminal.getUnion()).updateVoltages(0,0);
+                if (positiveTerminal.getV() - negativeTerminal.getV() != voltageSource.getVoltage())
+                    isKVLObjected = true;
+            }
+        }
+        if (isKVLObjected)
+            throw new Minus3Exception();
+        for (Node node : nodes){
+            node.checkForMinus2Exception(0);
         }
     }
     private void throwReadingException(int lineNumber) throws ReadingException {
@@ -443,6 +474,10 @@ public class Reader {
             return -1;
         }
         return value;
+    }
+    private void addElement(Node PTerminal, Node NTerminal,Element element){
+        PTerminal.addElement(element);
+        NTerminal.addElement(element);
     }
 }
 
