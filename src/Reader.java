@@ -97,8 +97,8 @@ public class Reader {
                     if (tokens.length == 4) {
                         Matcher numberMatcher = number.matcher(tokens[3]);
                         Matcher suffixMatcher = suffix.matcher(tokens[3]);
-                        double value = valueCalculator(numberMatcher, suffixMatcher);
-                        if (value == -1) {
+                        double value = valueCalculator(numberMatcher, suffixMatcher, lineNumber);
+                        if (value < 0) {
                             throwReadingException(lineNumber);
                         }
                         if (tokens[0].startsWith("R") || tokens[0].startsWith("r")) {
@@ -137,8 +137,8 @@ public class Reader {
                         if (tokens[4].equals("0") && tokens[5].equals("0") && tokens[6].equals("0")) {
                             Matcher numberMatcher = number.matcher(tokens[3]);
                             Matcher suffixMatcher = suffix.matcher(tokens[3]);
-                            double value = valueCalculator(numberMatcher, suffixMatcher);
-                            if (value == -1) {
+                            double value = valueCalculator(numberMatcher, suffixMatcher, lineNumber);
+                            if (value < 0) {
                                 throwReadingException(lineNumber);
                             }
                             if (tokens[0].startsWith("v") || tokens[0].startsWith("V")) {
@@ -161,28 +161,22 @@ public class Reader {
                         else {
                             Matcher numberMatcher = number.matcher(tokens[3]);
                             Matcher suffixMatcher = suffix.matcher(tokens[3]);
-                            double offSet = valueCalculator(numberMatcher, suffixMatcher);
-                            if (offSet == -1) {
-                                throwReadingException(lineNumber);
-                            }
+                            double offSet = valueCalculator(numberMatcher, suffixMatcher, lineNumber);
                             numberMatcher = number.matcher(tokens[4]);
                             suffixMatcher = suffix.matcher(tokens[4]);
-                            double amp = valueCalculator(numberMatcher, suffixMatcher);
-                            if (amp == -1) {
+                            double amp = valueCalculator(numberMatcher, suffixMatcher, lineNumber);
+                            if (amp < 0) {
                                 throwReadingException(lineNumber);
                             }
                             numberMatcher = number.matcher(tokens[5]);
                             suffixMatcher = suffix.matcher(tokens[5]);
-                            double freq = valueCalculator(numberMatcher, suffixMatcher);
-                            if (freq == -1) {
+                            double freq = valueCalculator(numberMatcher, suffixMatcher, lineNumber);
+                            if (freq < 0) {
                                 throwReadingException(lineNumber);
                             }
                             numberMatcher = number.matcher(tokens[6]);
                             suffixMatcher = suffix.matcher(tokens[6]);
-                            double phase = valueCalculator(numberMatcher, suffixMatcher);
-                            if (phase == -1) {
-                                throwReadingException(lineNumber);
-                            }
+                            double phase = valueCalculator(numberMatcher, suffixMatcher, lineNumber);
                             if (tokens[0].startsWith("v") || tokens[0].startsWith("V")) {
                                 VoltageSource voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, offSet, amp, freq, phase);
                                 elementHashMap.put(voltageSource.getName(), voltageSource);
@@ -207,8 +201,8 @@ public class Reader {
                 } else if (tokens.length == 2) {
                     Matcher numberMatcher = number.matcher(tokens[1]);
                     Matcher suffixMatcher = suffix.matcher(tokens[1]);
-                    double value = valueCalculator(numberMatcher, suffixMatcher);
-                    if (value == -1) {
+                    double value = valueCalculator(numberMatcher, suffixMatcher, lineNumber);
+                    if (value < 0) {
                         throwReadingException(lineNumber);
                     }
                     switch (tokens[0]) {
@@ -287,8 +281,8 @@ public class Reader {
                     } else {
                         Matcher numberMatcher = number.matcher(tokens[5]);
                         Matcher suffixMatcher = suffix.matcher(tokens[5]);
-                        double value = valueCalculator(numberMatcher, suffixMatcher);
-                        if (value == -1) {
+                        double value = valueCalculator(numberMatcher, suffixMatcher, lineNumber);
+                        if (value < 0) {
                             throwReadingException(lineNumber);
                         }
                         if (name.startsWith("g") || name.startsWith("G")) {
@@ -317,8 +311,8 @@ public class Reader {
                         majorElement = elementHashMap.get(majorElementName);
                         Matcher numberMatcher = number.matcher(tokens[4]);
                         Matcher suffixMatcher = suffix.matcher(tokens[4]);
-                        double value = valueCalculator(numberMatcher, suffixMatcher);
-                        if (value == -1) {
+                        double value = valueCalculator(numberMatcher, suffixMatcher, lineNumber);
+                        if (value < 0) {
                             throwReadingException(lineNumber);
                         }
                         if (name.startsWith("f") || name.startsWith("F")) {
@@ -455,10 +449,14 @@ public class Reader {
     private void throwReadingException(int lineNumber) throws ReadingException {
         throw new ReadingException(Integer.toString(lineNumber));
     }
-    private double valueCalculator(Matcher numberMatcher, Matcher suffixMatcher){
+    private double valueCalculator(Matcher numberMatcher, Matcher suffixMatcher, int lineNumber) throws ReadingException {
         double value = 0;
         if (numberMatcher.find()) {
-            value = Double.parseDouble(numberMatcher.group());
+            String temp = numberMatcher.group();
+            if (temp == null)
+                throwReadingException(lineNumber);
+            else
+                value = Double.parseDouble(temp);
         }
         String suffixTemp = null;
         if (suffixMatcher.find()) {
@@ -488,11 +486,8 @@ public class Reader {
                     value *= Math.pow(10, +9);
                     break;
                 default:
-                    return -1;
+                    throwReadingException(lineNumber);
             }
-        }
-        else if (value <= 0) {
-            return -1;
         }
         return value;
     }
