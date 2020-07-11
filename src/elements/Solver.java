@@ -96,6 +96,7 @@ public class Solver {
                     }
                     cnt += 1;
                 } else {
+                    double jaryani;
                     boolean visited = false;
                     boolean is_gnd_included = false;
                     double I_n = 0, I_p = 0;
@@ -117,7 +118,24 @@ public class Solver {
                                 union.setVisited(true);
                                 I_n = 0;
                                 I_p = 0;
-
+                            }
+                        }
+//                        for (Node r : present){
+//                            r.V_Step = r.V;
+//                        }
+                        for (Element e : elements){
+                            if (e.type == 'r') {
+                                 e.calculateCurrentR();
+                            } else if (e.type == 'l') {
+                                 e.calculateCurrentL();
+                            } else if (e.type == 'c') {
+                                 e.calculateCurrentC();
+                            }
+                        }
+                        for (Union union : unions){
+                            if (union.getNumber() == number ){
+                                union.updateVoltages(zaman);
+                                break ;
                             }
                         }
                         if (Main_present.getNameNumber() != 0) {
@@ -168,20 +186,27 @@ public class Solver {
                                     }
                                 }
                             }
-                            Main_present.V_Step = Main_present.V;
-                            double ww = ((Math.abs(n.I_n) - Math.abs(n.I_p)) / di) * dv;
-                            while (Math.abs(ww) > 5)
-                                ww /= 2;
-                            Main_present.V += ww;
+//                            Main_present.V_Step = Main_present.V;
+//                            double ww = ((Math.abs(n.I_n) - Math.abs(n.I_p)) / di) * dv;
+//                            while (Math.abs(ww) > 5)
+//                                ww /= 2;
+//                            Main_present.V += ww;
                         } else {
                             is_gnd_included = true;
                         }
+//                        for (Node r : present){
+//                            r.V_Step = r.V;
+//                        }
+//                        for (Union union : unions){
+//                            if (union.getNumber() == number ){
+//                                union.updateVoltages(zaman);
+//                                break ;
+//                            }
+//                        }
                         for (Node r : present) {
                             while (gereshomare_union != r.getNameNumber()){
                                 gereshomare_union ++;
                             }
-                            r.V_Step = r.V;
-                            r.updateVoltage(zaman);
                             if (!is_gnd_included) {
                                 for (Element e : this.elements) {
                                     if (e.positiveTerminal.getNameNumber() == gereshomare_union && e.type != 'v') {
@@ -230,13 +255,27 @@ public class Solver {
                                         }
                                     }
                                 }
-                            } else {
-                                r.V_Step = r.V;
-                                r.updateVoltage(zaman);
+                            }
+                            else {
+
                             }
                         }
                         for (Union union : unions) {
                             if (union.getNumber() == number) {
+                                for (Node r : present){
+                                    r.V_Step = r.V;
+                                }
+                                double ww = ((Math.abs(I_n) - Math.abs(I_p)) / di) * dv;
+                                while (Math.abs(ww) > 5)
+                                    ww /= 2;
+                                union.getMainNode().V_Step = union.getMainNode().getV();
+                                union.getMainNode().V += ww;
+//                                for (Union union : unions){
+//                                    if (union.getNumber() == number ){
+//                                        union.updateVoltages(zaman);
+//                                        break ;
+//                                    }
+//                                }
                                 union.setI_n(I_n);
                                 union.setI_p(I_p);
                             }
