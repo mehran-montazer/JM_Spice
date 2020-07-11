@@ -346,16 +346,20 @@ public class Reader {
             for (VoltageSource voltageSource : voltageSources) {
                 if (voltageSource.getPositiveTerminal().getUnion() != voltageSource.getNegativeTerminal().getUnion()) {
                     isSetProperly = false;
+                    Node positiveTerminal = voltageSource.getPositiveTerminal();
+                    Node negativeTerminal = voltageSource.getNegativeTerminal();
                     if (voltageSource.getNegativeTerminal().getNameNumber() < voltageSource.getPositiveTerminal().getNameNumber()) {
-                        voltageSource.getPositiveTerminal().setUnion(voltageSource.getNegativeTerminal().getUnion());
-                        voltageSource.getPositiveTerminal().setParentNode(voltageSource.getNegativeTerminal());
-                        voltageSource.getPositiveTerminal().setConnector(voltageSource);
-                        voltageSource.getPositiveTerminal().setConnectorNormal(true);
+                        positiveTerminal.setUnion(negativeTerminal.getUnion());
+                        positiveTerminal.setParentNode(negativeTerminal);
+                        positiveTerminal.setConnector(voltageSource);
+                        positiveTerminal.setConnectorNormal(true);
+                        negativeTerminal.addChild(positiveTerminal);
                     } else if (voltageSource.getNegativeTerminal().getNameNumber() > voltageSource.getPositiveTerminal().getNameNumber()) {
-                        voltageSource.getNegativeTerminal().setUnion(voltageSource.getPositiveTerminal().getUnion());
-                        voltageSource.getNegativeTerminal().setParentNode(voltageSource.getPositiveTerminal());
-                        voltageSource.getNegativeTerminal().setConnector(voltageSource);
-                        voltageSource.getNegativeTerminal().setConnectorNormal(false);
+                        negativeTerminal.setUnion(positiveTerminal.getUnion());
+                        negativeTerminal.setParentNode(positiveTerminal);
+                        negativeTerminal.setConnector(voltageSource);
+                        negativeTerminal.setConnectorNormal(false);
+                        positiveTerminal.addChild(negativeTerminal);
                     }
                     voltageSource.setSetAsConnector(true);
                 }
@@ -371,13 +375,15 @@ public class Reader {
         for (int unionTemp : unionNumbers){
             Union union = new Union(unionTemp);
             for (Node node : nodes){
-                if (node.getNameNumber() == unionTemp)
+                if (node.getNameNumber() == unionTemp) {
                     mainNode = node;
-                else if (node.getUnion() == unionTemp) {
-                    union.addNode(node);
+                    break;
                 }
             }
             union.setMainNode(mainNode);
+            ArrayList temp = new ArrayList<>();
+            addSubNode(mainNode,temp);
+            union.setNodes(temp);
             for (VoltageSource voltageSource : voltageSources){
                 if (voltageSource.getNegativeTerminal().getUnion() == unionTemp)
                     union.addVoltageSource(voltageSource);
@@ -494,6 +500,13 @@ public class Reader {
     private void addElement(Node PTerminal, Node NTerminal,Element element){
         PTerminal.addElement(element);
         NTerminal.addElement(element);
+    }
+    private void addSubNode(Node node, ArrayList<Node> temp){
+        if (node.isDependent())
+            temp.add(node);
+        for (Node tempNode : node.getChildren()){
+            addSubNode(tempNode,temp);
+        }
     }
 }
 

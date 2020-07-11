@@ -17,6 +17,7 @@ public class Node implements Comparable{
     private Queue<Node> saf = new LinkedList<>();
     private boolean hasVoltageSource = false;
     private Node parentNode;
+    private ArrayList<Node> children = new ArrayList<>();
     private VoltageSource connector;
     private boolean isConnectorNormal;
     private boolean isDependent;
@@ -80,6 +81,9 @@ public class Node implements Comparable{
     public ArrayList<Element> getElements() {
         return elements;
     }
+    public ArrayList<Node> getChildren() {
+        return children;
+    }
     /////////////////////////////////setter////////////////////////////
     public void setName(String name) {
         this.name = name;
@@ -114,6 +118,9 @@ public class Node implements Comparable{
     public void setElements(ArrayList<Element> elements) {
         this.elements = elements;
     }
+    public void setChildren(ArrayList<Node> children) {
+        this.children = children;
+    }
     ///////////////////////////////////////////////////////////////////
     public void updateDependency(){
         isDependent = union != nameNumber;
@@ -124,6 +131,9 @@ public class Node implements Comparable{
     public void addVoltageSource (VoltageSource voltageSource){
         voltageSources.add(voltageSource);
         hasVoltageSource = true;
+    }
+    public void addChild (Node node){
+        children.add(node);
     }
     public void updateVoltage(double t){
         if (connector.isAC()) {
