@@ -27,7 +27,7 @@ public class Solver {
 //    }
     public void  update_nodes() {
         int count =0 ;
-        for (double zaman=0;zaman < t ;zaman += dt) {
+        for (double zaman=0; zaman < t ;zaman += dt) {
             int cnt = 0;
             for (Union union : unions) {
                 union.setVisited(false);
@@ -359,7 +359,7 @@ public class Solver {
 //                node.V_Step = node.V;
 //            }
             count ++;
-            if (count % 5000 ==0) {
+            if (count % 5000 == 0) {
                 System.out.println("t = " + zaman + "\t");
                 for (Node node : nodes) {
                     System.out.println(node.getName() + ":" + "\t" + node.getV());

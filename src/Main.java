@@ -42,9 +42,9 @@ public class Main {
         if (!isEnded) {
             Solver solver = new Solver(elements, nodes, unions, dt, dv, di, t);
             solver.update_nodes();
-            for (Node node : nodes) {
-                System.out.println(node.getName() + ":" + "\t" + node.getV());
-            }
+//            for (Node node : nodes) {
+//                System.out.println(node.getName() + ":" + "\t" + node.getV());
+//            }
         }
     }
 }
