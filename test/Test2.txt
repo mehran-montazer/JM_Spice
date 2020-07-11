@@ -4,6 +4,6 @@ r1 0 1 1
 r2 1 2 1
 c1 2 0 1m
 dv 1u
-di 100n
-dt 1m
+di 1u
+dt 10u
 .tran 3

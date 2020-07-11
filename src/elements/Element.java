@@ -12,6 +12,7 @@ public abstract class Element {
     protected double power;
     protected double value ;
     protected char  type;
+    protected double initialCurrent;
     double I_p,I_n,V_p,V_n,I,V;
     public abstract void calculateVoltage();
     public abstract void calculateCurrent();
@@ -24,7 +25,7 @@ public abstract class Element {
     public abstract double calculateCurrentL();
     public abstract double calculateCurrentLminus();
     public abstract double calculateCurrentLplus();
-
+    public void setstepcurrent(double cuurent){this.initialCurrent=  cuurent;}
 
     //////////////////////////////////////constructor//////////////////////////////
 //    Element(String name, Node positiveTerminal, Node negativeTerminal){
