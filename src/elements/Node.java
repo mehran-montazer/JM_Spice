@@ -15,12 +15,14 @@ public class Node implements Comparable{
     private ArrayList <VoltageSource> voltageSources = new ArrayList<>();
     private ArrayList <Element> elements = new ArrayList<>();
     private Queue<Node> saf = new LinkedList<>();
+    private ArrayList<Node> neighbors = new ArrayList<>();
     private boolean hasVoltageSource = false;
     private Node parentNode;
     private ArrayList<Node> children = new ArrayList<>();
     private VoltageSource connector;
     private boolean isConnectorNormal;
     private boolean isDependent;
+    private boolean isReval = false;
     ////////////////////////////////constructor////////////////////////
     public Node(String name){
         this.name = name;
@@ -84,6 +86,12 @@ public class Node implements Comparable{
     public ArrayList<Node> getChildren() {
         return children;
     }
+    public boolean isReval() {
+        return isReval;
+    }
+    public ArrayList<Node> getNeighbors() {
+        return neighbors;
+    }
     /////////////////////////////////setter////////////////////////////
     public void setName(String name) {
         this.name = name;
@@ -120,6 +128,12 @@ public class Node implements Comparable{
     }
     public void setChildren(ArrayList<Node> children) {
         this.children = children;
+    }
+    public void setReval(boolean reval) {
+        isReval = reval;
+    }
+    public void setNeighbors(ArrayList<Node> neighbors) {
+        this.neighbors = neighbors;
     }
     ///////////////////////////////////////////////////////////////////
     public void updateDependency(){
@@ -181,6 +195,9 @@ public class Node implements Comparable{
                 throw new Minus2Exception();
             }
         }
+    }
+    public void addNeighbor(Node node){
+        neighbors.add(node);
     }
     @Override
     public int compareTo(Object obj) {

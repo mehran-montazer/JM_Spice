@@ -89,10 +89,14 @@ public class Reader {
                         }
                     }
                     //neighbors
-                    if (!positiveTerminal.getSaf().contains(negativeTerminal))
+                    if (!positiveTerminal.getSaf().contains(negativeTerminal)){
                         positiveTerminal.adder(negativeTerminal);
-                    if (!negativeTerminal.getSaf().contains(positiveTerminal))
+                        positiveTerminal.addNeighbor(negativeTerminal);
+                    }
+                    if (!negativeTerminal.getSaf().contains(positiveTerminal)) {
                         negativeTerminal.adder(positiveTerminal);
+                        negativeTerminal.addNeighbor(positiveTerminal);
+                    }
                     //end of the node part
                     if (tokens.length == 4) {
                         Matcher numberMatcher = number.matcher(tokens[3]);
@@ -261,10 +265,14 @@ public class Reader {
                     nodes.add(negativeTerminal);
                 }
                 //neighbors
-                if (!positiveTerminal.getSaf().contains(negativeTerminal))
+                if (!positiveTerminal.getSaf().contains(negativeTerminal)){
                     positiveTerminal.adder(negativeTerminal);
-                if (!negativeTerminal.getSaf().contains(positiveTerminal))
+                    positiveTerminal.addNeighbor(negativeTerminal);
+                }
+                if (!negativeTerminal.getSaf().contains(positiveTerminal)) {
                     negativeTerminal.adder(positiveTerminal);
+                    negativeTerminal.addNeighbor(positiveTerminal);
+                }
                 if (tokens.length == 7) {
                     Node positiveDependentNode = null;
                     Node negativeDependentNode = null;
@@ -445,9 +453,13 @@ public class Reader {
             }
         }
         Node gnd = nodes.get(0);
-/*        if (!hasFloat){
-            gnd.getSaf().
-        }*/
+        checkReval(gnd);
+        for (Node node : nodes){
+            if (!node.isReval()){
+                hasFloat = true;
+                break;
+            }
+        }
         if (hasFloat)
             throw new Minus5Exception();
         //Error -5
@@ -506,6 +518,13 @@ public class Reader {
             temp.add(node);
         for (Node tempNode : node.getChildren()){
             addSubNode(tempNode,temp);
+        }
+    }
+    private void checkReval(Node node){
+        node.setReval(true);
+        for (Node node1 : node.getNeighbors()){
+            if (!node1.isReval())
+                checkReval(node1);
         }
     }
 }

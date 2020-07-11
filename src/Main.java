@@ -16,7 +16,7 @@ public class Main {
         double t = 0;
         boolean isEnded = false;
         //Reading File Section
-        File file = new File("test/Test9.txt");
+        File file = new File("test/Test10.txt");
         Reader reader;
         try {
             reader = new Reader(file);
