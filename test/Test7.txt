@@ -1,8 +1,8 @@
-*teste manba jaryane vabaste be jaryan
+*teste manba voltage vabaste be jaryan
 V1 1 0 10 0 0 0
 r1 1 2 4
 r2 2 0 1
-f1 2 0 r1 2
+g1 2 0 1 2 2
 dv 100u
 di 100n
 dt 1u

@@ -1,9 +1,9 @@
 *test on current source and two resistors
-i1 0 1 1 0 0 0
+i1 1 0 1m 0 0 0
 r1 1 2 2.0k
 r2 2 0 6k
 r3 2 0 3k
 dv 100u
 di 100n
 dt 1u
-.tran 150
+.tran 5

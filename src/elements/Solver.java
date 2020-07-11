@@ -43,8 +43,15 @@ public class Solver {
                         for (Element e : this.elements) {
                             if (e.positiveTerminal.getNameNumber() == cnt && e.type != 'v') {
                                 if (e.type == 'i') {
-                                    n.I_n += e.current;
-                                    n.I_p += e.current;
+                                    CurrentSource u  = (CurrentSource) e ;
+                                    if (u.isAC()){
+                                        u.calculateCurrent(zaman);
+                                    }
+                                    else {
+                                        u.calculateCurrent();
+                                    }
+                                    n.I_n += u.current;
+                                    n.I_p += u.current;
                                 } else if (e.type == 'r') {
                                     n.I_n += e.calculateCurrentR();
                                     n.I_p += e.calculateCurrentRplus();
@@ -58,8 +65,15 @@ public class Solver {
                                 }
                             } else if (e.negativeTerminal.getNameNumber() == cnt && e.type != 'v') {
                                 if (e.type == 'i') {
-                                    n.I_n -= e.current;
-                                    n.I_p -= e.current;
+                                    CurrentSource u  = (CurrentSource) e ;
+                                    if (u.isAC()){
+                                        u.calculateCurrent(zaman);
+                                    }
+                                    else {
+                                        u.calculateCurrent();
+                                    }
+                                    n.I_n -= u.current;
+                                    n.I_p -= u.current;
                                 } else if (e.type == 'r') {
                                     n.I_n -= e.calculateCurrentR();
                                     n.I_p -= e.calculateCurrentRminus();
@@ -88,6 +102,7 @@ public class Solver {
                     ArrayList<Node> present = new ArrayList<>();
                     Node Main_present = null;
                     int number = n.getUnion();
+                    int gereshomare_union=0;
                     for (Union union : unions) {
                         if (union.getNumber() == number) {
                             visited = union.isVisited();
@@ -98,42 +113,58 @@ public class Solver {
                             if (union.getNumber() == number) {
                                 present = union.getNodes();
                                 Main_present = union.getMainNode();
+                                gereshomare_union = Main_present.getNameNumber();
                                 union.setVisited(true);
                                 I_n = 0;
                                 I_p = 0;
+
                             }
                         }
                         if (Main_present.getNameNumber() != 0) {
                             for (Element e : this.elements) {
                                 if (e.positiveTerminal.getNameNumber() == cnt && e.type != 'v') {
                                     if (e.type == 'i') {
-                                        n.I_n += e.current;
-                                        n.I_p += e.current;
+                                        CurrentSource u  = (CurrentSource) e ;
+                                        if (u.isAC()){
+                                            u.calculateCurrent(zaman);
+                                        }
+                                        else {
+                                            u.calculateCurrent();
+                                        }
+                                        I_n += u.current;
+                                        I_p += u.current;
                                     } else if (e.type == 'r') {
-                                        n.I_n += e.calculateCurrentR();
-                                        n.I_p += e.calculateCurrentRplus();
+                                        I_n += e.calculateCurrentR();
+                                        I_p += e.calculateCurrentRplus();
                                     } else if (e.type == 'l') {
-                                        n.I_n += e.calculateCurrentL();
-                                        n.I_p += e.calculateCurrentLplus();
+                                        I_n += e.calculateCurrentL();
+                                        I_p += e.calculateCurrentLplus();
                                         e.setstepcurrent(e.calculateCurrentL());
                                     } else if (e.type == 'c') {
-                                        n.I_n += e.calculateCurrentC();
-                                        n.I_p += e.calculateCurrentCplus();
+                                        I_n += e.calculateCurrentC();
+                                        I_p += e.calculateCurrentCplus();
                                     }
                                 } else if (e.negativeTerminal.getNameNumber() == cnt && e.type != 'v') {
                                     if (e.type == 'i') {
-                                        n.I_n -= e.current;
-                                        n.I_p -= e.current;
+                                        CurrentSource u  = (CurrentSource) e ;
+                                        if (u.isAC()){
+                                            u.calculateCurrent(zaman);
+                                        }
+                                        else {
+                                            u.calculateCurrent();
+                                        }
+                                        I_n -= u.current;
+                                        I_p -= u.current;
                                     } else if (e.type == 'r') {
-                                        n.I_n -= e.calculateCurrentR();
-                                        n.I_p -= e.calculateCurrentRminus();
+                                        I_n -= e.calculateCurrentR();
+                                        I_p -= e.calculateCurrentRminus();
                                     } else if (e.type == 'l') {
-                                        n.I_n -= e.calculateCurrentL();
-                                        n.I_p -= e.calculateCurrentLminus();
+                                        I_n -= e.calculateCurrentL();
+                                        I_p -= e.calculateCurrentLminus();
                                         e.setstepcurrent(e.calculateCurrentL());
                                     } else if (e.type == 'c') {
-                                        n.I_n -= e.calculateCurrentC();
-                                        n.I_p -= e.calculateCurrentCminus();
+                                        I_n -= e.calculateCurrentC();
+                                        I_p -= e.calculateCurrentCminus();
                                     }
                                 }
                             }
@@ -146,42 +177,59 @@ public class Solver {
                             is_gnd_included = true;
                         }
                         for (Node r : present) {
+                            while (gereshomare_union != r.getNameNumber()){
+                                gereshomare_union ++;
+                            }
+                            r.V_Step = r.V;
+                            r.updateVoltage(zaman);
                             if (!is_gnd_included) {
                                 for (Element e : this.elements) {
-                                    if (e.positiveTerminal.getNameNumber() == cnt && e.type != 'v') {
+                                    if (e.positiveTerminal.getNameNumber() == gereshomare_union && e.type != 'v') {
                                         if (e.type == 'i') {
-                                            n.I_n += e.current;
-                                            n.I_p += e.current;
+                                            CurrentSource u  = (CurrentSource) e ;
+                                            if (u.isAC()){
+                                                u.calculateCurrent(zaman);
+                                            }
+                                            else {
+                                                u.calculateCurrent();
+                                            }
+                                            I_n += u.current;
+                                            I_p += u.current;
                                         } else if (e.type == 'r') {
-                                            n.I_n += e.calculateCurrentR();
-                                            n.I_p += e.calculateCurrentRplus();
+                                            I_n += e.calculateCurrentR();
+                                            I_p += e.calculateCurrentRplus();
                                         } else if (e.type == 'l') {
-                                            n.I_n += e.calculateCurrentL();
-                                            n.I_p += e.calculateCurrentLplus();
+                                            I_n += e.calculateCurrentL();
+                                            I_p += e.calculateCurrentLplus();
                                             e.setstepcurrent(e.calculateCurrentL());
                                         } else if (e.type == 'c') {
-                                            n.I_n += e.calculateCurrentC();
-                                            n.I_p += e.calculateCurrentCplus();
+                                            I_n += e.calculateCurrentC();
+                                            I_p += e.calculateCurrentCplus();
                                         }
-                                    } else if (e.negativeTerminal.getNameNumber() == cnt && e.type != 'v') {
+                                    } else if (e.negativeTerminal.getNameNumber() == gereshomare_union && e.type != 'v') {
                                         if (e.type == 'i') {
-                                            n.I_n -= e.current;
-                                            n.I_p -= e.current;
+                                            CurrentSource u  = (CurrentSource) e ;
+                                            if (u.isAC()){
+                                                u.calculateCurrent(zaman);
+                                            }
+                                            else {
+                                                u.calculateCurrent();
+                                            }
+                                            I_n -= u.current;
+                                            I_p -= u.current;
                                         } else if (e.type == 'r') {
-                                            n.I_n -= e.calculateCurrentR();
-                                            n.I_p -= e.calculateCurrentRminus();
+                                            I_n -= e.calculateCurrentR();
+                                            I_p -= e.calculateCurrentRminus();
                                         } else if (e.type == 'l') {
-                                            n.I_n -= e.calculateCurrentL();
-                                            n.I_p -= e.calculateCurrentLminus();
+                                            I_n -= e.calculateCurrentL();
+                                            I_p -= e.calculateCurrentLminus();
                                             e.setstepcurrent(e.calculateCurrentL());
                                         } else if (e.type == 'c') {
-                                            n.I_n -= e.calculateCurrentC();
-                                            n.I_p -= e.calculateCurrentCminus();
+                                            I_n -= e.calculateCurrentC();
+                                            I_p -= e.calculateCurrentCminus();
                                         }
                                     }
                                 }
-                                r.V_Step = r.V;
-                                r.updateVoltage(zaman);
                             } else {
                                 r.V_Step = r.V;
                                 r.updateVoltage(zaman);

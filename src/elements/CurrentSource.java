@@ -149,7 +149,7 @@ public class CurrentSource extends Element {
             current = gain * dependentCurrentElement.getCurrent();
         }
         else if (!(negativeDependent == null || positiveDependent == null)){
-            current = gain * (positiveDependent.getVoltage() - negativeDependent.getVoltage());
+            current = gain * (positiveDependent.getV() - negativeDependent.getV());
         }
     }
 
