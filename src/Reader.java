@@ -150,7 +150,7 @@ public class Reader {
                                 negativeTerminal.addVoltageSource(voltageSource);
                                 addElement(positiveTerminal, negativeTerminal, voltageSource);
                             } else if (tokens[0].startsWith("i") || tokens[0].startsWith("I")) {
-                                CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, value);
+                                CurrentSource currentSource = new CurrentSource(name, negativeTerminal, positiveTerminal, value);
                                 elementHashMap.put(currentSource.getName(), currentSource);
                                 elements.add(currentSource);
                                 addElement(positiveTerminal, negativeTerminal, currentSource);
@@ -192,7 +192,7 @@ public class Reader {
                                 negativeTerminal.addVoltageSource(voltageSource);
                                 addElement(positiveTerminal, negativeTerminal, voltageSource);
                             } else if (tokens[0].startsWith("i") || tokens[0].startsWith("I")) {
-                                CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, offSet, amp, freq, phase);
+                                CurrentSource currentSource = new CurrentSource(name, negativeTerminal, positiveTerminal, offSet, amp, freq, phase);
                                 elementHashMap.put(currentSource.getName(), currentSource);
                                 elements.add(currentSource);
                                 addElement(positiveTerminal, negativeTerminal, currentSource);
@@ -293,7 +293,7 @@ public class Reader {
                         }
                         if (name.startsWith("g") || name.startsWith("G")) {
                             CurrentSource currentSource;
-                            currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, positiveDependentNode, negativeDependentNode, value);
+                            currentSource = new CurrentSource(name, negativeTerminal, positiveTerminal, positiveDependentNode, negativeDependentNode, value);
                             elementHashMap.put(currentSource.getName(), currentSource);
                             elements.add(currentSource);
                             addElement(positiveTerminal, negativeTerminal, currentSource);
@@ -323,7 +323,7 @@ public class Reader {
                         }
                         if (name.startsWith("f") || name.startsWith("F")) {
                             CurrentSource currentSource;
-                            currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, majorElement, value);
+                            currentSource = new CurrentSource(name, negativeTerminal, positiveTerminal, majorElement, value);
                             elementHashMap.put(currentSource.getName(), currentSource);
                             elements.add(currentSource);
                             addElement(positiveTerminal, negativeTerminal, currentSource);
@@ -393,6 +393,7 @@ public class Reader {
         }
     }
     public void findError() throws Minus4Exception, Minus2Exception, Minus5Exception, Minus3Exception {
+        //Error-4
         boolean hasGND = false;
         boolean isGNDNormal = true;
         for (Node node : nodes){
@@ -415,6 +416,8 @@ public class Reader {
         if (!hasGND || !isGNDNormal){
             throw new Minus4Exception();
         }
+        //Error -4
+        //Error -3
         boolean isKVLObjected = false;
         for (VoltageSource voltageSource : voltageSources){
             if (!voltageSource.isSetAsConnector() && voltageSource.getNegativeTerminal().getUnion() != 0){
@@ -427,9 +430,27 @@ public class Reader {
         }
         if (isKVLObjected)
             throw new Minus3Exception();
+        //Error -3
+        //Error -2
         for (Node node : nodes){
             node.checkForMinus2Exception(0);
         }
+        //Error -2
+        //Error -5
+        boolean hasFloat = false;
+        for (Node node : nodes){
+            if (node.getSaf().size() < 2){
+                hasFloat = true;
+                break;
+            }
+        }
+        Node gnd = nodes.get(0);
+/*        if (!hasFloat){
+            gnd.getSaf().
+        }*/
+        if (hasFloat)
+            throw new Minus5Exception();
+        //Error -5
     }
     private void throwReadingException(int lineNumber) throws ReadingException {
         throw new ReadingException(Integer.toString(lineNumber));
