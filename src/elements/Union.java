@@ -77,6 +77,11 @@ public class Union {
             node.updateVoltage(t);
         }
     }
+    public void updateVoltages (double t){
+        for (Node node : nodes){
+            node.updateVoltage(t);
+        }
+    }
     public void checkKCL(double t) throws Minus2Exception {
         mainNode.checkForMinus2Exception(t);
     }
