@@ -1,0 +1,27 @@
+.parent{
+
+    -fx-background-image: url("99815.jpg");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 1024 600;
+}
+.txt-fields{
+    -fx-background-color: transparent;
+}
+.vbox{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5px;
+}
+.txt-color{
+    -fx-text-fill: #999999;
+}
+.buttons{
+    -fx-background-color: #42E24f;
+    -fx-text-fill: #ffffff;
+}
+.buttons:hover{
+    -fx-background-color: #42E24f ;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #fff;
+    -fx-border-width: 1px;
+}

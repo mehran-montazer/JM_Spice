@@ -3,10 +3,25 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import elements.*;
 import handmadeExceptions.*;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 //har gooneh copy bardari as in code shar'an haram ast :)
-public class Main {
+public class Main extends Application {
+    public static Stage stage = null;
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("graphic/fxml.fxml"));
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("my title");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
     public static void main (String[] arg){
+        launch(arg);//in tikke ro be hamrah tabe start bala command koni eyne ghabl ejra mishe barname !
         ArrayList<Element> elements = null;
         ArrayList<Node> nodes = null;
         ArrayList<Union> unions = null;
@@ -16,7 +31,7 @@ public class Main {
         double t = 0;
         boolean isEnded = false;
         //Reading File Section
-        File file = new File("test/Test10.txt");
+        File file = new File("test/Test1.txt");
         Reader reader;
         try {
             reader = new Reader(file);
@@ -47,4 +62,6 @@ public class Main {
 //            }
         }
     }
+
+
 }
