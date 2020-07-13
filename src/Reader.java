@@ -66,6 +66,10 @@ public class Reader {
                     String name = tokens[0];
                     String positiveTerminalName = tokens[1];
                     String negativeTerminalName = tokens[2];
+                    if (positiveTerminalName.equals(negativeTerminalName) && (name.startsWith("v") || name.startsWith("V")))
+                        throwReadingException(lineNumber);
+                    if (elementHashMap.containsKey(name))
+                        throwReadingException(lineNumber);
                     for (i = 0; i < nodes.size(); i++) {
                         if (nodes.get(i).getName().equals(positiveTerminalName))
                             positiveTerminal = nodes.get(i);
