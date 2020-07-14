@@ -360,11 +360,11 @@ public class Solver {
                 for (int i = 0; i < node.moshakhassats.size(); i++) {
                     o ++;
                     if (o % 10000 == 0 ) {
-                        System.out.printf(" ,%.3f", node.moshakhassats.get(i).voltage);
+                        System.out.printf(" ,%.6f", node.moshakhassats.get(i).voltage);
                     }
                 }
                 System.out.println(" ");
-                System.out.println("---------------------------------------------");
+                System.out.println("----------------------------------------------");
         }
         o =0;
         System.out.println("-----------------information of elements----------------");
@@ -373,7 +373,7 @@ public class Solver {
                 for (int i = 0; i < element.moshakhassats.size(); i++) {
                     o++;
                     if (o % 10000 == 0) {
-                        System.out.printf("V=%.4f , I=%.4f , P=%.4f  ", element.moshakhassats.get(i).voltage, element.moshakhassats.get(i).current, element.moshakhassats.get(i).power);
+                        System.out.printf("V=%.6f , I=%.6f , P=%.6f  ", element.moshakhassats.get(i).voltage, element.moshakhassats.get(i).current, element.moshakhassats.get(i).power);
                     }
                 }
                 System.out.println(" ");
