@@ -293,7 +293,7 @@ public class Solver {
                         else {
                             u.calculateCurrent();
                         }
-                        power = (-1*u.current)*(u.positiveTerminal.getV() - u.negativeTerminal.getV());
+                        power = (u.current)*(u.positiveTerminal.getV() - u.negativeTerminal.getV());
                         moshakhassat = new moshakhassat(voltage,u.current,power);
                     }
                     else {

@@ -31,7 +31,7 @@ public class Main  {
         double t = 0;
         boolean isEnded = false;
         //Reading File Section
-        File file = new File("test/Test1.txt");
+        File file = new File("test/Test2.txt");
         Reader reader;
         try {
             reader = new Reader(file);

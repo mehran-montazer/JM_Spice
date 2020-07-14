@@ -158,7 +158,7 @@ public class Reader {
                                 negativeTerminal.addVoltageSource(voltageSource);
                                 addElement(positiveTerminal, negativeTerminal, voltageSource);
                             } else if (tokens[0].startsWith("i") || tokens[0].startsWith("I")) {
-                                CurrentSource currentSource = new CurrentSource(name, negativeTerminal, positiveTerminal, value);
+                                CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, value * (-1));
                                 elementHashMap.put(currentSource.getName(), currentSource);
                                 elements.add(currentSource);
                                 addElement(positiveTerminal, negativeTerminal, currentSource);
@@ -194,7 +194,7 @@ public class Reader {
                                 negativeTerminal.addVoltageSource(voltageSource);
                                 addElement(positiveTerminal, negativeTerminal, voltageSource);
                             } else if (tokens[0].startsWith("i") || tokens[0].startsWith("I")) {
-                                CurrentSource currentSource = new CurrentSource(name, negativeTerminal, positiveTerminal, offSet, amp, freq, phase);
+                                CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, offSet * (-1), amp * (-1), freq, phase);
                                 elementHashMap.put(currentSource.getName(), currentSource);
                                 elements.add(currentSource);
                                 addElement(positiveTerminal, negativeTerminal, currentSource);
@@ -299,7 +299,7 @@ public class Reader {
                         }
                         if (name.startsWith("g") || name.startsWith("G")) {
                             CurrentSource currentSource;
-                            currentSource = new CurrentSource(name, negativeTerminal, positiveTerminal, positiveDependentNode, negativeDependentNode, value);
+                            currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, positiveDependentNode, negativeDependentNode, value * (-1));
                             elementHashMap.put(currentSource.getName(), currentSource);
                             elements.add(currentSource);
                             addElement(positiveTerminal, negativeTerminal, currentSource);
@@ -329,7 +329,7 @@ public class Reader {
                         }
                         if (name.startsWith("f") || name.startsWith("F")) {
                             CurrentSource currentSource;
-                            currentSource = new CurrentSource(name, negativeTerminal, positiveTerminal, majorElement, value);
+                            currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, majorElement, value * (-1));
                             elementHashMap.put(currentSource.getName(), currentSource);
                             elements.add(currentSource);
                             addElement(positiveTerminal, negativeTerminal, currentSource);
