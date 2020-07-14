@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -61,6 +66,73 @@
          <effect>
             <DropShadow />
          </effect>
+      </AnchorPane>
+      <AnchorPane prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: #fffff;" styleClass="home" stylesheets="@stylesheet.css">
+         <children>
+            <VBox layoutY="-1.0" prefHeight="801.0" prefWidth="307.0" style="-fx-background-color: #f0f7ff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1093.0" AnchorPane.topAnchor="-1.0">
+               <children>
+                  <Button fx:id="homepage" mnemonicParsing="false" onAction="#buttonactionhandler" prefHeight="83.0" prefWidth="316.0" style="-fx-background-color: #f0f7ff;" styleClass="butto" stylesheets="@stylesheet.css" text="Home page">
+                     <font>
+                        <Font name="Impact" size="30.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="circuitgraph" mnemonicParsing="false" onAction="#buttonactionhandler" prefHeight="83.0" prefWidth="316.0" style="-fx-background-color: #f0f7ff;" styleClass="butto" stylesheets="@stylesheet.css" text="Circuit graph" textFill="#0d0d0d">
+                     <font>
+                        <Font name="Impact" size="30.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="chart" mnemonicParsing="false" onAction="#buttonactionhandler" prefHeight="83.0" prefWidth="316.0" style="-fx-background-color: #f0f7ff #f0f7ff;" stylesheets="@stylesheet.css" text="Chart" textFill="#1b1b1b">
+                     <font>
+                        <Font name="Impact" size="30.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="sidebar" />
+                        <String fx:value="butto" />
+                     </styleClass>
+                  </Button>
+                  <Button fx:id="aboutus" mnemonicParsing="false" onAction="#buttonactionhandler" prefHeight="83.0" prefWidth="316.0" style="-fx-background-color: #f0f7ff #f0f7ff;" stylesheets="@stylesheet.css" text="About us">
+                     <font>
+                        <Font name="Impact" size="30.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="sidebar" />
+                        <String fx:value="butto" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </VBox>
+            <AnchorPane layoutX="312.0" prefHeight="810.0" prefWidth="1098.0">
+               <children>
+                  <Pane fx:id="pane2" layoutX="10.0" layoutY="10.0" prefHeight="809.0" prefWidth="1104.0" visible="false" />
+                  <Pane fx:id="pane4" prefHeight="809.0" prefWidth="1104.0" visible="false" />
+                  <Pane fx:id="pane1" layoutX="13.0" layoutY="13.0" prefHeight="793.0" prefWidth="1077.0">
+                     <children>
+                        <Button fx:id="Load" layoutX="213.0" layoutY="76.0" mnemonicParsing="false" onAction="#read_text" prefHeight="42.0" prefWidth="259.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Load" />
+                        <Button fx:id="Run" layoutX="649.0" layoutY="74.0" mnemonicParsing="false" onAction="#write_text" prefHeight="42.0" prefWidth="259.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Run" />
+                        <TextArea fx:id="textArea" layoutX="54.0" layoutY="148.0" prefHeight="632.0" prefWidth="964.0" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="pane3" prefHeight="808.0" prefWidth="1093.0" visible="false">
+                     <children>
+                        <LineChart fx:id="lineChart" layoutX="98.0" layoutY="205.0" prefHeight="527.0" prefWidth="929.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                        <ComboBox layoutX="277.0" layoutY="111.0" prefHeight="42.0" prefWidth="213.0" promptText="Choose element ... " />
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="-1.0" layoutY="-3.0" prefHeight="819.0" prefWidth="54.0" style="-fx-background-color: #ffffff;">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </AnchorPane>
+         </children>
       </AnchorPane>
    </children>
 </AnchorPane>
