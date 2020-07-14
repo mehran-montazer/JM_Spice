@@ -1,9 +1,12 @@
 package elements;
 
+import java.util.ArrayList;
+
 public abstract class Element {
     protected static double di;
     protected static double dv;
     protected static double dt;
+    public ArrayList<moshakhassat> moshakhassats = new ArrayList<moshakhassat>();
     protected Node positiveTerminal;
     protected Node negativeTerminal;
     protected double current;

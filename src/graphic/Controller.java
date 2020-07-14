@@ -43,9 +43,6 @@ public class Controller implements Initializable {
 //
 //        }
 //}
-    public void close(ActionEvent event) {
-        System.exit(0);
-    }
     public void start(ActionEvent event) throws Exception{
             Parent app_page = FXMLLoader.load(getClass().getResource("fxml2.fxml"));
         Scene app_page_scene  = new Scene(app_page);

@@ -5,6 +5,14 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: 1024 600;
 }
+.home{
+    -fx-background-color: white;
+    -fx-position-shape: true;
+}
+.sidebar{
+    -fx-background-color: #42E24f;
+
+}
 .txt-fields{
     -fx-background-color: transparent;
 }
@@ -21,6 +29,20 @@
 }
 .buttons:hover{
     -fx-background-color: #42E24f ;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #fff;
+    -fx-border-width: 1px;
+}
+.buttons:pressed{
+    -fx-background-color: #b0ffa7;
+}
+.butto1{
+    -fx-background-color: #000000;
+    -fx-text-fill: black;
+    -fx-text-fill: #ffffff;
+}
+.butto:hover{
+    -fx-background-color: #000000 ;
     -fx-text-fill: #ffffff;
     -fx-border-color: #fff;
     -fx-border-width: 1px;

@@ -1,10 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.controller2">
+<AnchorPane prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: #fffff;" styleClass="home" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphic.controller2">
    <children>
-      <Label layoutX="285.0" layoutY="192.0" text="salam" />
+      <VBox layoutY="-1.0" prefHeight="801.0" prefWidth="307.0" style="-fx-background-color: #f0f7ff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1093.0" AnchorPane.topAnchor="-1.0">
+         <children>
+            <Button fx:id="homepage" mnemonicParsing="false" onAction="#buttonactionhandler" prefHeight="83.0" prefWidth="316.0" style="-fx-background-color: #f0f7ff;" styleClass="butto" stylesheets="@stylesheet.css" text="Home page">
+               <font>
+                  <Font name="Impact" size="30.0" />
+               </font>
+            </Button>
+            <Button fx:id="circuitgraph" mnemonicParsing="false" onAction="#buttonactionhandler" prefHeight="83.0" prefWidth="316.0" style="-fx-background-color: #f0f7ff;" styleClass="butto" stylesheets="@stylesheet.css" text="Circuit graph" textFill="#0d0d0d">
+               <font>
+                  <Font name="Impact" size="30.0" />
+               </font>
+            </Button>
+            <Button fx:id="chart" mnemonicParsing="false" onAction="#buttonactionhandler" prefHeight="83.0" prefWidth="316.0" style="-fx-background-color: #f0f7ff #f0f7ff;" stylesheets="@stylesheet.css" text="Chart" textFill="#1b1b1b">
+               <font>
+                  <Font name="Impact" size="30.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="sidebar" />
+                  <String fx:value="butto" />
+               </styleClass>
+            </Button>
+            <Button fx:id="aboutus" mnemonicParsing="false" onAction="#buttonactionhandler" prefHeight="83.0" prefWidth="316.0" style="-fx-background-color: #f0f7ff #f0f7ff;" stylesheets="@stylesheet.css" text="About us">
+               <font>
+                  <Font name="Impact" size="30.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="sidebar" />
+                  <String fx:value="butto" />
+               </styleClass>
+            </Button>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="312.0" prefHeight="810.0" prefWidth="1098.0">
+         <children>
+            <Pane fx:id="pane1" prefHeight="809.0" prefWidth="1104.0">
+               <children>
+                  <Button layoutX="329.0" layoutY="127.0" mnemonicParsing="false" text="Button" />
+               </children>
+            </Pane>
+            <Pane fx:id="pane2" layoutX="10.0" layoutY="10.0" prefHeight="809.0" prefWidth="1104.0" />
+            <Pane fx:id="pane3" layoutX="10.0" layoutY="10.0" prefHeight="809.0" prefWidth="1104.0" />
+            <Pane fx:id="pane4" prefHeight="809.0" prefWidth="1104.0">
+               <children>
+                  <Button layoutX="105.0" layoutY="377.0" mnemonicParsing="false" text="Button" />
+               </children>
+            </Pane>
+         </children></AnchorPane>
+      <AnchorPane layoutX="-1.0" layoutY="-3.0" prefHeight="805.0" prefWidth="54.0" style="-fx-background-color: #ffffff;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
    </children>
 </AnchorPane>

@@ -23,6 +23,7 @@ public class Node implements Comparable{
     private boolean isConnectorNormal;
     private boolean isDependent;
     private boolean isReval = false;
+    public ArrayList<moshakhassat> moshakhassats  = new ArrayList<moshakhassat>();
     ////////////////////////////////constructor////////////////////////
     public Node(String name){
         this.name = name;

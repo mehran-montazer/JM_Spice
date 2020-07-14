@@ -10,18 +10,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 //har gooneh copy bardari as in code shar'an haram ast :)
-public class Main extends Application {
-    public static Stage stage = null;
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("graphic/fxml.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("my title");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
+public class Main  {
+//    public static Stage stage = null;
+//    @Override
+//    public void start(Stage primaryStage) throws Exception {
+//        Parent root = FXMLLoader.load(getClass().getResource("graphic/fxml.fxml"));
+//        Scene scene = new Scene(root);
+//        primaryStage.setTitle("my title");
+//        primaryStage.setScene(scene);
+//        primaryStage.show();
+//    }
     public static void main (String[] arg){
-        launch(arg);//in tikke ro be hamrah tabe start bala command koni eyne ghabl ejra mishe barname !
+//        launch(arg);//in tikke ro be hamrah tabe start bala command koni eyne ghabl ejra mishe barname !
         ArrayList<Element> elements = null;
         ArrayList<Node> nodes = null;
         ArrayList<Union> unions = null;
@@ -57,6 +57,7 @@ public class Main extends Application {
         if (!isEnded) {
             Solver solver = new Solver(elements, nodes, unions, dt, dv, di, t);
             solver.update_nodes();
+            solver.print_console();
 //            for (Node node : nodes) {
 //                System.out.println(node.getName() + ":" + "\t" + node.getV());
 //            }

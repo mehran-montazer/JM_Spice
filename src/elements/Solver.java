@@ -10,6 +10,7 @@ public class Solver {
     ArrayList<Element> elements;
     ArrayList<Node> nodes;
     ArrayList <Union> unions;
+    ArrayList<moshakhassat> moshakhassats;
     double dt,dv,di,t;
     public Solver(ArrayList<Element> elements, ArrayList<Node> nodes, ArrayList<Union> unions, double dt, double dv,double di,double t) {
         this.elements = elements;
@@ -264,6 +265,36 @@ public class Solver {
                     cnt++;
                 }
             }
+            for (Element element : elements){
+                double voltage = element.positiveTerminal.getV() - element.negativeTerminal.getV();
+                double power =0 ;
+                moshakhassat moshakhassat = null;
+                if (element.type != 'v') {
+                    if (element.type == 'i'){
+                        CurrentSource u  = (CurrentSource) element ;
+                        if (u.isAC()){
+                            u.calculateCurrent(zaman);
+                        }
+                        else {
+                            u.calculateCurrent();
+                        }
+                        power = (-1*u.current)*(u.positiveTerminal.getV() - u.negativeTerminal.getV());
+                        moshakhassat = new moshakhassat(voltage,u.current,power);
+                    }
+                    else {
+                        power = voltage * element.current;
+                        moshakhassat = new moshakhassat(voltage,element.current,power);
+                    }
+                }
+                else {
+                    moshakhassat = get_branch_current(element, zaman);
+                }
+                element.moshakhassats.add(moshakhassat);
+            }
+            for (Node node: nodes){
+                moshakhassat moshakhassat = new moshakhassat(node.getV());
+                node.moshakhassats.add(moshakhassat);
+            }
 //            count ++;
 //            if (count % 5000 == 0) {
 //                System.out.println("t = " + zaman + "\t");
@@ -271,6 +302,82 @@ public class Solver {
 //                    System.out.println(node.getName() + ":" + "\t" + node.getV());
 //                }
 //            }
+        }
+    }
+    public moshakhassat get_branch_current(Element q,double zaman){
+        int cnt = q.positiveTerminal.getNameNumber();
+        double voltage = q.positiveTerminal.getV() - q.negativeTerminal.getV();
+        double I_n=0,I_p=0;
+        double jaryan=0 ;
+        for (Element e : this.elements) {
+            if (e.positiveTerminal.getNameNumber() == cnt && e.type != 'v') {
+                if (e.type == 'i') {
+                    CurrentSource u  = (CurrentSource) e ;
+                    if (u.isAC()){
+                        u.calculateCurrent(zaman);
+                    }
+                    else {
+                        u.calculateCurrent();
+                    }
+                    I_n += u.current;
+
+                } else if (e.type == 'r') {
+                    I_n += e.calculateCurrentR();
+
+                } else if (e.type == 'l') {
+                    I_n += e.calculateCurrentL();
+
+                } else if (e.type == 'c') {
+                    I_n += e.calculateCurrentC();
+
+                }
+            } else if (e.negativeTerminal.getNameNumber() == cnt && e.type != 'v') {
+                if (e.type == 'i') {
+                    CurrentSource u  = (CurrentSource) e ;
+                    if (u.isAC()){
+                        u.calculateCurrent(zaman);
+                    }
+                    else {
+                        u.calculateCurrent();
+                    }
+                    I_n -= u.current;
+                } else if (e.type == 'r') {
+                    I_n -= e.calculateCurrentR();
+                } else if (e.type == 'l') {
+                    I_n -= e.calculateCurrentL();
+                } else if (e.type == 'c') {
+                    I_n -= e.calculateCurrentC();
+                }
+            }
+        }
+        return new moshakhassat(voltage,-1*I_n,(-1 * I_n) * voltage);
+    }
+    public void print_console(){
+        int o=0;
+        System.out.println("-------------Voltage of nodes in time steps : ----------------");
+        for (Node node : nodes){
+                System.out.print("Node" + node.getNameNumber() + ": ");
+                for (int i = 0; i < node.moshakhassats.size(); i++) {
+                    o ++;
+                    if (o % 10000 == 0 ) {
+                        System.out.printf(" ,%.3f", node.moshakhassats.get(i).voltage);
+                    }
+                }
+                System.out.println(" ");
+                System.out.println("---------------------------------------------");
+        }
+        o =0;
+        System.out.println("-----------------information of elements----------------");
+        for (Element element : elements){
+                System.out.printf(element.name + ":  ");
+                for (int i = 0; i < element.moshakhassats.size(); i++) {
+                    o++;
+                    if (o % 10000 == 0) {
+                        System.out.printf("V=%.4f , I=%.4f , P=%.4f  ", element.moshakhassats.get(i).voltage, element.moshakhassats.get(i).current, element.moshakhassats.get(i).power);
+                    }
+                }
+                System.out.println(" ");
+                System.out.println("---------------------------------------------");
         }
     }
 }
