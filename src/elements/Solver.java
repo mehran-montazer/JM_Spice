@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public class Solver {
 //lets solve this mother fucker!!!
+    public static Solver solver;
     ArrayList<Element> elements;
     ArrayList<Node> nodes;
     ArrayList <Union> unions;
@@ -20,8 +21,22 @@ public class Solver {
         this.dv = dv;
         this.di = di;
         this.t = t;
+        Solver.solver= this;
     }
-//    public  void updaate_elemnts(){
+
+    public static Solver getSolver() {
+        return solver;
+    }
+
+    public ArrayList<Element> getElements() {
+        return elements;
+    }
+
+    public ArrayList<Node> getNodes() {
+        return nodes;
+    }
+
+    //    public  void updaate_elemnts(){
 //        for(int i=0 ; i <elements.size() ; i ++){
 //            elements.get(i).update_element(dt,dv);
 //        }
