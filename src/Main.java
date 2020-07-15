@@ -32,7 +32,7 @@ public class Main extends Application {
         double t = 0;
         boolean isEnded = false;
         //Reading File Section
-        File file = new File("test/Test2.txt");
+        File file = new File("test/Test3.txt");
         Reader reader;
         try {
             reader = new Reader(file);

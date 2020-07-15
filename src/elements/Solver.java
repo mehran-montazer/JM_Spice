@@ -2,6 +2,7 @@ package elements;
 
 
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -294,11 +295,21 @@ public class Solver {
                             u.calculateCurrent();
                         }
                         power = (u.current)*(u.positiveTerminal.getV() - u.negativeTerminal.getV());
-                        moshakhassat = new moshakhassat(voltage,u.current,power);
+                        moshakhassat = new moshakhassat(voltage,u.current,power,zaman);
                     }
                     else {
-                        power = voltage * element.current;
-                        moshakhassat = new moshakhassat(voltage,element.current,power);
+                        if (element.type == 'c'){
+                            power = voltage * element.I;
+                            moshakhassat = new moshakhassat(voltage,element.I,power,zaman);
+                        }
+                        else if (element.type == 'l'){
+                            power = voltage * element.I_n;
+                            moshakhassat = new moshakhassat(voltage,element.I_n,power,zaman);
+                        }
+                        else if (element.type == 'r'){
+                            power = voltage * element.current;
+                            moshakhassat = new moshakhassat(voltage,element.current,power,zaman);
+                        }
                     }
                 }
                 else {
@@ -365,7 +376,7 @@ public class Solver {
                 }
             }
         }
-        return new moshakhassat(voltage,-1*I_n,(-1 * I_n) * voltage);
+        return new moshakhassat(voltage,-1*I_n,(-1 * I_n) * voltage,zaman);
     }
     public void print_console(){
         int o=0;
@@ -375,7 +386,7 @@ public class Solver {
                 for (int i = 0; i < node.moshakhassats.size(); i++) {
                     o ++;
                     if (o % 10000 == 0 ) {
-                        System.out.printf(" ,%.6f", node.moshakhassats.get(i).voltage);
+                        System.out.printf(" ,%.6f , t =%.3f , ", node.moshakhassats.get(i).voltage,node.moshakhassats.get(i).t);
                     }
                 }
                 System.out.println(" ");
@@ -387,8 +398,8 @@ public class Solver {
                 System.out.printf(element.name + ":  ");
                 for (int i = 0; i < element.moshakhassats.size(); i++) {
                     o++;
-                    if (o % 10000 == 0) {
-                        System.out.printf("V=%.6f , I=%.6f , P=%.6f  ", element.moshakhassats.get(i).voltage, element.moshakhassats.get(i).current, element.moshakhassats.get(i).power);
+                    if (o % 1000 == 0) {
+                        System.out.printf("t = %.3f  ,V=%.6f , I=%.6f , P=%.6f  ", element.moshakhassats.get(i).t,element.moshakhassats.get(i).voltage, element.moshakhassats.get(i).current, element.moshakhassats.get(i).power);
                     }
                 }
                 System.out.println(" ");
