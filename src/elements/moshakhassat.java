@@ -11,7 +11,8 @@ public class moshakhassat {
         this.power = power;
         this.t = t;
     }
-    public moshakhassat(double voltage) {
+    public moshakhassat(double voltage,double t) {
         this.voltage = voltage;
+        this.t = t;
     }
 }

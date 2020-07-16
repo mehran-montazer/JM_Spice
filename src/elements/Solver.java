@@ -2,6 +2,10 @@ package elements;
 
 
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +39,9 @@ public class Solver {
 
     public ArrayList<Node> getNodes() {
         return nodes;
+    }
+    public ArrayList<Union> getUnions() {
+        return unions;
     }
 
     //    public  void updaate_elemnts(){
@@ -318,7 +325,7 @@ public class Solver {
                 element.moshakhassats.add(moshakhassat);
             }
             for (Node node: nodes){
-                moshakhassat moshakhassat = new moshakhassat(node.getV());
+                moshakhassat moshakhassat = new moshakhassat(node.getV(),zaman);
                 node.moshakhassats.add(moshakhassat);
             }
 //            count ++;
@@ -378,32 +385,42 @@ public class Solver {
         }
         return new moshakhassat(voltage,-1*I_n,(-1 * I_n) * voltage,zaman);
     }
-    public void print_console(){
+    public void print_console() throws IOException {
+        File file = new File("test/output.txt");
+        FileWriter fw = new FileWriter(file);
+        BufferedWriter bw = new BufferedWriter(fw);
         int o=0;
-        System.out.println("-------------Voltage of nodes in time steps : ----------------");
+        bw.write("-------------Voltage of nodes in time steps : ----------------");
+        bw.newLine();
         for (Node node : nodes){
-                System.out.print("Node" + node.getNameNumber() + ": ");
+                bw.write("Node" + node.getNameNumber() + ": ");
                 for (int i = 0; i < node.moshakhassats.size(); i++) {
                     o ++;
-                    if (o % 10000 == 0 ) {
-                        System.out.printf(" ,%.6f , t =%.3f , ", node.moshakhassats.get(i).voltage,node.moshakhassats.get(i).t);
+                    if (o % 1000 == 0 ) {
+                        String string = String.format("t =%.6f ,V =  %.6f , ", node.moshakhassats.get(i).t,node.moshakhassats.get(i).voltage);
+                        bw.write(string);
                     }
                 }
-                System.out.println(" ");
-                System.out.println("----------------------------------------------");
+                bw.newLine();
+                bw.write("----------------------------------------------");
+                bw.newLine();
         }
         o =0;
-        System.out.println("-----------------information of elements----------------");
+        bw.write("-----------------information of elements----------------");
+        bw.newLine();
         for (Element element : elements){
-                System.out.printf(element.name + ":  ");
+                bw.write(element.name + ":  ");
                 for (int i = 0; i < element.moshakhassats.size(); i++) {
                     o++;
                     if (o % 1000 == 0) {
-                        System.out.printf("t = %.3f  ,V=%.6f , I=%.6f , P=%.6f  ", element.moshakhassats.get(i).t,element.moshakhassats.get(i).voltage, element.moshakhassats.get(i).current, element.moshakhassats.get(i).power);
+                        String string = String.format("t = %.3f  ,V=%.6f , I=%.6f , P=%.6f , ", element.moshakhassats.get(i).t,element.moshakhassats.get(i).voltage, element.moshakhassats.get(i).current, element.moshakhassats.get(i).power);
+                        bw.write(string);
                     }
                 }
-                System.out.println(" ");
-                System.out.println("---------------------------------------------");
+                bw.newLine();
+                bw.write("---------------------------------------------");
+                bw.newLine();
         }
+        bw.close();
     }
 }

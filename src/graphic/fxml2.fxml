@@ -112,19 +112,6 @@
                         <TextArea fx:id="textArea" layoutX="54.0" layoutY="148.0" prefHeight="632.0" prefWidth="964.0" />
                      </children>
                   </Pane>
-                  <Pane fx:id="pane3" prefHeight="808.0" prefWidth="1093.0" visible="false">
-                     <children>
-                        <LineChart fx:id="lineChart" layoutX="98.0" layoutY="205.0" prefHeight="527.0" prefWidth="929.0">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </LineChart>
-                        <ComboBox layoutX="277.0" layoutY="111.0" prefHeight="42.0" prefWidth="213.0" promptText="Choose element ... " />
-                     </children>
-                  </Pane>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="-1.0" layoutY="-3.0" prefHeight="819.0" prefWidth="54.0" style="-fx-background-color: #ffffff;">
@@ -134,5 +121,19 @@
             </AnchorPane>
          </children>
       </AnchorPane>
+      <Pane fx:id="pane3" layoutX="312.0" layoutY="2.0" prefHeight="815.0" prefWidth="1117.0" visible="false">
+         <children>
+            <LineChart fx:id="lineChart" layoutX="98.0" layoutY="205.0" prefHeight="527.0" prefWidth="929.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <ComboBox fx:id="kachal" layoutX="277.0" layoutY="111.0" prefHeight="42.0" prefWidth="213.0" promptText="Choose element ... " />
+            <Button layoutX="550.0" layoutY="100.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="259.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Plot" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

@@ -1,8 +1,11 @@
 package graphic;
 
+import com.sun.tools.javac.Main;
 import elements.Element;
 import elements.Node;
 import elements.Solver;
+import elements.Union;
+import handmadeExceptions.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,9 +25,11 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class controller2 implements Initializable {
-    Solver solver = Solver.getSolver();
-    ArrayList<Element> elements = solver.getElements();
-    ArrayList<Node> nodes = solver.getNodes();
+//    Solver solver = Solver.getSolver();
+    ArrayList<Element> elements = null;
+    ArrayList<Node> nodes = null;
+    ArrayList<Union> unions = null;
+      Solver solver ;
     @FXML
     private Button homepage,chart,circuitgraph,aboutus,load,run;
     @FXML
@@ -33,11 +38,15 @@ public class controller2 implements Initializable {
     private TextArea textArea;
     @FXML
     private LineChart<String,Number> lineChart;
+    @FXML
     private XYChart.Series<String,Number> series,series1,series2;
-    private ComboBox<String> comboBox ;
-    private ObservableList<String> list = FXCollections.observableArrayList("salam");
+    @FXML
+    private ComboBox<String> kachal ;
+
+    ObservableList<String> list = FXCollections.observableArrayList();
 
 
+    @FXML
     public void buttonactionhandler (javafx.event.ActionEvent e){
         if (e.getSource() == homepage){
             pane1.setVisible(true);
@@ -77,6 +86,7 @@ public class controller2 implements Initializable {
         series1.setName("I");
         series2 = new XYChart.Series<>();
         series2.setName("P");
+        kachal.setItems(list);
     }
     public void read_text(javafx.event.ActionEvent e){
         String y = "";
@@ -103,7 +113,8 @@ public class controller2 implements Initializable {
         }
         textArea.setText(contentBuilder.toString());
     }
-    public void write_text(javafx.event.ActionEvent e){
+    @FXML
+    public void write_text(javafx.event.ActionEvent e) throws IOException {
         try {
             File file = new File("test/test.txt");
             FileWriter fw = new FileWriter(file);
@@ -115,6 +126,58 @@ public class controller2 implements Initializable {
         catch (IOException q)
         {
             q.printStackTrace();
+        }
+        madar_solver();
+        ArrayList<Element> elements = solver.getElements();
+        ArrayList<Node> nodes = solver.getNodes();
+        ArrayList<Union> unions = solver.getUnions();
+        for (Element element: elements){
+            kachal.getItems().addAll(element.getName()) ;
+        }
+    }
+    public void madar_solver() throws IOException {
+        ArrayList<Element> elements = null;
+        ArrayList<Node> nodes = null;
+        ArrayList<Union> unions = null;
+        double dv = 0;
+        double dt = 0;
+        double di = 0;
+        double t = 0;
+        boolean isEnded = false;
+        //Reading File Section
+        File file = new File("./test/test.txt");
+        Reader reader;
+        try {
+            reader = new Reader(file);
+            reader.read();
+            nodes = reader.getNodes();
+            unions = reader.getUnions();
+            elements = reader.getElements();
+            dv = reader.getDv();
+            di = reader.getDi();
+            dt = reader.getDt();
+            Element.setDi(di);
+            Element.setDv(dv);
+            Element.setDt(dt);
+            t = reader.getT();
+            reader.findError();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (Minus1Exception | Minus2Exception | ReadingException | Minus4Exception | Minus5Exception | Minus3Exception e){
+            System.out.println(e.getMessage());
+            isEnded = true;
+        }
+//        elements = solver.getElements();
+//        nodes = solver.getNodes();
+//        unions = solver.getUnions();
+        if (!isEnded) {
+            solver = new Solver(elements, nodes, unions, dt, dv, di, t);
+            solver.update_nodes();
+            solver.print_console();
+//            for (Node node : nodes) {
+//                System.out.println(node.getName() + ":" + "\t" + node.getV());
+//            }
         }
     }
 

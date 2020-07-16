@@ -1,3 +1,5 @@
+package graphic;
+
 import elements.*;
 import handmadeExceptions.*;
 import java.io.File;
@@ -7,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Reader {
+    public static Reader reader;
     private boolean isEnded = false;
     private ArrayList<Element> elements = new ArrayList<>();
     private HashMap<String, Element> elementHashMap = new HashMap<>();
@@ -22,6 +25,10 @@ public class Reader {
     ///////////////////////////////////constructor/////////////////////////////////
     Reader (File file) throws FileNotFoundException {
         scanner = new Scanner(file);
+        Reader.reader = this;
+    }
+    public static Reader getSolver() {
+        return reader;
     }
     /////////////////////////////////////getter////////////////////////////////////
     public ArrayList<Node> getNodes() {
