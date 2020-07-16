@@ -12,6 +12,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
@@ -36,11 +37,13 @@ public class controller2 implements Initializable {
     @FXML
     private TextArea textArea;
     @FXML
-    private LineChart<String,Number> lineChart;
+    private LineChart<String,Number> lineChart,lineChart1,lineChart2,lineChart3;
     @FXML
-    private XYChart.Series<String,Number> series,series1,series2;
+    private XYChart.Series<String,Number> series,series1,series2,series3,series4,series5;
     @FXML
     private ComboBox<String> kachal ;
+    @FXML
+    private TextField time;
 
     ObservableList<String> list = FXCollections.observableArrayList();
 
@@ -85,6 +88,12 @@ public class controller2 implements Initializable {
         series1.setName("I");
         series2 = new XYChart.Series<>();
         series2.setName("P");
+        series3 = new XYChart.Series<>();
+        series3.setName("V");
+        series4 = new XYChart.Series<>();
+        series4.setName("I");
+        series5 = new XYChart.Series<>();
+        series5.setName("P");
         kachal.setItems(list);
 //        series.getData().addAll(new XYChart.Data("1",20));
 //        series.getData().addAll(new XYChart.Data("2",-00000.2));
@@ -189,6 +198,7 @@ public class controller2 implements Initializable {
     }
     @FXML
     public void plotter(javafx.event.ActionEvent e){
+        double analyse = Double.parseDouble(time.getText());
         ArrayList<Element> elements = solver.getElements();
         ArrayList<Node> nodes = solver.getNodes();
         ArrayList<Union> unions = solver.getUnions();
@@ -201,16 +211,23 @@ public class controller2 implements Initializable {
         }
         int p=-1;
         for (moshakhassat vizh : vizhegi){
-            p ++;
-            if (p % 100000 == 0){
-                series.getData().addAll(new XYChart.Data(Double.toString(vizh.t),vizh.voltage));
-                series1.getData().addAll(new XYChart.Data(Double.toString(vizh.t),vizh.current));
-                series2.getData().addAll(new XYChart.Data(Double.toString(vizh.t),vizh.power));
-            }
+                p++;
+                if (p % 10000 == 0 && (vizh.t < analyse)) {
+                    series.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.voltage));
+                    series3.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.voltage));
+                    series1.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.current));
+                    series4.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.current));
+                    series2.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.power));
+                    series5.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.power));
+                }
         }
-        lineChart.getData().addAll(series);
-        lineChart.getData().addAll(series1);
-        lineChart.getData().addAll(series2);
+        lineChart.getData().addAll(series3);
+        lineChart.getData().addAll(series4);
+        lineChart.getData().addAll(series5);
+        lineChart1.getData().addAll(series);
+        lineChart2.getData().addAll(series1);
+        lineChart3.getData().addAll(series2);
+
     }
     @FXML
     public void reset_chart(javafx.event.ActionEvent q){
