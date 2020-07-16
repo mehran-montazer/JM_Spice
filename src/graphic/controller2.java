@@ -1,10 +1,7 @@
 package graphic;
 
 import com.sun.tools.javac.Main;
-import elements.Element;
-import elements.Node;
-import elements.Solver;
-import elements.Union;
+import elements.*;
 import handmadeExceptions.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,8 +27,10 @@ public class controller2 implements Initializable {
     ArrayList<Node> nodes = null;
     ArrayList<Union> unions = null;
       Solver solver ;
+      ArrayList<moshakhassat> vizhegi;
+      double stepof=0,stepan=0;
     @FXML
-    private Button homepage,chart,circuitgraph,aboutus,load,run;
+    private Button remover,plot,homepage,chart,circuitgraph,aboutus,load,run;
     @FXML
     private Pane pane1,pane2,pane3,pane4;
     @FXML
@@ -87,6 +86,12 @@ public class controller2 implements Initializable {
         series2 = new XYChart.Series<>();
         series2.setName("P");
         kachal.setItems(list);
+//        series.getData().addAll(new XYChart.Data("1",20));
+//        series.getData().addAll(new XYChart.Data("2",-00000.2));
+//        series.getData().addAll(new XYChart.Data("3",20000000));
+//        lineChart.getData().addAll(series);
+
+
     }
     public void read_text(javafx.event.ActionEvent e){
         String y = "";
@@ -172,6 +177,8 @@ public class controller2 implements Initializable {
 //        nodes = solver.getNodes();
 //        unions = solver.getUnions();
         if (!isEnded) {
+            stepof = (t/dt) / 1000;
+            stepan = dt;
             solver = new Solver(elements, nodes, unions, dt, dv, di, t);
             solver.update_nodes();
             solver.print_console();
@@ -179,6 +186,38 @@ public class controller2 implements Initializable {
 //                System.out.println(node.getName() + ":" + "\t" + node.getV());
 //            }
         }
+    }
+    @FXML
+    public void plotter(javafx.event.ActionEvent e){
+        ArrayList<Element> elements = solver.getElements();
+        ArrayList<Node> nodes = solver.getNodes();
+        ArrayList<Union> unions = solver.getUnions();
+        String name = kachal.getValue();
+        for (Element element : elements){
+            if (element.getName().equals(name)){
+                vizhegi  = element.getMoshakhassats();
+                break;
+            }
+        }
+        int p=-1;
+        for (moshakhassat vizh : vizhegi){
+            p ++;
+            if (p % 100000 == 0){
+                series.getData().addAll(new XYChart.Data(Double.toString(vizh.t),vizh.voltage));
+                series1.getData().addAll(new XYChart.Data(Double.toString(vizh.t),vizh.current));
+                series2.getData().addAll(new XYChart.Data(Double.toString(vizh.t),vizh.power));
+            }
+        }
+        lineChart.getData().addAll(series);
+        lineChart.getData().addAll(series1);
+        lineChart.getData().addAll(series2);
+    }
+    @FXML
+    public void reset_chart(javafx.event.ActionEvent q){
+        series.getData().removeAll();
+        series1.getData().removeAll();
+        series2.getData().removeAll();
+        lineChart.getData().removeAll();
     }
 
 

@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 //har gooneh copy bardari as in code shar'an haram ast :)
 public class Main extends Application {
     public static Solver solver;
+    public static moshakhassat moshakhassat;
     public static Stage stage = null;
     @Override
     public void start(Stage primaryStage) throws Exception {

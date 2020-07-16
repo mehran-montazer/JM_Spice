@@ -17,6 +17,11 @@ public abstract class Element {
     protected char  type;
     protected double initialCurrent;
     double I_p,I_n,V_p,V_n,I,V;
+
+    public ArrayList<moshakhassat> getMoshakhassats() {
+        return moshakhassats;
+    }
+
     public abstract void calculateVoltage();
     public abstract void calculateCurrent();
     public abstract double calculateCurrentR();

@@ -33,7 +33,7 @@ public class Solver {
         return solver;
     }
 
-    public ArrayList<Element> getElements() {
+    public  ArrayList<Element> getElements() {
         return elements;
     }
 
@@ -389,7 +389,7 @@ public class Solver {
         File file = new File("test/output.txt");
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
-        int o=0;
+        int o=-1;
         bw.write("-------------Voltage of nodes in time steps : ----------------");
         bw.newLine();
         for (Node node : nodes){
@@ -405,7 +405,7 @@ public class Solver {
                 bw.write("----------------------------------------------");
                 bw.newLine();
         }
-        o =0;
+        o =-1;
         bw.write("-----------------information of elements----------------");
         bw.newLine();
         for (Element element : elements){
