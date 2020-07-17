@@ -2,6 +2,10 @@ package elements;
 
 
 
+import handmadeExceptions.Minus2Exception;
+import handmadeExceptions.Minus3Exception;
+import handmadeExceptions.Minus4Exception;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -49,7 +53,7 @@ public class Solver {
 //            elements.get(i).update_element(dt,dv);
 //        }
 //    }
-    public void  update_nodes() {
+    public void  update_nodes() throws Minus2Exception, Minus3Exception, Minus4Exception {
         int count =0 ;
         for (double zaman=0; zaman < t ;zaman += dt) {
             int cnt = 0;
@@ -131,6 +135,10 @@ public class Solver {
                     Node Main_present = null;
                     int number = n.getUnion();
                     int gereshomare_union=0;
+                    for (Union union:unions){
+                        union.checkKCL(zaman);
+                        union.checkKVL(zaman);
+                    }
                     for (Union union : unions) {
                         if (union.getNumber() == number) {
                             visited = union.isVisited();
