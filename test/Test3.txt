@@ -3,7 +3,7 @@ Vin 1 0 1 0 0 0
 r1 1 0 1
 c1 2 0 1m
 l1 1 2 2
-dv 1u
+dv 100u
 di 1u
 dt 10u
 .tran 50

@@ -2,8 +2,8 @@
 Vin 1 0 1 0 0 0
 r1 0 1 1
 r2 1 2 1
-c1 2 0 1m
+l1 2 0 1
 dv 1u
 di 1u
 dt 10u
-.tran 3
+.tran 30

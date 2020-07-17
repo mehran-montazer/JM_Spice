@@ -9,10 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
@@ -20,6 +17,7 @@ import javax.sound.sampled.Line;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class controller2 implements Initializable {
@@ -103,17 +101,19 @@ public class controller2 implements Initializable {
 
     }
     public void read_text(javafx.event.ActionEvent e){
+        Alert alert = new Alert(Alert.AlertType.ERROR,"File directory is not valid",ButtonType.OK);
         String y = "";
         FileChooser fc = new FileChooser();
         File selectedfile = fc.showOpenDialog(null);
         FileChooser.ExtensionFilter extFilter =
                 new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
         fc.getExtensionFilters().add(extFilter);
+
         if (selectedfile != null){
             y = selectedfile.getAbsolutePath();
         }
         else
-            System.out.println("File directory is not valid !");
+            alert.showAndWait();
 
         StringBuilder contentBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(y)))
@@ -201,43 +201,71 @@ public class controller2 implements Initializable {
     }
     @FXML
     public void plotter(javafx.event.ActionEvent e){
-        double analyse = Double.parseDouble(time.getText());
-        ArrayList<Element> elements = solver.getElements();
-        ArrayList<Node> nodes = solver.getNodes();
-        ArrayList<Union> unions = solver.getUnions();
-        String name = kachal.getValue();
-        for (Element element : elements){
-            if (element.getName().equals(name)){
-                vizhegi  = element.getMoshakhassats();
-                break;
-            }
-        }
-        int p=-1;
-        for (moshakhassat vizh : vizhegi){
-                p++;
-                if (p % 1000 == 0 && (vizh.t < analyse)) {
-                    series.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.voltage));
-                    series3.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.voltage));
-                    series1.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.current));
-                    series4.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.current));
-                    series2.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.power));
-                    series5.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.power));
-                }
-        }
-        lineChart.getData().addAll(series3);
-        lineChart.getData().addAll(series4);
-        lineChart.getData().addAll(series5);
-        lineChart1.getData().addAll(series);
-        lineChart2.getData().addAll(series1);
-        lineChart3.getData().addAll(series2);
+        Alert alert1 = new Alert(Alert.AlertType.ERROR,"please enter the time of analyse!",ButtonType.OK);
+        Alert alert2 = new Alert(Alert.AlertType.ERROR,"please load your input first and run it ",ButtonType.OK);
+        Alert alert3 = new Alert(Alert.AlertType.ERROR, "please choose the element!", ButtonType.OK);
+        String name = null;
+        if (solver != null) {
+            double analyse = 0;
+            String y = kachal.getValue();
+            if (kachal.getValue() != null) {
+                name = kachal.getValue();
+                if (!time.getText().equals("")) {
+                    analyse = Double.parseDouble(time.getText());
+                    ArrayList<Element> elements = solver.getElements();
+                    ArrayList<Node> nodes = solver.getNodes();
+                    ArrayList<Union> unions = solver.getUnions();
+                    if (kachal != null) {
+                        for (Element element : elements) {
+                            if (element.getName().equals(name)) {
+                                vizhegi = element.getMoshakhassats();
+                                break;
+                            }
+                        }
+                    } else {
+                        alert2.showAndWait();
+                    }
+                    int p = -1;
+                    for (moshakhassat vizh : vizhegi) {
+                        p++;
+                        if (p % 1000 == 0 && (vizh.t < analyse)) {
+                            series.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.voltage));
+                            series3.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.voltage));
+                            series1.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.current));
+                            series4.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.current));
+                            series2.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.power));
+                            series5.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.power));
+                        }
+                    }
+                    lineChart.getData().addAll(series3);
+                    lineChart.getData().addAll(series4);
+                    lineChart.getData().addAll(series5);
+                    lineChart1.getData().addAll(series);
+                    lineChart2.getData().addAll(series1);
+                    lineChart3.getData().addAll(series2);
 
+                }
+                else
+                    alert1.showAndWait();
+            }
+            else
+                alert3.showAndWait();
+        }
+        else
+            alert2.showAndWait();
     }
     @FXML
     public void reset_chart(javafx.event.ActionEvent q){
-        series.getData().removeAll();
-        series1.getData().removeAll();
-        series2.getData().removeAll();
-        lineChart.getData().removeAll();
+        series.getData().clear();
+        series1.getData().clear();
+        series2.getData().clear();
+        series3.getData().clear();
+        series4.getData().clear();
+        series5.getData().clear();
+        lineChart.getData().clear();
+        lineChart2.getData().clear();
+        lineChart1.getData().clear();
+        lineChart3.getData().clear();
     }
 
 
