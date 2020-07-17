@@ -82,7 +82,6 @@ public class Solver {
                                 } else if (e.type == 'l') {
                                     n.I_n += e.calculateCurrentL();
                                     n.I_p += e.calculateCurrentLplus();
-                                    e.setstepcurrent(e.calculateCurrentL());
                                 } else if (e.type == 'c') {
                                     n.I_n += e.calculateCurrentC();
                                     n.I_p += e.calculateCurrentCplus();
@@ -104,11 +103,15 @@ public class Solver {
                                 } else if (e.type == 'l') {
                                     n.I_n -= e.calculateCurrentL();
                                     n.I_p -= e.calculateCurrentLminus();
-                                    e.setstepcurrent(e.calculateCurrentL());
                                 } else if (e.type == 'c') {
                                     n.I_n -= e.calculateCurrentC();
                                     n.I_p -= e.calculateCurrentCminus();
                                 }
+                            }
+                        }
+                        for (Element element : elements){
+                            if (element.type == 'l'){
+                                element.setstepcurrent(element.calculateCurrentL());
                             }
                         }
                         n.V_Step = n.V;
@@ -310,8 +313,8 @@ public class Solver {
                             moshakhassat = new moshakhassat(voltage,element.current,power,zaman);
                         }
                         else if (element.type == 'l'){
-                            power = voltage * element.calculateCurrentL();
-                            moshakhassat = new moshakhassat(voltage,element.calculateCurrentL(),power,zaman);
+                            power = voltage * element.I_n;
+                            moshakhassat = new moshakhassat(voltage,element.I_n,power,zaman);
                         }
                         else if (element.type == 'r'){
                             power = voltage * element.calculateCurrentR();
