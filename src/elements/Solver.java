@@ -113,8 +113,8 @@ public class Solver {
                         }
                         n.V_Step = n.V;
                         double ww = ((Math.abs(n.I_n) - Math.abs(n.I_p)) / di) * dv;
-                            while (Math.abs(ww) > 5)
-                                ww /= 2;
+//                            while (Math.abs(ww) > 5)
+//                                ww /= 2;
                         n.V += ww;
 
                     }
@@ -276,8 +276,8 @@ public class Solver {
                                     r.V_Step = r.V;
                                 }
                                 double ww = ((Math.abs(I_n) - Math.abs(I_p)) / di) * dv;
-                                while (Math.abs(ww) > 5)
-                                    ww /= 2;
+//                                while (Math.abs(ww) > 5)
+//                                    ww /= 2;
                                 union.getMainNode().V_Step = union.getMainNode().getV();
                                 union.getMainNode().V += ww;
                                 union.setI_n(I_n);
@@ -306,16 +306,16 @@ public class Solver {
                     }
                     else {
                         if (element.type == 'c'){
-                            power = voltage * element.I;
-                            moshakhassat = new moshakhassat(voltage,element.I,power,zaman);
-                        }
-                        else if (element.type == 'l'){
-                            power = voltage * element.I_n;
-                            moshakhassat = new moshakhassat(voltage,element.I_n,power,zaman);
-                        }
-                        else if (element.type == 'r'){
                             power = voltage * element.current;
                             moshakhassat = new moshakhassat(voltage,element.current,power,zaman);
+                        }
+                        else if (element.type == 'l'){
+                            power = voltage * element.calculateCurrentL();
+                            moshakhassat = new moshakhassat(voltage,element.calculateCurrentL(),power,zaman);
+                        }
+                        else if (element.type == 'r'){
+                            power = voltage * element.calculateCurrentR();
+                            moshakhassat = new moshakhassat(voltage,element.calculateCurrentR(),power,zaman);
                         }
                     }
                 }

@@ -106,7 +106,7 @@
                <children>
                   <Pane fx:id="pane3" prefHeight="815.0" prefWidth="1117.0" visible="false">
                      <children>
-                        <LineChart fx:id="lineChart" layoutX="98.0" layoutY="205.0" prefHeight="527.0" prefWidth="929.0">
+                        <LineChart fx:id="lineChart" createSymbols="false" layoutX="98.0" layoutY="205.0" prefHeight="527.0" prefWidth="929.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -123,7 +123,7 @@
                   <Pane fx:id="pane2" layoutX="10.0" layoutY="10.0" prefHeight="809.0" prefWidth="1104.0" visible="false" />
                   <Pane fx:id="pane4" prefHeight="809.0" prefWidth="1104.0" visible="false">
                      <children>
-                        <LineChart fx:id="lineChart1" layoutX="50.0">
+                        <LineChart fx:id="lineChart1" createSymbols="false" layoutX="50.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -131,7 +131,7 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </LineChart>
-                        <LineChart fx:id="lineChart2" layoutX="550.0">
+                        <LineChart fx:id="lineChart2" createSymbols="false" layoutX="550.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -139,7 +139,7 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </LineChart>
-                        <LineChart fx:id="lineChart3" layoutX="300.0" layoutY="405.0">
+                        <LineChart fx:id="lineChart3" createSymbols="false" layoutX="300.0" layoutY="405.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>

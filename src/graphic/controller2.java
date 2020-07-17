@@ -212,7 +212,7 @@ public class controller2 implements Initializable {
         int p=-1;
         for (moshakhassat vizh : vizhegi){
                 p++;
-                if (p % 10000 == 0 && (vizh.t < analyse)) {
+                if (p % 1000 == 0 && (vizh.t < analyse)) {
                     series.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.voltage));
                     series3.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.voltage));
                     series1.getData().addAll(new XYChart.Data(Double.toString(vizh.t), vizh.current));
