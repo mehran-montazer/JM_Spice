@@ -106,6 +106,9 @@ public class controller2 implements Initializable {
         String y = "";
         FileChooser fc = new FileChooser();
         File selectedfile = fc.showOpenDialog(null);
+        FileChooser.ExtensionFilter extFilter =
+                new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
+        fc.getExtensionFilters().add(extFilter);
         if (selectedfile != null){
             y = selectedfile.getAbsolutePath();
         }

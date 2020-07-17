@@ -15,6 +15,7 @@
 }
 .txt-fields{
     -fx-background-color: transparent;
+    -fx-border-color: #65dde9;
 }
 .vbox{
     -fx-background-color: #ffffff;

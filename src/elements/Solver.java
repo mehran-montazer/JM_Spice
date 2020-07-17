@@ -54,8 +54,9 @@ public class Solver {
 //        }
 //    }
     public void  update_nodes() throws Minus2Exception, Minus3Exception, Minus4Exception {
-        int count =0 ;
+        int count =0, kk =0 ;
         for (double zaman=0; zaman < t ;zaman += dt) {
+            count ++;
             int cnt = 0;
             for (Union union : unions) {
                 union.setVisited(false);
@@ -298,6 +299,9 @@ public class Solver {
                     }
                     cnt++;
                 }
+            }
+            if (count == 100000){
+                kk ++;
             }
             for (Element element : elements){
                 double voltage = element.positiveTerminal.getV() - element.negativeTerminal.getV();
