@@ -128,7 +128,7 @@ public class controller2 implements Initializable {
         textArea.setText(contentBuilder.toString());
     }
     @FXML
-    public void write_text(javafx.event.ActionEvent e) throws IOException {
+    public void write_text(javafx.event.ActionEvent e) throws IOException, Minus3Exception, Minus2Exception, Minus4Exception {
         try {
             File file = new File("test/test.txt");
             FileWriter fw = new FileWriter(file);
@@ -149,7 +149,7 @@ public class controller2 implements Initializable {
             kachal.getItems().addAll(element.getName()) ;
         }
     }
-    public void madar_solver() throws IOException {
+    public void madar_solver() throws IOException, Minus4Exception, Minus2Exception, Minus3Exception {
         ArrayList<Element> elements = null;
         ArrayList<Node> nodes = null;
         ArrayList<Union> unions = null;
