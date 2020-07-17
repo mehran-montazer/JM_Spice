@@ -83,17 +83,17 @@ public class controller2 implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         series = new XYChart.Series<>();
-        series.setName("V");
+        series.setName("Voltage(V)");
         series1 = new XYChart.Series<>();
-        series1.setName("I");
+        series1.setName("Current(A)");
         series2 = new XYChart.Series<>();
-        series2.setName("P");
+        series2.setName("Power(W)");
         series3 = new XYChart.Series<>();
-        series3.setName("V");
+        series3.setName("Voltage(V)");
         series4 = new XYChart.Series<>();
-        series4.setName("I");
+        series4.setName("Current(A)");
         series5 = new XYChart.Series<>();
-        series5.setName("P");
+        series5.setName("Power(W)");
         kachal.setItems(list);
 //        series.getData().addAll(new XYChart.Data("1",20));
 //        series.getData().addAll(new XYChart.Data("2",-00000.2));
