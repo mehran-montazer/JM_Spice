@@ -21,7 +21,7 @@ public abstract class Element {
     public ArrayList<moshakhassat> getMoshakhassats() {
         return moshakhassats;
     }
-
+    public abstract void draw();
     public abstract void calculateVoltage();
     public abstract void calculateCurrent();
     public abstract double calculateCurrentR();

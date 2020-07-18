@@ -102,6 +102,10 @@ public class VoltageSource extends Element {
     }
     ////////////////////////////////////////////////////////////////////////////////
     @Override
+    public void draw(){
+
+    }
+    @Override
     public void calculateVoltage() {
         if (!(dependentCurrentElement == null)){
             voltage = gain * dependentCurrentElement.getCurrent();

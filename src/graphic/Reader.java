@@ -21,16 +21,17 @@ public class Reader {
     private double dt = 0;
     private double di = 0;
     private double t = 0;
+    private byte [][] matrix = new byte[40][40];
     private Scanner scanner;
     ///////////////////////////////////constructor/////////////////////////////////
-    Reader (File file) throws FileNotFoundException {
+    public Reader (File file) throws FileNotFoundException {
         scanner = new Scanner(file);
         Reader.reader = this;
     }
+    /////////////////////////////////////getter////////////////////////////////////
     public static Reader getSolver() {
         return reader;
     }
-    /////////////////////////////////////getter////////////////////////////////////
     public ArrayList<Node> getNodes() {
         return nodes;
     }
@@ -51,6 +52,9 @@ public class Reader {
     }
     public double getT() {
         return t;
+    }
+    public byte[][] getMatrix() {
+        return matrix;
     }
     ///////////////////////////////////////////////////////////////////////////
     public void read () throws Minus1Exception, ReadingException {
@@ -123,6 +127,8 @@ public class Reader {
                                 elementHashMap.put(resistor.getName(), resistor);
                                 elements.add(resistor);
                                 addElement(positiveTerminal, negativeTerminal, resistor);
+                                matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                                matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                             }
                         } else if (tokens[0].startsWith("L") || tokens[0].startsWith("l")) {
                             Inductor inductor;
@@ -131,6 +137,8 @@ public class Reader {
                                 elementHashMap.put(inductor.getName(), inductor);
                                 elements.add(inductor);
                                 addElement(positiveTerminal, negativeTerminal, inductor);
+                                matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                                matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                             }
                         } else if (tokens[0].startsWith("C") || tokens[0].startsWith("c")) {
                             Capacitor capacitor;
@@ -139,6 +147,8 @@ public class Reader {
                                 elementHashMap.put(capacitor.getName(), capacitor);
                                 elements.add(capacitor);
                                 addElement(positiveTerminal, negativeTerminal, capacitor);
+                                matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                                matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                             }
                         }
                         else if ((tokens[0].startsWith("d") || tokens[0].startsWith("D")) && (value == 1)){
@@ -147,6 +157,8 @@ public class Reader {
                             elementHashMap.put(name, diode);
                             elements.add(diode);
                             addElement(positiveTerminal, negativeTerminal, diode);
+                            matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                            matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                         }
                     } else if (tokens.length == 7) {
                         if (tokens[4].equals("0") && tokens[5].equals("0") && tokens[6].equals("0")) {
@@ -164,11 +176,15 @@ public class Reader {
                                 positiveTerminal.addVoltageSource(voltageSource);
                                 negativeTerminal.addVoltageSource(voltageSource);
                                 addElement(positiveTerminal, negativeTerminal, voltageSource);
+                                matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                                matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                             } else if (tokens[0].startsWith("i") || tokens[0].startsWith("I")) {
                                 CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, value * (-1));
                                 elementHashMap.put(currentSource.getName(), currentSource);
                                 elements.add(currentSource);
                                 addElement(positiveTerminal, negativeTerminal, currentSource);
+                                matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                                matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                             } else {
                                 throwReadingException(lineNumber);
                             }
@@ -200,11 +216,15 @@ public class Reader {
                                 positiveTerminal.addVoltageSource(voltageSource);
                                 negativeTerminal.addVoltageSource(voltageSource);
                                 addElement(positiveTerminal, negativeTerminal, voltageSource);
+                                matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                                matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                             } else if (tokens[0].startsWith("i") || tokens[0].startsWith("I")) {
                                 CurrentSource currentSource = new CurrentSource(name, positiveTerminal, negativeTerminal, offSet * (-1), amp * (-1), freq, phase);
                                 elementHashMap.put(currentSource.getName(), currentSource);
                                 elements.add(currentSource);
                                 addElement(positiveTerminal, negativeTerminal, currentSource);
+                                matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                                matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                             } else {
                                 throwReadingException(lineNumber);
                             }
@@ -310,6 +330,8 @@ public class Reader {
                             elementHashMap.put(currentSource.getName(), currentSource);
                             elements.add(currentSource);
                             addElement(positiveTerminal, negativeTerminal, currentSource);
+                            matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                            matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                         } else if (name.startsWith("e") || name.startsWith("E")) {
                             VoltageSource voltageSource;
                             voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, positiveDependentNode, negativeDependentNode, value);
@@ -319,6 +341,8 @@ public class Reader {
                             positiveTerminal.addVoltageSource(voltageSource);
                             negativeTerminal.addVoltageSource(voltageSource);
                             addElement(positiveTerminal, negativeTerminal, voltageSource);
+                            matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                            matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                         } else {
                             throwReadingException(lineNumber);
                         }
@@ -340,6 +364,8 @@ public class Reader {
                             elementHashMap.put(currentSource.getName(), currentSource);
                             elements.add(currentSource);
                             addElement(positiveTerminal, negativeTerminal, currentSource);
+                            matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                            matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                         } else if (name.startsWith("h") || name.startsWith("H")) {
                             VoltageSource voltageSource;
                             voltageSource = new VoltageSource(name, positiveTerminal, negativeTerminal, majorElement, value);
@@ -348,6 +374,8 @@ public class Reader {
                             positiveTerminal.addVoltageSource(voltageSource);
                             negativeTerminal.addVoltageSource(voltageSource);
                             addElement(positiveTerminal, negativeTerminal, voltageSource);
+                            matrix[positiveTerminal.getNameNumber()][negativeTerminal.getNameNumber()]++;
+                            matrix[negativeTerminal.getNameNumber()][positiveTerminal.getNameNumber()]++;
                         } else {
                             throwReadingException(lineNumber);
                         }
@@ -458,7 +486,7 @@ public class Reader {
         //Error -5
         boolean hasFloat = false;
         for (Node node : nodes){
-            if (node.getSaf().size() < 2){
+            if (node.getSaf().size() < 2 && node.getElements().size() < 2){
                 hasFloat = true;
                 break;
             }

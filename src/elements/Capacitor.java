@@ -23,7 +23,10 @@ public class Capacitor extends Element{
     public void setInitialVoltage(double initialVoltage) {
         this.initialVoltage = initialVoltage;
     }
+    @Override
+    public void draw(){
 
+    }
     @Override
     public void calculateVoltage() {
 

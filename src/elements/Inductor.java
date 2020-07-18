@@ -28,7 +28,10 @@ public class Inductor extends Element {
         this.initialCurrent = initialCurrent;
     }
     public void setstepcurrent(double cuurent){this.initialCurrent=  cuurent;}
+    @Override
+    public void draw(){
 
+    }
     @Override
     public void calculateVoltage() {
 

@@ -5,6 +5,7 @@ import elements.*;
 import handmadeExceptions.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -42,7 +43,8 @@ public class controller2 implements Initializable {
     private ComboBox<String> kachal ;
     @FXML
     private TextField time;
-
+    @FXML
+    private Button drawBtn;
     ObservableList<String> list = FXCollections.observableArrayList();
 
 
@@ -153,6 +155,7 @@ public class controller2 implements Initializable {
         }
     }
     public void madar_solver() throws IOException, Minus4Exception, Minus2Exception, Minus3Exception {
+        isDrawn = false;
         ArrayList<Element> elements = null;
         ArrayList<Node> nodes = null;
         ArrayList<Union> unions = null;
@@ -188,15 +191,19 @@ public class controller2 implements Initializable {
 //        elements = solver.getElements();
 //        nodes = solver.getNodes();
 //        unions = solver.getUnions();
-        if (!isEnded) {
-            stepof = (t/dt) / 1000;
-            stepan = dt;
-            solver = new Solver(elements, nodes, unions, dt, dv, di, t);
-            solver.update_nodes();
-            solver.print_console();
+        try {
+            if (!isEnded) {
+                stepof = (t / dt) / 1000;
+                stepan = dt;
+                solver = new Solver(elements, nodes, unions, dt, dv, di, t);
+                solver.update_nodes();
+                solver.print_console();
 //            for (Node node : nodes) {
 //                System.out.println(node.getName() + ":" + "\t" + node.getV());
 //            }
+            }
+        }catch (Minus4Exception | Minus3Exception | Minus2Exception e){
+
         }
     }
     @FXML
@@ -267,6 +274,13 @@ public class controller2 implements Initializable {
         lineChart1.getData().clear();
         lineChart3.getData().clear();
     }
+    boolean isDrawn = false;
+    //drawing section
+    public void drawCircuit(ActionEvent event){
+        if (!isDrawn){
+            isDrawn = true;
 
+        }
+    }
 
 }

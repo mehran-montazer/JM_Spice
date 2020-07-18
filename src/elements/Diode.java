@@ -22,6 +22,10 @@ public class Diode extends Element {
             isON = false;
     }
     @Override
+    public void draw(){
+
+    }
+    @Override
     public void calculateVoltage() {
 
     }

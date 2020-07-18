@@ -17,6 +17,10 @@ public class Resistor extends Element {
     }
     ///////////////////////////////////////////////////////////////////
     @Override
+    public void draw(){
+
+    }
+    @Override
     public void calculateVoltage() {
         voltage = positiveTerminal.getVoltage() - negativeTerminal.getVoltage();
     }

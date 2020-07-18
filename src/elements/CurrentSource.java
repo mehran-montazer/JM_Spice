@@ -94,6 +94,10 @@ public class CurrentSource extends Element {
     }
     //////////////////////////////////////////////////////////////////
     @Override
+    public void draw(){
+
+    }
+    @Override
     public void calculateVoltage() {
 
     }
