@@ -3,6 +3,12 @@ package graphic;
 import com.sun.tools.javac.Main;
 import elements.*;
 import handmadeExceptions.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,8 +19,10 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 import javax.sound.sampled.Line;
+import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,64 +30,69 @@ import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class controller2 implements Initializable {
-//    Solver solver = Solver.getSolver();
+    //    Solver solver = Solver.getSolver();
     ArrayList<Element> elements = null;
     ArrayList<Node> nodes = null;
     ArrayList<Union> unions = null;
-      Solver solver ;
-      ArrayList<moshakhassat> vizhegi;
-      double stepof=0,stepan=0;
+    Solver solver;
+    ArrayList<moshakhassat> vizhegi;
+    double stepof = 0, stepan = 0;
+    boolean isDrawn = true;
+
     @FXML
-    private Button remover,plot,homepage,chart,circuitgraph,aboutus,load,run;
+    private Button remover, plot, homepage, chart, circuitgraph, aboutus, load, run;
     @FXML
-    private Pane pane1,pane2,pane3,pane4;
+    private Pane pane1, pane2, pane3, pane4;
     @FXML
-    private TextArea textArea;
+    private TextArea textArea,percentage;
     @FXML
-    private LineChart<String,Number> lineChart,lineChart1,lineChart2,lineChart3;
+    private LineChart<String, Number> lineChart, lineChart1, lineChart2, lineChart3;
     @FXML
-    private XYChart.Series<String,Number> series,series1,series2,series3,series4,series5;
+    private XYChart.Series<String, Number> series, series1, series2, series3, series4, series5;
     @FXML
-    private ComboBox<String> kachal ;
+    private ComboBox<String> kachal;
     @FXML
     private TextField time;
     @FXML
     private Button drawBtn;
     ObservableList<String> list = FXCollections.observableArrayList();
+    @FXML
+    ProgressBar progressBar;
+    Thread thread;
+    boolean continueable;
 
 
     @FXML
-    public void buttonactionhandler (javafx.event.ActionEvent e){
-        if (e.getSource() == homepage){
+    public void buttonactionhandler(javafx.event.ActionEvent e) {
+        if (e.getSource() == homepage) {
             pane1.setVisible(true);
             pane1.toFront();
             pane2.setVisible(false);
             pane3.setVisible(false);
             pane4.setVisible(false);
-        }
-        else if (e.getSource() == chart){
+        } else if (e.getSource() == chart) {
             pane3.setVisible(true);
             pane3.toFront();
             pane2.setVisible(false);
             pane1.setVisible(false);
             pane4.setVisible(false);
-        }
-        else if (e.getSource() == circuitgraph){
+        } else if (e.getSource() == circuitgraph) {
             pane2.setVisible(true);
             pane2.toFront();
             pane1.setVisible(false);
             pane3.setVisible(false);
             pane4.setVisible(false);
-        }
-        else {
+        } else {
             pane4.setVisible(true);
             pane4.toFront();
             pane2.setVisible(false);
             pane3.setVisible(false);
-            pane1.setVisible(false);;
+            pane1.setVisible(false);
+            ;
         }
 //        Solver.getSolver();
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         series = new XYChart.Series<>();
@@ -102,8 +115,9 @@ public class controller2 implements Initializable {
 
 
     }
-    public void read_text(javafx.event.ActionEvent e){
-        Alert alert = new Alert(Alert.AlertType.ERROR,"File directory is not valid",ButtonType.OK);
+
+    public void read_text(javafx.event.ActionEvent e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "File directory is not valid", ButtonType.OK);
         String y = "";
         FileChooser fc = new FileChooser();
         File selectedfile = fc.showOpenDialog(null);
@@ -111,27 +125,23 @@ public class controller2 implements Initializable {
                 new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
         fc.getExtensionFilters().add(extFilter);
 
-        if (selectedfile != null){
+        if (selectedfile != null) {
             y = selectedfile.getAbsolutePath();
-        }
-        else
+        } else
             alert.showAndWait();
 
         StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(y)))
-        {
+        try (BufferedReader br = new BufferedReader(new FileReader(y))) {
             String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null)
-            {
+            while ((sCurrentLine = br.readLine()) != null) {
                 contentBuilder.append(sCurrentLine).append("\n");
             }
-        }
-        catch (IOException q)
-        {
+        } catch (IOException q) {
             q.printStackTrace();
         }
         textArea.setText(contentBuilder.toString());
     }
+
     @FXML
     public void write_text(javafx.event.ActionEvent e) throws IOException, Minus3Exception, Minus2Exception, Minus4Exception {
         try {
@@ -141,19 +151,30 @@ public class controller2 implements Initializable {
             bw.write(textArea.getText());
             bw.close();
 
-        }
-        catch (IOException q)
-        {
+        } catch (IOException q) {
             q.printStackTrace();
-        }
+        } // Progress 1
+
+        Timeline task = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                new KeyFrame(Duration.seconds(0.3), new KeyValue(progressBar.progressProperty(), 1.0))
+        );
+        progressBar = new ProgressBar(0);
+
+
         madar_solver();
         ArrayList<Element> elements = solver.getElements();
         ArrayList<Node> nodes = solver.getNodes();
         ArrayList<Union> unions = solver.getUnions();
-        for (Element element: elements){
-            kachal.getItems().addAll(element.getName()) ;
+        for (Element element : elements) {
+            kachal.getItems().addAll(element.getName());
         }
+
+
+        task.playFromStart();
+
     }
+
     public void madar_solver() throws IOException, Minus4Exception, Minus2Exception, Minus3Exception {
         isDrawn = false;
         ArrayList<Element> elements = null;
@@ -183,8 +204,7 @@ public class controller2 implements Initializable {
             reader.findError();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (Minus1Exception | Minus2Exception | ReadingException | Minus4Exception | Minus5Exception | Minus3Exception e){
+        } catch (Minus1Exception | Minus2Exception | ReadingException | Minus4Exception | Minus5Exception | Minus3Exception e) {
             System.out.println(e.getMessage());
             isEnded = true;
         }
@@ -202,14 +222,15 @@ public class controller2 implements Initializable {
 //                System.out.println(node.getName() + ":" + "\t" + node.getV());
 //            }
             }
-        }catch (Minus4Exception | Minus3Exception | Minus2Exception e){
+        } catch (Minus4Exception | Minus3Exception | Minus2Exception e) {
 
         }
     }
+
     @FXML
-    public void plotter(javafx.event.ActionEvent e){
-        Alert alert1 = new Alert(Alert.AlertType.ERROR,"please enter the time of analyse!",ButtonType.OK);
-        Alert alert2 = new Alert(Alert.AlertType.ERROR,"please load your input first and run it ",ButtonType.OK);
+    public void plotter(javafx.event.ActionEvent e) {
+        Alert alert1 = new Alert(Alert.AlertType.ERROR, "please enter the time of analyse!", ButtonType.OK);
+        Alert alert2 = new Alert(Alert.AlertType.ERROR, "please load your input first and run it ", ButtonType.OK);
         Alert alert3 = new Alert(Alert.AlertType.ERROR, "please choose the element!", ButtonType.OK);
         String name = null;
         if (solver != null) {
@@ -251,18 +272,16 @@ public class controller2 implements Initializable {
                     lineChart2.getData().addAll(series1);
                     lineChart3.getData().addAll(series2);
 
-                }
-                else
+                } else
                     alert1.showAndWait();
-            }
-            else
+            } else
                 alert3.showAndWait();
-        }
-        else
+        } else
             alert2.showAndWait();
     }
+
     @FXML
-    public void reset_chart(javafx.event.ActionEvent q){
+    public void reset_chart(javafx.event.ActionEvent q) {
         series.getData().clear();
         series1.getData().clear();
         series2.getData().clear();
@@ -273,14 +292,28 @@ public class controller2 implements Initializable {
         lineChart2.getData().clear();
         lineChart1.getData().clear();
         lineChart3.getData().clear();
+        kachal.getItems().clear();
     }
-    boolean isDrawn = false;
     //drawing section
-    public void drawCircuit(ActionEvent event){
-        if (!isDrawn){
-            isDrawn = true;
 
+    public void drawCircuit(ActionEvent event) {
+        GraphNode[][] graphNodes = new GraphNode[6][6];
+        for (int j = 0; j < 6; j++) {
+            graphNodes[0][j] = new GraphNode(75 + j * 200, 750, 0);
+            graphNodes[0][j].setNodeNumber(0);
         }
+        for (int i = 1; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
+                graphNodes[i][j] = new GraphNode(75 + j * 200, 750 - 100 * i, i + j);
+            }
+        }
+
+        //if (!isDrawn){
+        isDrawn = true;
+        Resistor r = new Resistor("r1", new Node("1"), new Node("2"), 4);
+        r.draw(pane2, graphNodes[1][0], graphNodes[1][1]);
+        //}
     }
+
 
 }

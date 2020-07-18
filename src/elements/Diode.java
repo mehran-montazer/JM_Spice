@@ -1,6 +1,9 @@
 
 package elements;
 
+import graphic.GraphNode;
+import javafx.scene.layout.Pane;
+
 public class Diode extends Element {
     boolean isON;
     public Diode(String name, Node positiveTerminal, Node negativeTerminal) {
@@ -22,8 +25,14 @@ public class Diode extends Element {
             isON = false;
     }
     @Override
-    public void draw(){
+    public void draw(Pane pane, GraphNode positiveNode, GraphNode negativeNode){
+        boolean isVertical = checkVertical(positiveNode, negativeNode);
+        if (isVertical){
 
+        }
+        else {
+
+        }
     }
     @Override
     public void calculateVoltage() {

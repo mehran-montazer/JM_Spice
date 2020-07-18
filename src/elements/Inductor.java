@@ -1,5 +1,8 @@
 package elements;
 
+import graphic.GraphNode;
+import javafx.scene.layout.Pane;
+
 public class Inductor extends Element {
     double inductance;
     double initialCurrent;
@@ -29,8 +32,14 @@ public class Inductor extends Element {
     }
     public void setstepcurrent(double cuurent){this.initialCurrent=  cuurent;}
     @Override
-    public void draw(){
+    public void draw(Pane pane, GraphNode positiveNode, GraphNode negativeNode){
+        boolean isVertical = checkVertical(positiveNode, negativeNode);
+        if (isVertical){
 
+        }
+        else {
+
+        }
     }
     @Override
     public void calculateVoltage() {

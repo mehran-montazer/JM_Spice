@@ -1,5 +1,8 @@
 package elements;
 
+import graphic.GraphNode;
+import javafx.scene.layout.Pane;
+
 public class CurrentSource extends Element {
     private double IoffSet = 0;
     private double Iamp = 0;
@@ -94,8 +97,14 @@ public class CurrentSource extends Element {
     }
     //////////////////////////////////////////////////////////////////
     @Override
-    public void draw(){
+    public void draw(Pane pane, GraphNode positiveNode, GraphNode negativeNode){
+        boolean isVertical = checkVertical(positiveNode, negativeNode);
+        if (isVertical){
 
+        }
+        else {
+
+        }
     }
     @Override
     public void calculateVoltage() {

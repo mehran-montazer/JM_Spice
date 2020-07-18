@@ -1,5 +1,8 @@
 package elements;
 
+import graphic.GraphNode;
+import javafx.scene.layout.Pane;
+
 import java.util.ArrayList;
 
 public abstract class Element {
@@ -21,7 +24,7 @@ public abstract class Element {
     public ArrayList<moshakhassat> getMoshakhassats() {
         return moshakhassats;
     }
-    public abstract void draw();
+    public abstract void draw(Pane pane, GraphNode positiveNode, GraphNode negativeNode);
     public abstract void calculateVoltage();
     public abstract void calculateCurrent();
     public abstract double calculateCurrentR();
@@ -131,5 +134,16 @@ public abstract class Element {
     }
     public static void setDv(double dv) {
         Element.dv = dv;
+    }
+    ////////////////////////////////////////////////////////////////////
+    protected boolean checkVertical(GraphNode positiveNode, GraphNode negativeNode){
+        if (positiveNode.getX() == negativeNode.getX())
+            return true;
+        else if (positiveNode.getY() == negativeNode.getY())
+            return false;
+        else {
+            System.out.println("Oza khite Oza kheili khite");
+            return false;
+        }
     }
 }
