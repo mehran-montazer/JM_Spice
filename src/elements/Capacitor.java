@@ -1,8 +1,5 @@
 package elements;
 
-import graphic.GraphNode;
-import javafx.scene.layout.Pane;
-
 public class Capacitor extends Element{
     private double initialVoltage;
     private double capacity;
@@ -27,14 +24,8 @@ public class Capacitor extends Element{
         this.initialVoltage = initialVoltage;
     }
     @Override
-    public void draw(Pane pane, GraphNode positiveNode, GraphNode negativeNode){
-        boolean isVertical = checkVertical(positiveNode, negativeNode);
-        if (isVertical){
+    public void draw(){
 
-        }
-        else {
-
-        }
     }
     @Override
     public void calculateVoltage() {
