@@ -1,7 +1,9 @@
-*test on current source and two resistors
-i1 1 0 1m 0 0 0
-r1 1 2 2.0k
-r2 2 0 6k
+*teste manba voltage vabaste be voltage
+V1 1 0 1 0 0 0
+r1 1 2 1k
+r2 2 0 1k
+r3 3 0 1k
+e1 3 2 1 2 1
 dv 100u
 di 100n
 dt 1u

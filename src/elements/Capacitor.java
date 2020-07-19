@@ -56,6 +56,7 @@ public class Capacitor extends Element{
             Line line4 = new Line(x + 52, y - 6, x + 52, y + 6);
             pane.getChildren().addAll(line1,line2,line3,line4);
         }
+        isDrawn = true;
     }
     @Override
     public void calculateVoltage() {

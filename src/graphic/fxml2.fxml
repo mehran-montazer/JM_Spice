@@ -108,6 +108,7 @@
                <children>
                   <Pane fx:id="pane2" prefHeight="809.0" prefWidth="1104.0" visible="false">
                      <children>
+                        <Pane fx:id="circuitGraph" layoutY="250" prefHeight="500"/>
                         <Line endX="500.0" layoutX="325.0" layoutY="750.0" />
                         <Button fx:id="drawBtn" layoutX="436.0" layoutY="90.0" mnemonicParsing="false" onAction="#drawCircuit" prefHeight="42.0" prefWidth="278.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Draw" />
                         <Line endX="338.0" endY="10.0" layoutX="275.0" layoutY="750.0" startX="262.0" startY="10.0" />

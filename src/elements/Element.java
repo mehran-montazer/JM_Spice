@@ -19,6 +19,7 @@ public abstract class Element {
     protected double value ;
     protected char  type;
     protected double initialCurrent;
+    protected boolean isDrawn = false;
     double I_p,I_n,V_p,V_n,I,V;
 
     public ArrayList<moshakhassat> getMoshakhassats() {
@@ -106,6 +107,9 @@ public abstract class Element {
     }
     public static double getDi() {
         return di;
+    }
+    public boolean isDrawn() {
+        return isDrawn;
     }
     /////////////////////////////////setter////////////////////////////
     public void setVoltage(double voltage) {

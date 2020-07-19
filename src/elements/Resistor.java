@@ -63,6 +63,7 @@ public class Resistor extends Element {
             Line line11 = new Line(x + 68, y, x + 100, y);
             pane.getChildren().addAll(line1,line2,line3,line4,line5,line6,line7,line10,line11);
         }
+        isDrawn = true;
     }
     @Override
     public void calculateVoltage() {

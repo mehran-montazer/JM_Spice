@@ -65,6 +65,7 @@ public class Inductor extends Element {
             arc5.setFill(Color.TRANSPARENT);
             arc5.setStroke(Color.BLACK);
             pane.getChildren().addAll(line1,line2,arc1,arc2,arc3,arc4,arc5);
+            isDrawn = true;
         }
         else {
             y = positiveNode.getY();

@@ -21,7 +21,7 @@ public class Reader {
     private double dt = 0;
     private double di = 0;
     private double t = 0;
-    private byte [][] matrix = new byte[40][40];
+    private byte [][] matrix = new byte[31][31];
     private Scanner scanner;
     ///////////////////////////////////constructor/////////////////////////////////
     public Reader (File file) throws FileNotFoundException {
