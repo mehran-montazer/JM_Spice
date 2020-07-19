@@ -299,19 +299,18 @@ public class controller2 implements Initializable {
     public void drawCircuit(ActionEvent event) {
         GraphNode[][] graphNodes = new GraphNode[6][6];
         for (int j = 0; j < 6; j++) {
-            graphNodes[0][j] = new GraphNode(75 + j * 200, 750, 0);
-            graphNodes[0][j].setNodeNumber(0);
+            graphNodes[0][j] = new GraphNode(325 + j * 100, 750, 0);
         }
         for (int i = 1; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
-                graphNodes[i][j] = new GraphNode(75 + j * 200, 750 - 100 * i, i + j);
+                graphNodes[i][j] = new GraphNode(325 + j * 100, 750 - 100 * i, i + j);
             }
         }
-
         //if (!isDrawn){
         isDrawn = true;
         Resistor r = new Resistor("r1", new Node("1"), new Node("2"), 4);
         r.draw(pane2, graphNodes[1][0], graphNodes[1][1]);
+        r.draw(pane2, graphNodes[0][0], graphNodes[1][0]);
         //}
     }
 

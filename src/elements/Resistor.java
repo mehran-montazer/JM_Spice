@@ -26,7 +26,23 @@ public class Resistor extends Element {
         int x;
         int y;
         if (isVertical){
-
+            x = positiveNode.getX();
+            if (positiveNode.getY() < negativeNode.getY())
+                y = positiveNode.getY();
+            else
+                y = negativeNode.getY();
+            Line line1 = new Line(x, y, x, y + 32);
+            Line line2 = new Line(x, y + 32, x - 3, y + 35);
+            Line line3 = new Line(x - 3, y + 35, x + 3, y + 41);
+            Line line4 = new Line(x + 3, y + 41, x - 3, y + 47);
+            Line line5 = new Line(x - 3, y + 47, x + 3, y + 53);
+            Line line6 = new Line(x + 3, y + 55, x - 3, y + 59);
+            Line line7 = new Line(x - 3, y + 59, x + 3, y + 65);
+/*            Line line8 = new Line(x + 75, y + 5, x + 125, y - 5);
+            Line line9 = new Line(x + 125, y - 5, x + 135, y + 5);*/
+            Line line10 = new Line(x + 3,y + 65, x, y + 68);
+            Line line11 = new Line(x, y + 68, x, y + 100);
+            pane.getChildren().addAll(line1,line2,line3,line4,line5,line6,line7,line10,line11);
         }
         else {
             y = positiveNode.getY();
@@ -34,18 +50,18 @@ public class Resistor extends Element {
                 x = positiveNode.getX();
             else
                 x = negativeNode.getX();
-            Line line1 = new Line(x, y, x + 55, y);
-            Line line2 = new Line(x + 55, y, x + 65, y - 10);
-            Line line3 = new Line(x + 65, y - 10, x + 75, y + 10);
-            Line line4 = new Line(x + 75, y + 10, x + 85, y - 10);
-            Line line5 = new Line(x + 85, y - 10, x + 95, y + 10);
-            Line line6 = new Line(x + 95, y + 10, x + 105, y - 10);
-            Line line7 = new Line(x + 105, y - 10, x + 115, y + 10);
-            Line line8 = new Line(x + 115, y + 10, x + 125, y - 10);
-            Line line9 = new Line(x + 125, y - 10, x + 135, y + 10);
-            Line line10 = new Line(x + 135,y + 10, x + 145, y);
-            Line line11 = new Line(x + 145, y, x + 200, y);
-            pane.getChildren().addAll(line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11);
+            Line line1 = new Line(x, y, x + 32, y);
+            Line line2 = new Line(x + 32, y, x + 35, y - 3);
+            Line line3 = new Line(x + 35, y - 3, x + 41, y + 3);
+            Line line4 = new Line(x + 41, y + 3, x + 47, y - 3);
+            Line line5 = new Line(x + 47, y - 3, x + 53, y + 3);
+            Line line6 = new Line(x + 53, y + 3, x + 59, y - 3);
+            Line line7 = new Line(x + 59, y - 3, x + 65, y + 3);
+/*            Line line8 = new Line(x + 75, y + 5, x + 125, y - 5);
+            Line line9 = new Line(x + 125, y - 5, x + 135, y + 5);*/
+            Line line10 = new Line(x + 65,y + 3, x + 68, y);
+            Line line11 = new Line(x + 68, y, x + 100, y);
+            pane.getChildren().addAll(line1,line2,line3,line4,line5,line6,line7,line10,line11);
         }
     }
     @Override
