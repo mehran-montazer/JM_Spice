@@ -308,9 +308,12 @@ public class controller2 implements Initializable {
         }
         //if (!isDrawn){
         isDrawn = true;
-        VoltageSource v = new VoltageSource("r1", new Node("1"), new Node("2"), new Node("7"), new Node("8"), 4);
-        v.draw(pane2, graphNodes[1][0], graphNodes[1][1]);
-        v.draw(pane2, graphNodes[0][0], graphNodes[1][0]);
+        CurrentSource v = new CurrentSource("r1", new Node("1"), new Node("2"), 4);
+        v.draw(pane2, graphNodes[2][0], graphNodes[2][1]);
+        v.draw(pane2, graphNodes[2][2], graphNodes[1][2]);
+        CurrentSource i = new CurrentSource("r1", new Node("1"), new Node("2"), new Node("7"), new Node("8"), 4);
+        i.draw(pane2, graphNodes[1][0], graphNodes[1][1]);
+        i.draw(pane2, graphNodes[0][0], graphNodes[1][0]);
         //}
     }
 
