@@ -27,6 +27,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class controller2 implements Initializable {
@@ -38,7 +39,7 @@ public class controller2 implements Initializable {
     ArrayList<moshakhassat> vizhegi;
     double stepof = 0, stepan = 0;
     boolean isDrawn = true;
-
+    boolean isReady = false;
     @FXML
     private Button remover, plot, homepage, chart, circuitgraph, aboutus, load, run;
     @FXML
@@ -176,7 +177,6 @@ public class controller2 implements Initializable {
     }
 
     public void madar_solver() throws IOException, Minus4Exception, Minus2Exception, Minus3Exception {
-        isDrawn = false;
         ArrayList<Element> elements = null;
         ArrayList<Node> nodes = null;
         ArrayList<Union> unions = null;
@@ -297,24 +297,64 @@ public class controller2 implements Initializable {
     //drawing section
 
     public void drawCircuit(ActionEvent event) {
+        //Nodes
         GraphNode[][] graphNodes = new GraphNode[6][6];
+        HashMap <Integer, GraphNode>graphNodesHashMap = new HashMap();
         for (int j = 0; j < 6; j++) {
             graphNodes[0][j] = new GraphNode(325 + j * 100, 750, 0);
         }
         for (int i = 1; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
-                graphNodes[i][j] = new GraphNode(325 + j * 100, 750 - 100 * i, i + j);
+                GraphNode graphNode = new GraphNode(325 + j * 100, 750 - 100 * i, (i - 1) * 6 + j + 1);
+                graphNodes[i][j] = graphNode;
+                graphNodesHashMap.put(graphNode.getNumber(), graphNode);
             }
         }
-        //if (!isDrawn){
-        isDrawn = true;
-        CurrentSource v = new CurrentSource("r1", new Node("1"), new Node("2"), 4);
-        v.draw(pane2, graphNodes[2][0], graphNodes[2][1]);
-        v.draw(pane2, graphNodes[2][2], graphNodes[1][2]);
-        CurrentSource i = new CurrentSource("r1", new Node("1"), new Node("2"), new Node("7"), new Node("8"), 4);
-        i.draw(pane2, graphNodes[1][0], graphNodes[1][1]);
-        i.draw(pane2, graphNodes[0][0], graphNodes[1][0]);
-        //}
+        //
+        try {
+            File file = new File("test/test.txt");
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(textArea.getText());
+            bw.close();
+            if (!isReady)
+                isReady = true;
+            file = new File("./test/test.txt");
+            Reader reader;
+            reader = new Reader(file);
+            reader.read();
+            nodes = reader.getNodes();
+            unions = reader.getUnions();
+            elements = reader.getElements();
+            reader.findError();
+        } catch (IOException q) {
+            q.printStackTrace();
+        }
+        //Reading File Section
+         catch (Minus1Exception | Minus2Exception | ReadingException | Minus4Exception | Minus5Exception | Minus3Exception e) {
+            System.out.println(e.getMessage());
+        }
+        //
+        if (!isDrawn || isReady){
+            isDrawn = true;
+            for (Element element : elements){
+                GraphNode positive = null;
+                GraphNode negative = null;
+                if (element.getPositiveTerminal().getNameNumber() != 0){
+                    positive = graphNodesHashMap.get(element.getPositiveTerminal().getNameNumber());
+                }
+                else {
+                    positive = graphNodes[0][element.getNegativeTerminal().getNameNumber() % 6 - 1];
+                }
+                if (element.getNegativeTerminal().getNameNumber() != 0){
+                    negative = graphNodesHashMap.get(element.getNegativeTerminal().getNameNumber());
+                }
+                else {
+                    negative = graphNodes[0][element.getPositiveTerminal().getNameNumber() % 6 - 1];
+                }
+                element.draw(pane2, positive, negative);
+            }
+        }
     }
 
 

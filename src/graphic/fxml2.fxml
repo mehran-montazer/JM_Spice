@@ -106,7 +106,7 @@
             </VBox>
             <AnchorPane layoutX="312.0" prefHeight="810.0" prefWidth="1098.0">
                <children>
-                  <Pane fx:id="pane2" prefHeight="809.0" prefWidth="1104.0" visible="true">
+                  <Pane fx:id="pane2" prefHeight="809.0" prefWidth="1104.0" visible="false">
                      <children>
                         <Line endX="500.0" layoutX="325.0" layoutY="750.0" />
                         <Button fx:id="drawBtn" layoutX="436.0" layoutY="90.0" mnemonicParsing="false" onAction="#drawCircuit" prefHeight="42.0" prefWidth="278.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Draw" />
@@ -161,7 +161,7 @@
                         </LineChart>
                      </children>
                   </Pane>
-                  <Pane fx:id="pane1" layoutX="13.0" layoutY="13.0" prefHeight="793.0" prefWidth="1077.0" visible="false">
+                  <Pane fx:id="pane1" layoutX="13.0" layoutY="13.0" prefHeight="793.0" prefWidth="1077.0" visible="true">
                      <children>
                         <Button fx:id="Load" layoutX="213.0" layoutY="76.0" mnemonicParsing="false" onAction="#read_text" prefHeight="42.0" prefWidth="259.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Load" />
                         <Button fx:id="Run" layoutX="649.0" layoutY="74.0" mnemonicParsing="false" onAction="#write_text" prefHeight="42.0" prefWidth="259.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Run" />
