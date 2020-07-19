@@ -308,9 +308,9 @@ public class controller2 implements Initializable {
         }
         //if (!isDrawn){
         isDrawn = true;
-        Resistor r = new Resistor("r1", new Node("1"), new Node("2"), 4);
-        r.draw(pane2, graphNodes[1][0], graphNodes[1][1]);
-        r.draw(pane2, graphNodes[0][0], graphNodes[1][0]);
+        Capacitor c = new Capacitor("r1", new Node("1"), new Node("2"), 4);
+        c.draw(pane2, graphNodes[1][0], graphNodes[1][1]);
+        c.draw(pane2, graphNodes[0][0], graphNodes[1][0]);
         //}
     }
 

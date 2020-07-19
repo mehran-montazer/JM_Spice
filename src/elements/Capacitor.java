@@ -2,6 +2,7 @@ package elements;
 
 import graphic.GraphNode;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 
 public class Capacitor extends Element{
     private double initialVoltage;
@@ -29,11 +30,31 @@ public class Capacitor extends Element{
     @Override
     public void draw(Pane pane, GraphNode positiveNode, GraphNode negativeNode){
         boolean isVertical = checkVertical(positiveNode, negativeNode);
+        int x;
+        int y;
         if (isVertical){
-
+            x = positiveNode.getX();
+            if (positiveNode.getY() < negativeNode.getY())
+                y = positiveNode.getY();
+            else
+                y = negativeNode.getY();
+            Line line1 = new Line(x, y + 48, x, y);
+            Line line2 = new Line(x, y + 52, x, y + 100);
+            Line line3 = new Line(x - 6, y + 48, x + 6, y + 48);
+            Line line4 = new Line(x  - 6, y + 52, x + 6, y + 52);
+            pane.getChildren().addAll(line1,line2,line3,line4);
         }
         else {
-
+            y = positiveNode.getY();
+            if (positiveNode.getX() < negativeNode.getX())
+                x = positiveNode.getX();
+            else
+                x = negativeNode.getX();
+            Line line1 = new Line(x, y, x + 48, y);
+            Line line2 = new Line(x + 52, y, x + 100, y);
+            Line line3 = new Line(x + 48, y - 6, x + 48, y + 6);
+            Line line4 = new Line(x + 52, y - 6, x + 52, y + 6);
+            pane.getChildren().addAll(line1,line2,line3,line4);
         }
     }
     @Override
