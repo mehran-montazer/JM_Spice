@@ -3,10 +3,8 @@ package elements;
 import graphic.GraphNode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.QuadCurve;
 
 import java.util.List;
 
