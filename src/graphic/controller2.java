@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class controller2 implements Initializable {
-    //    Solver solver = Solver.getSolver();
     ArrayList<Element> elements = null;
     ArrayList<Node> nodes = null;
     ArrayList<Union> unions = null;
@@ -41,6 +40,7 @@ public class controller2 implements Initializable {
     boolean isDrawn = true;
     boolean isReady = false;
     byte[][] matrix;
+    int ui=0;
     @FXML
     private Pane circuitGraph;
     @FXML
@@ -62,8 +62,9 @@ public class controller2 implements Initializable {
     ObservableList<String> list = FXCollections.observableArrayList();
     @FXML
     ProgressBar progressBar;
-    Thread thread;
-    boolean continueable;
+    String y="" ;
+    int many_times=-1;
+    int runned =-1;
 
 
     @FXML
@@ -94,7 +95,6 @@ public class controller2 implements Initializable {
             pane1.setVisible(false);
             ;
         }
-//        Solver.getSolver();
     }
 
     @Override
@@ -112,12 +112,6 @@ public class controller2 implements Initializable {
         series5 = new XYChart.Series<>();
         series5.setName("Power(W)");
         kachal.setItems(list);
-//        series.getData().addAll(new XYChart.Data("1",20));
-//        series.getData().addAll(new XYChart.Data("2",-00000.2));
-//        series.getData().addAll(new XYChart.Data("3",20000000));
-//        lineChart.getData().addAll(series);
-
-
     }
 
     public void read_text(javafx.event.ActionEvent e) {
@@ -148,6 +142,7 @@ public class controller2 implements Initializable {
 
     @FXML
     public void write_text(javafx.event.ActionEvent e) throws IOException, Minus3Exception, Minus2Exception, Minus4Exception {
+        runned ++;
         try {
             File file = new File("test/test.txt");
             FileWriter fw = new FileWriter(file);
@@ -164,19 +159,22 @@ public class controller2 implements Initializable {
                 new KeyFrame(Duration.seconds(0.3), new KeyValue(progressBar.progressProperty(), 1.0))
         );
         progressBar = new ProgressBar(0);
-
-
         madar_solver();
         ArrayList<Element> elements = solver.getElements();
         ArrayList<Node> nodes = solver.getNodes();
         ArrayList<Union> unions = solver.getUnions();
-        for (Element element : elements) {
-            kachal.getItems().addAll(element.getName());
+        if (runned >0) {
+            kachal.getItems().clear();
+            for (Element element : elements) {
+                kachal.getItems().addAll(element.getName());
+            }
         }
-
-
+        else {
+            for (Element element : elements) {
+                kachal.getItems().addAll(element.getName());
+            }
+        }
         task.playFromStart();
-
     }
 
     public void madar_solver() throws IOException, Minus4Exception, Minus2Exception, Minus3Exception {
@@ -211,19 +209,15 @@ public class controller2 implements Initializable {
             System.out.println(e.getMessage());
             isEnded = true;
         }
-//        elements = solver.getElements();
-//        nodes = solver.getNodes();
-//        unions = solver.getUnions();
+
         try {
             if (!isEnded) {
                 stepof = (t / dt) / 1000;
                 stepan = dt;
+                ui = (int) (t/dt)/65;
                 solver = new Solver(elements, nodes, unions, dt, dv, di, t);
                 solver.update_nodes();
                 solver.print_console();
-//            for (Node node : nodes) {
-//                System.out.println(node.getName() + ":" + "\t" + node.getV());
-//            }
             }
         } catch (Minus4Exception | Minus3Exception | Minus2Exception e) {
 
@@ -232,13 +226,16 @@ public class controller2 implements Initializable {
 
     @FXML
     public void plotter(javafx.event.ActionEvent e) {
+        many_times ++;
         Alert alert1 = new Alert(Alert.AlertType.ERROR, "please enter the time of analyse!", ButtonType.OK);
         Alert alert2 = new Alert(Alert.AlertType.ERROR, "please load your input first and run it ", ButtonType.OK);
         Alert alert3 = new Alert(Alert.AlertType.ERROR, "please choose the element!", ButtonType.OK);
         String name = null;
         if (solver != null) {
             double analyse = 0;
-            String y = kachal.getValue();
+            if (many_times == 0) {
+                y = kachal.getValue();
+            }
             if (kachal.getValue() != null) {
                 name = kachal.getValue();
                 if (!time.getText().equals("")) {
@@ -256,25 +253,62 @@ public class controller2 implements Initializable {
                     } else {
                         alert2.showAndWait();
                     }
-                    int p = -1;
-                    for (moshakhassat vizh : vizhegi) {
-                        p++;
-                        if (p % 1000 == 0 && (vizh.t < analyse)) {
-                            series.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.voltage));
-                            series3.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.voltage));
-                            series1.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.current));
-                            series4.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.current));
-                            series2.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.power));
-                            series5.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.power));
+                    if (many_times ==0) {
+                        int p = -1;
+                        for (moshakhassat vizh : vizhegi) {
+                            p++;
+                            if (p % 1000 == 0 && (vizh.t < analyse)) {
+                                series.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.voltage));
+                                series3.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.voltage));
+                                series1.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.current));
+                                series4.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.current));
+                                series2.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.power));
+                                series5.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.power));
+                            }
+                        }
+                        lineChart.getData().addAll(series3);
+                        lineChart.getData().addAll(series4);
+                        lineChart.getData().addAll(series5);
+                        lineChart1.getData().addAll(series);
+                        lineChart2.getData().addAll(series1);
+                        lineChart3.getData().addAll(series2);
+                    }
+                    else {
+                        if (kachal.getValue().equals(y)){
+
+                        }
+                        else {
+                            y = kachal.getValue();
+                            series.getData().clear();
+                            series1.getData().clear();
+                            series2.getData().clear();
+                            series3.getData().clear();
+                            series4.getData().clear();
+                            series5.getData().clear();
+                            lineChart.getData().clear();
+                            lineChart2.getData().clear();
+                            lineChart1.getData().clear();
+                            lineChart3.getData().clear();
+                            int p = -1;
+                            for (moshakhassat vizh : vizhegi) {
+                                p++;
+                                if (p % 1000 == 0 && (vizh.t < analyse)) {
+                                    series.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.voltage));
+                                    series3.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.voltage));
+                                    series1.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.current));
+                                    series4.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.current));
+                                    series2.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.power));
+                                    series5.getData().addAll(new XYChart.Data(String.format("%.2f", vizh.t), vizh.power));
+                                }
+                            }
+                            lineChart.getData().addAll(series3);
+                            lineChart.getData().addAll(series4);
+                            lineChart.getData().addAll(series5);
+                            lineChart1.getData().addAll(series);
+                            lineChart2.getData().addAll(series1);
+                            lineChart3.getData().addAll(series2);
                         }
                     }
-                    lineChart.getData().addAll(series3);
-                    lineChart.getData().addAll(series4);
-                    lineChart.getData().addAll(series5);
-                    lineChart1.getData().addAll(series);
-                    lineChart2.getData().addAll(series1);
-                    lineChart3.getData().addAll(series2);
-
                 } else
                     alert1.showAndWait();
             } else

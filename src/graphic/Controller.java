@@ -48,6 +48,7 @@ public class Controller implements Initializable {
         Scene app_page_scene  = new Scene(app_page);
         Stage App_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         App_stage.setScene(app_page_scene);
+        App_stage.setTitle("JM_Spice");
         App_stage.show();
     }
 }

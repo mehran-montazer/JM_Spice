@@ -108,7 +108,7 @@
                <children>
                   <Pane fx:id="pane2" prefHeight="809.0" prefWidth="1104.0" visible="false">
                      <children>
-                        <Pane fx:id="circuitGraph" layoutY="250" prefHeight="500"/>
+                        <Pane fx:id="circuitGraph" layoutY="250" prefHeight="500" />
                         <Line endX="500.0" layoutX="325.0" layoutY="750.0" />
                         <Button fx:id="drawBtn" layoutX="436.0" layoutY="90.0" mnemonicParsing="false" onAction="#drawCircuit" prefHeight="42.0" prefWidth="278.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Draw" />
                         <Line endX="338.0" endY="10.0" layoutX="275.0" layoutY="750.0" startX="262.0" startY="10.0" />
@@ -118,9 +118,9 @@
                         <Line endX="306.0" endY="40.0" layoutX="275.0" layoutY="750.0" startX="294.0" startY="40.0" />
                      </children>
                   </Pane>
-                  <Pane fx:id="pane3" prefHeight="815.0" prefWidth="1117.0" visible="false">
+                  <Pane fx:id="pane3" prefHeight="815.0" prefWidth="1117.0">
                      <children>
-                        <LineChart fx:id="lineChart" createSymbols="false" layoutX="98.0" layoutY="205.0" prefHeight="527.0" prefWidth="929.0" stylesheets="@stylesheet.css">
+                        <LineChart fx:id="lineChart" createSymbols="false" layoutX="98.0" layoutY="205.0" prefHeight="527.0" prefWidth="929.0" stylesheets="@stylesheet.css" visible="false">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -130,7 +130,7 @@
                         </LineChart>
                         <ComboBox fx:id="kachal" layoutX="270.0" layoutY="50.0" prefHeight="42.0" prefWidth="259.0" promptText="Choose element ... " />
                         <Button fx:id="plot" layoutX="550.0" layoutY="50.0" mnemonicParsing="false" onAction="#plotter" prefHeight="42.0" prefWidth="259.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Plot" />
-                        <Button fx:id="remover" layoutX="550.0" layoutY="111.0" mnemonicParsing="false" onAction="#reset_chart" prefHeight="42.0" prefWidth="259.0" styleClass="buttons" stylesheets="@stylesheet.css" text="remove plot" />
+                        <Button fx:id="remover" layoutX="550.0" layoutY="111.0" mnemonicParsing="false" onAction="#reset_chart" prefHeight="42.0" prefWidth="259.0" styleClass="buttons" stylesheets="@stylesheet.css" text="reset the circuit" />
                         <TextField fx:id="time" layoutX="270.0" layoutY="111.0" prefHeight="42.0" prefWidth="259.0" promptText="time of analyse" />
                      </children>
                   </Pane>
@@ -162,7 +162,7 @@
                         </LineChart>
                      </children>
                   </Pane>
-                  <Pane fx:id="pane1" layoutX="13.0" layoutY="13.0" prefHeight="793.0" prefWidth="1077.0" visible="true">
+                  <Pane fx:id="pane1" layoutX="13.0" layoutY="13.0" prefHeight="793.0" prefWidth="1077.0" visible="false">
                      <children>
                         <Button fx:id="Load" layoutX="213.0" layoutY="76.0" mnemonicParsing="false" onAction="#read_text" prefHeight="42.0" prefWidth="259.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Load" />
                         <Button fx:id="Run" layoutX="649.0" layoutY="74.0" mnemonicParsing="false" onAction="#write_text" prefHeight="42.0" prefWidth="259.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Run" />
