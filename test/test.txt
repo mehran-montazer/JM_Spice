@@ -1,9 +1,9 @@
-*test on current source and two resistors
-i1 1 0 1m 0 0 0
-r1 1 2 2.0k
-r2 2 0 6k
-r3 2 0 3k
+*RLC circuit
+Vin 1 0 1 0 0 0
+r1 1 0 1
+c1 2 0 1m
+l1 1 2 2
 dv 100u
-di 100n
-dt 1u
-.tran 5
+di 1u
+dt 10u
+.tran 50

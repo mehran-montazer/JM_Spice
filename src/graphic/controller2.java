@@ -100,7 +100,6 @@ public class controller2 implements Initializable {
             pane2.setVisible(false);
             pane3.setVisible(false);
             pane1.setVisible(false);
-            ;
         }
     }
 
@@ -148,7 +147,7 @@ public class controller2 implements Initializable {
     }
 
     @FXML
-    public void write_text(javafx.event.ActionEvent e) throws IOException, Minus3Exception, Minus2Exception, Minus4Exception {
+    public void write_text(javafx.event.ActionEvent e) throws IOException{
         runned ++;
         try {
             File file = new File("test/test.txt");
@@ -239,7 +238,7 @@ public class controller2 implements Initializable {
         Alert alert1 = new Alert(Alert.AlertType.ERROR, "please enter the time of analyse!", ButtonType.OK);
         Alert alert2 = new Alert(Alert.AlertType.ERROR, "please load your input first and run it ", ButtonType.OK);
         Alert alert3 = new Alert(Alert.AlertType.ERROR, "please choose the element!", ButtonType.OK);
-        String name = null;
+        String name;
         if (solver != null) {
             double analyse = 0;
             if (many_times == 0) {
@@ -283,10 +282,7 @@ public class controller2 implements Initializable {
                         lineChart3.getData().addAll(series2);
                     }
                     else {
-                        if (kachal.getValue().equals(y)){
-
-                        }
-                        else {
+                        if (!kachal.getValue().equals(y)){
                             y = kachal.getValue();
                             series.getData().clear();
                             series1.getData().clear();
@@ -344,6 +340,7 @@ public class controller2 implements Initializable {
 
     public void drawCircuit(ActionEvent event) {
         boolean isEnded = false;
+        Reader reader = null;
         //cleaning Pane
         circuitGraph.getChildren().clear();
         circuitGraph.setLayoutX(pane2.getLayoutX());
@@ -377,7 +374,6 @@ public class controller2 implements Initializable {
             if (!isReady)
                 isReady = true;
             file = new File("./test/test.txt");
-            Reader reader;
             reader = new Reader(file);
             reader.read();
             nodes = reader.getNodes();
@@ -418,8 +414,8 @@ public class controller2 implements Initializable {
                 if (isOK) {
                     for (Element element : elements) {
                         if (!element.isDrawn()) {
-                            GraphNode positive = null;
-                            GraphNode negative = null;
+                            GraphNode positive;
+                            GraphNode negative;
                             if (element.getPositiveTerminal().getNameNumber() != 0) {
                                 positive = graphNodesHashMap.get(element.getPositiveTerminal().getNameNumber());
                             } else {
@@ -492,12 +488,12 @@ public class controller2 implements Initializable {
                                             placeWire(mainSecond, subSecond[1]);
                                             break;
                                         case 3:
-                                            placeWire(subFirst[0], subFirst[3]);
-                                            placeWire(subSecond[0], subSecond[3]);
+                                            placeWire(subFirst[0], subFirst[2]);
+                                            placeWire(subSecond[0], subSecond[2]);
                                             break;
                                         case 4:
-                                            placeWire(subFirst[1], subFirst[4]);
-                                            placeWire(subSecond[1], subSecond[4]);
+                                            placeWire(subFirst[1], subFirst[3]);
+                                            placeWire(subSecond[1], subSecond[3]);
                                             break;
                                         default:
                                             break;
@@ -510,6 +506,7 @@ public class controller2 implements Initializable {
                     }
                 }
             }
+            elements = reader.getElements();
             if (nameCheckBox.isSelected())
                 showElementsName(event);
         }
@@ -519,26 +516,23 @@ public class controller2 implements Initializable {
         boolean isEnded = false;
         if (elements == null)
             isEnded = true;
-        System.out.println(elements.size());
         if (isDrawn && !isEnded){
             if (nameCheckBox.isSelected()){
                 for (Element element : elements){
-                    System.out.println(element.getName());
                     Label label = new Label(element.getName());
                     label.setFont(new Font(11));
+                    label.setTextFill(Color.RED);
                     if (element.getStartX() == element.getEndX()){
                         label.setLayoutX(element.getStartX() - 15);
-                        label.setLayoutY(element.getStartY() + 50);
+                        label.setLayoutY(element.getStartY() + 70);
                     }
                     else{
-                        label.setLayoutX(element.getStartX() + 50);
-                        label.setLayoutY(element.getStartY() + 15);
+                        label.setLayoutX(element.getStartX() + 30);
+                        label.setLayoutY(element.getStartY() + 5);
                     }
                     labels.add(label);
                     circuitGraph.getChildren().add(label);
                 }
-                for (Label label : labels)
-                    System.out.println(label.getText());
             }
             else {
                 for (Label label : labels){
