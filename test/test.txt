@@ -1,9 +1,13 @@
-*RLC circuit
-Vin 1 0 1 0 0 0
-r1 1 0 1
-c1 2 0 1m
-l1 1 2 2
-dv 100u
-di 1u
-dt 10u
-.tran 50
+*Namoosan Javab bede
+i1 1 0 1 0 0 0
+r1 1 7 2
+r2 7 1 6
+c1 7 8 1
+c2 7 8 4
+l1 8 2 1
+l2 8 2 3
+v1 2 0 1 0 0 0
+dv 1
+dt 2
+di 2
+.tran 4

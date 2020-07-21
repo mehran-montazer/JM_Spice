@@ -25,7 +25,6 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -46,6 +45,11 @@ public class controller2 implements Initializable {
     byte[][] matrix;
     int ui=0;
     private ArrayList<Label> labels = new ArrayList<>();
+    private ArrayList<Label> nodeNumbers = new ArrayList<>();
+    private GraphNode[][] graphNodes = new GraphNode[6][6];
+    private HashMap <Integer, GraphNode>graphNodesHashMap = new HashMap();
+    @FXML
+    private CheckBox numberCheckBox;
     @FXML
     private CheckBox nameCheckBox;
     @FXML
@@ -346,8 +350,6 @@ public class controller2 implements Initializable {
         circuitGraph.setLayoutX(pane2.getLayoutX());
         circuitGraph.setPrefSize(pane2.getWidth(), 500);
         //Nodes
-        GraphNode[][] graphNodes = new GraphNode[6][6];
-        HashMap <Integer, GraphNode>graphNodesHashMap = new HashMap();
         for (int j = 0; j < 6; j++) {
             graphNodes[0][j] = new GraphNode(325 + j * 100, 500, 0);
         }
@@ -356,12 +358,6 @@ public class controller2 implements Initializable {
                 GraphNode graphNode = new GraphNode(325 + j * 100, 500 - 100 * i, (i - 1) * 6 + j + 1);
                 graphNodes[i][j] = graphNode;
                 graphNodesHashMap.put(graphNode.getNumber(), graphNode);
-                Label label = new Label(Integer.toString(graphNode.getNumber()));
-                label.setFont(new Font(11));
-                label.setTextFill(Color.GREEN);
-                label.setLayoutX(graphNode.getX() - 10);
-                label.setLayoutY(graphNode.getY() + 5);
-                circuitGraph.getChildren().add(label);
             }
         }
         //
@@ -509,6 +505,8 @@ public class controller2 implements Initializable {
             elements = reader.getElements();
             if (nameCheckBox.isSelected())
                 showElementsName(event);
+            if (numberCheckBox.isSelected())
+                showNodeNumbers(event);
         }
     }
     //Elements name
@@ -516,7 +514,7 @@ public class controller2 implements Initializable {
         boolean isEnded = false;
         if (elements == null)
             isEnded = true;
-        if (isDrawn && !isEnded){
+        if (isDrawn && !isEnded && isReady){
             if (nameCheckBox.isSelected()){
                 for (Element element : elements){
                     Label label = new Label(element.getName());
@@ -536,6 +534,29 @@ public class controller2 implements Initializable {
             }
             else {
                 for (Label label : labels){
+                    circuitGraph.getChildren().remove(label);
+                }
+            }
+        }
+    }
+    public void showNodeNumbers(ActionEvent event){
+        if (isDrawn && isReady) {
+            if (numberCheckBox.isSelected()) {
+                for (int i = 1; i < 6; i++) {
+                    for (int j = 0; j < 6; j++) {
+                        GraphNode graphNode = graphNodes[i][j];
+                        Label label = new Label(Integer.toString(graphNode.getNumber()));
+                        label.setFont(new Font(11));
+                        label.setTextFill(Color.GREEN);
+                        label.setLayoutX(graphNode.getX() - 10);
+                        label.setLayoutY(graphNode.getY() + 5);
+                        nodeNumbers.add(label);
+                        circuitGraph.getChildren().add(label);
+                    }
+                }
+            }
+            else {
+                for (Label label : nodeNumbers){
                     circuitGraph.getChildren().remove(label);
                 }
             }
