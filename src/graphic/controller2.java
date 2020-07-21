@@ -169,25 +169,26 @@ public class controller2 implements Initializable {
                 new KeyFrame(Duration.seconds(0.3), new KeyValue(progressBar.progressProperty(), 1.0))
         );
         progressBar = new ProgressBar(0);
-        madar_solver();
-        ArrayList<Element> elements = solver.getElements();
-        ArrayList<Node> nodes = solver.getNodes();
-        ArrayList<Union> unions = solver.getUnions();
-        if (runned >0) {
-            kachal.getItems().clear();
-            for (Element element : elements) {
-                kachal.getItems().addAll(element.getName());
-            }
-        }
-        else {
-            for (Element element : elements) {
-                kachal.getItems().addAll(element.getName());
+        boolean isValid = madar_solver();
+        if (isValid) {
+            ArrayList<Element> elements = solver.getElements();
+            ArrayList<Node> nodes = solver.getNodes();
+            ArrayList<Union> unions = solver.getUnions();
+            if (runned > 0) {
+                kachal.getItems().clear();
+                for (Element element : elements) {
+                    kachal.getItems().addAll(element.getName());
+                }
+            } else {
+                for (Element element : elements) {
+                    kachal.getItems().addAll(element.getName());
+                }
             }
         }
         task.playFromStart();
     }
 
-    public void madar_solver() throws IOException {
+    public boolean madar_solver() throws IOException {
         ArrayList<Element> elements = null;
         ArrayList<Node> nodes = null;
         ArrayList<Union> unions = null;
@@ -215,25 +216,26 @@ public class controller2 implements Initializable {
             reader.findError();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return false;
         } catch (Minus1Exception | Minus2Exception | ReadingException | Minus4Exception | Minus5Exception | Minus3Exception e) {
             Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.showAndWait();
-            isEnded = true;
+            return false;
         }
 
         try {
-            if (!isEnded) {
-                stepof = (t / dt) / 1000;
-                stepan = dt;
-                ui = (int) (t/dt)/65;
-                solver = new Solver(elements, nodes, unions, dt, dv, di, t);
-                solver.update_nodes();
-                solver.print_console();
-            }
+            stepof = (t / dt) / 1000;
+            stepan = dt;
+            ui = (int) (t/dt)/65;
+            solver = new Solver(elements, nodes, unions, dt, dv, di, t);
+            solver.update_nodes();
+            solver.print_console();
         } catch (Minus4Exception | Minus3Exception | Minus2Exception e) {
             Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.showAndWait();
+            return false;
         }
+        return true;
     }
 
     @FXML
@@ -438,6 +440,8 @@ public class controller2 implements Initializable {
                             mainSecond = graphNodesHashMap.get(number);
                         else
                             mainSecond = graphNodes[0][node.getNameNumber() % 6 - 1];
+                        mainFirst.addConnectedNode(mainSecond);
+                        mainSecond.addConnectedNode(mainFirst);
                         int cnt = 0;
                         GraphNode [] subFirst = new GraphNode[4];
                         GraphNode [] subSecond = new GraphNode[4];

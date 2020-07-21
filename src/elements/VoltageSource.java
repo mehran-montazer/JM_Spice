@@ -161,8 +161,9 @@ public class VoltageSource extends Element {
                     label.setText(label.getText() + "(V" + positiveDependent.getName() + " - " + "V" + negativeDependent.getName() + ")");
                 label.setRotate(270);
                 label.setFont(new Font(9));
-                label.setLayoutX(x - 50);
-                label.setLayoutY(y + 50);
+                label.setLayoutX(x - 43);
+                label.setLayoutY(y + 80);
+                label.setTextFill(Color.DARKGREEN);
                 pane.getChildren().addAll(line1,line2,line3,line4,line5,line6,line7,line8,line9,label);
             }
         }
@@ -212,8 +213,9 @@ public class VoltageSource extends Element {
                 else
                     label.setText(label.getText() + "(V" + positiveDependent.getName() + " - " + "V" + negativeDependent.getName() + ")");
                 label.setFont(new Font(9));
-                label.setLayoutX(x + 20);
-                label.setLayoutY(y - 30);
+                label.setLayoutX(x + 5);
+                label.setLayoutY(y + 20);
+                label.setTextFill(Color.DARKGREEN);
                 pane.getChildren().addAll(line1,line2,line3,line4,line5,line6,line7,line8,line9,label);
             }
         }
