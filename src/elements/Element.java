@@ -16,11 +16,15 @@ public abstract class Element {
     protected double voltage;
     protected String name;
     protected double power;
-    protected double value ;
+    protected double value;
     protected char  type;
     protected double initialCurrent;
     protected boolean isDrawn = false;
     double I_p,I_n,V_p,V_n,I,V;
+    protected double startX;
+    protected double endX;
+    protected double startY;
+    protected double endY;
 
     public ArrayList<moshakhassat> getMoshakhassats() {
         return moshakhassats;
@@ -110,6 +114,18 @@ public abstract class Element {
     }
     public boolean isDrawn() {
         return isDrawn;
+    }
+    public double getEndX() {
+        return endX;
+    }
+    public double getStartX() {
+        return startX;
+    }
+    public double getStartY() {
+        return startY;
+    }
+    public double getEndY() {
+        return endY;
     }
     /////////////////////////////////setter////////////////////////////
     public void setVoltage(double voltage) {

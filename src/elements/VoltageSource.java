@@ -121,6 +121,10 @@ public class VoltageSource extends Element {
                 y = positiveNode.getY();
             else
                 y = negativeNode.getY();
+            startX = x;
+            endX = x;
+            startY = y;
+            endY = y + 100;
             if (!isDependent){
                 Line line1 = new Line(x, y, x, y + 35);
                 Line line2 = new Line(x, y + 65, x, y + 100);
@@ -168,6 +172,10 @@ public class VoltageSource extends Element {
                 x = positiveNode.getX();
             else
                 x = negativeNode.getX();
+            startX = x;
+            endX = x + 100;
+            startY = y;
+            endY = y;
             if (!isDependent){
                 Line line1 = new Line(x, y, x + 35, y);
                 Line line2 = new Line(x + 65, y, x + 100, y);

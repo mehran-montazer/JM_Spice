@@ -17,8 +17,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
@@ -29,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.concurrent.ForkJoinPool;
 
 public class controller2 implements Initializable {
     ArrayList<Element> elements = null;
@@ -41,6 +45,9 @@ public class controller2 implements Initializable {
     boolean isReady = false;
     byte[][] matrix;
     int ui=0;
+    private ArrayList<Label> labels = new ArrayList<>();
+    @FXML
+    private CheckBox nameCheckBox;
     @FXML
     private Pane circuitGraph;
     @FXML
@@ -177,7 +184,7 @@ public class controller2 implements Initializable {
         task.playFromStart();
     }
 
-    public void madar_solver() throws IOException, Minus4Exception, Minus2Exception, Minus3Exception {
+    public void madar_solver() throws IOException {
         ArrayList<Element> elements = null;
         ArrayList<Node> nodes = null;
         ArrayList<Union> unions = null;
@@ -206,7 +213,8 @@ public class controller2 implements Initializable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (Minus1Exception | Minus2Exception | ReadingException | Minus4Exception | Minus5Exception | Minus3Exception e) {
-            System.out.println(e.getMessage());
+            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
             isEnded = true;
         }
 
@@ -220,7 +228,8 @@ public class controller2 implements Initializable {
                 solver.print_console();
             }
         } catch (Minus4Exception | Minus3Exception | Minus2Exception e) {
-
+            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
         }
     }
 
@@ -334,6 +343,7 @@ public class controller2 implements Initializable {
     //drawing section
 
     public void drawCircuit(ActionEvent event) {
+        boolean isEnded = false;
         //cleaning Pane
         circuitGraph.getChildren().clear();
         circuitGraph.setLayoutX(pane2.getLayoutX());
@@ -349,6 +359,12 @@ public class controller2 implements Initializable {
                 GraphNode graphNode = new GraphNode(325 + j * 100, 500 - 100 * i, (i - 1) * 6 + j + 1);
                 graphNodes[i][j] = graphNode;
                 graphNodesHashMap.put(graphNode.getNumber(), graphNode);
+                Label label = new Label(Integer.toString(graphNode.getNumber()));
+                label.setFont(new Font(11));
+                label.setTextFill(Color.GREEN);
+                label.setLayoutX(graphNode.getX() - 10);
+                label.setLayoutY(graphNode.getY() + 5);
+                circuitGraph.getChildren().add(label);
             }
         }
         //
@@ -370,14 +386,23 @@ public class controller2 implements Initializable {
             matrix = reader.getMatrix();
             reader.findError();
         } catch (IOException q) {
+            Alert alert = new Alert(AlertType.WARNING, "Something went wrong! try again!", ButtonType.OK);
             q.printStackTrace();
+            isEnded = true;
         }
         //Reading File Section
          catch (Minus1Exception | Minus2Exception | ReadingException | Minus4Exception | Minus5Exception | Minus3Exception e) {
-            System.out.println(e.getMessage());
+            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+            isEnded = true;
         }
         //
-        if (!isDrawn || isReady){
+        if (nodes == null || elements == null){
+            isEnded = true;
+            Alert alert = new Alert(AlertType.WARNING, "Nothing to draw :/", ButtonType.OK);
+            alert.showAndWait();
+        }
+        if ((!isDrawn || isReady) && !isEnded){
             isDrawn = true;
             for (Node node : nodes) {
                 elements = node.getElements();
@@ -483,6 +508,41 @@ public class controller2 implements Initializable {
                             }
                         }
                     }
+                }
+            }
+            if (nameCheckBox.isSelected())
+                showElementsName(event);
+        }
+    }
+    //Elements name
+    public void showElementsName(ActionEvent event){
+        boolean isEnded = false;
+        if (elements == null)
+            isEnded = true;
+        System.out.println(elements.size());
+        if (isDrawn && !isEnded){
+            if (nameCheckBox.isSelected()){
+                for (Element element : elements){
+                    System.out.println(element.getName());
+                    Label label = new Label(element.getName());
+                    label.setFont(new Font(11));
+                    if (element.getStartX() == element.getEndX()){
+                        label.setLayoutX(element.getStartX() - 15);
+                        label.setLayoutY(element.getStartY() + 50);
+                    }
+                    else{
+                        label.setLayoutX(element.getStartX() + 50);
+                        label.setLayoutY(element.getStartY() + 15);
+                    }
+                    labels.add(label);
+                    circuitGraph.getChildren().add(label);
+                }
+                for (Label label : labels)
+                    System.out.println(label.getText());
+            }
+            else {
+                for (Label label : labels){
+                    circuitGraph.getChildren().remove(label);
                 }
             }
         }

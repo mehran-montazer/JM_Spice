@@ -5,6 +5,7 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextArea?>
@@ -106,19 +107,20 @@
             </VBox>
             <AnchorPane layoutX="312.0" prefHeight="810.0" prefWidth="1098.0">
                <children>
-                  <Pane fx:id="pane2" prefHeight="809.0" prefWidth="1104.0" visible="false">
+                  <Pane fx:id="pane2" prefHeight="809.0" prefWidth="1104.0" visible="true">
                      <children>
                         <Pane fx:id="circuitGraph" layoutY="250" prefHeight="500" />
                         <Line endX="500.0" layoutX="325.0" layoutY="750.0" />
-                        <Button fx:id="drawBtn" layoutX="436.0" layoutY="90.0" mnemonicParsing="false" onAction="#drawCircuit" prefHeight="42.0" prefWidth="278.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Draw" />
+                        <Button fx:id="drawBtn" layoutX="398.0" layoutY="90.0" mnemonicParsing="false" onAction="#drawCircuit" prefHeight="42.0" prefWidth="278.0" styleClass="buttons" stylesheets="@stylesheet.css" text="Draw" />
                         <Line endX="338.0" endY="10.0" layoutX="275.0" layoutY="750.0" startX="262.0" startY="10.0" />
                         <Line endX="325.0" endY="20.0" layoutX="275.0" layoutY="750.0" startX="275.0" startY="20.0" />
                         <Line endX="312.0" endY="30.0" layoutX="275.0" layoutY="750.0" startX="288.0" startY="30.0" />
                         <Line endY="10.0" layoutX="575.0" layoutY="750.0" />
                         <Line endX="306.0" endY="40.0" layoutX="275.0" layoutY="750.0" startX="294.0" startY="40.0" />
+                        <CheckBox fx:id="nameCheckBox" layoutX="729.0" layoutY="103.0" mnemonicParsing="false" onAction="#showElementsName" text="Elements Name" textFill="#2ac312ed" />
                      </children>
                   </Pane>
-                  <Pane fx:id="pane3" prefHeight="815.0" prefWidth="1117.0">
+                  <Pane fx:id="pane3" prefHeight="815.0" prefWidth="1117.0" visible="false">
                      <children>
                         <LineChart fx:id="lineChart" createSymbols="false" layoutX="98.0" layoutY="205.0" prefHeight="527.0" prefWidth="929.0" stylesheets="@stylesheet.css" visible="false">
                           <xAxis>

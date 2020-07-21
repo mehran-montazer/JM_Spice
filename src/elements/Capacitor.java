@@ -38,6 +38,10 @@ public class Capacitor extends Element{
                 y = positiveNode.getY();
             else
                 y = negativeNode.getY();
+            startX = x;
+            endX = x;
+            startY = y;
+            endY = y + 100;
             Line line1 = new Line(x, y + 48, x, y);
             Line line2 = new Line(x, y + 52, x, y + 100);
             Line line3 = new Line(x - 6, y + 48, x + 6, y + 48);
@@ -50,6 +54,10 @@ public class Capacitor extends Element{
                 x = positiveNode.getX();
             else
                 x = negativeNode.getX();
+            startX = x;
+            endX = x + 100;
+            startY = y;
+            endY = y;
             Line line1 = new Line(x, y, x + 48, y);
             Line line2 = new Line(x + 52, y, x + 100, y);
             Line line3 = new Line(x + 48, y - 6, x + 48, y + 6);

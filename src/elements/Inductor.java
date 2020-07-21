@@ -47,6 +47,10 @@ public class Inductor extends Element {
                 y = positiveNode.getY();
             else
                 y = negativeNode.getY();
+            startX = x;
+            endX = x;
+            startY = y;
+            endY = y + 100;
             Line line1 = new Line(x, y, x, y + 30);
             Line line2 = new Line(x, y + 70, x, y + 100);
             Arc arc1 = new Arc(x, y + 36.5, 4, 6.5, 90, 180);
@@ -73,6 +77,10 @@ public class Inductor extends Element {
                 x = positiveNode.getX();
             else
                 x = negativeNode.getX();
+            startX = x;
+            endX = x + 100;
+            startY = y;
+            endY = y;
             Line line1 = new Line(x, y, x + 30, y);
             Line line2 = new Line(x + 70, y, x + 100, y);
             Arc arc1 = new Arc(x + 36.5, y, 6.5, 4, 0, 180);

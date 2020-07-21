@@ -31,6 +31,10 @@ public class Resistor extends Element {
                 y = positiveNode.getY();
             else
                 y = negativeNode.getY();
+            startX = x;
+            endX = x;
+            startY = y;
+            endY = y + 100;
             Line line1 = new Line(x, y, x, y + 32);
             Line line2 = new Line(x, y + 32, x - 3, y + 35);
             Line line3 = new Line(x - 3, y + 35, x + 3, y + 41);
@@ -50,6 +54,10 @@ public class Resistor extends Element {
                 x = positiveNode.getX();
             else
                 x = negativeNode.getX();
+            startX = x;
+            endX = x + 100;
+            startY = y;
+            endY = y;
             Line line1 = new Line(x, y, x + 32, y);
             Line line2 = new Line(x + 32, y, x + 35, y - 3);
             Line line3 = new Line(x + 35, y - 3, x + 41, y + 3);
