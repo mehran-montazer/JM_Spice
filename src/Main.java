@@ -19,7 +19,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("graphic/fxml.fxml"));
         Scene scene = new Scene(root);
-        primaryStage.setTitle("my title");
+        primaryStage.setTitle("Welcome");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -68,14 +68,4 @@ public class Main extends Application {
 //        }
 //        launch(arg);
     }
-//    @Override
-//    public void start(Stage primaryStage) throws Exception {
-//        Parent root = FXMLLoader.load(getClass().getResource("graphic/fxml.fxml"));
-//        Scene scene = new Scene(root);
-//        primaryStage.setTitle("my title");
-//        primaryStage.setScene(scene);
-//        primaryStage.show();
-//    }
-
-
 }

@@ -3,6 +3,7 @@ package elements;
 
 import graphic.GraphNode;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 
 public class Diode extends Element {
     boolean isON;
@@ -27,12 +28,62 @@ public class Diode extends Element {
     @Override
     public void draw(Pane pane, GraphNode positiveNode, GraphNode negativeNode){
         boolean isVertical = checkVertical(positiveNode, negativeNode);
+        isDrawn = true;
+        int x;
+        int y;
+        Line line1;
+        Line line2;
+        Line line3;
+        Line line4;
+        Line line5;
+        Line line6;
         if (isVertical){
-
+            x = positiveNode.getX();
+            if (positiveNode.getY() < negativeNode.getY())
+                y = positiveNode.getY();
+            else
+                y = negativeNode.getY();
+            startX = x;
+            endX = x;
+            startY = y;
+            endY = y + 100;
+            line1 = new Line(x, y, x, y + 44);
+            line2 = new Line(x, y + 56, x, y + 100);
+            line3 = new Line(x - 7, y + 44, x + 7, y + 44);
+            line4 = new Line(x - 7, y + 56, x + 7, y + 56);
+            if (positiveNode.getY() < negativeNode.getY()) {
+                line5 = new Line(x - 7, y + 56, x, y + 44);
+                line6 = new Line(x + 7, y + 56, x, y + 44);
+            }
+            else {
+                line5 = new Line(x, y + 56, x - 7, y + 44);
+                line6 = new Line(x , y + 56, x + 7, y + 44);
+            }
         }
         else {
-
+            y = positiveNode.getY();
+            if (positiveNode.getX() < negativeNode.getX())
+                x = positiveNode.getX();
+            else
+                x = negativeNode.getX();
+            startX = x;
+            endX = x + 100;
+            startY = y;
+            endY = y;
+            line1 = new Line(x, y, x + 44, y);
+            line2 = new Line(x + 56, y, x + 100, y);
+            line3 = new Line(x + 44, y - 7, x + 44, y + 7);
+            line4 = new Line(x + 56, y - 7, x + 56, y + 7);
+            if (positiveNode.getX() > negativeNode.getX()) {
+                line5 = new Line(x + 44, y - 7, x + 56, y);
+                line6 = new Line(x + 44, y + 7, x + 56, y);
+            }
+            else {
+                line5 = new Line(x + 56, y - 7, x + 44, y);
+                line6 = new Line(x + 56, y + 7, x + 44, y);
+            }
         }
+        pane.getChildren().addAll(line1,line2,line3,line4,line5,line6);
     }
     @Override
     public void calculateVoltage() {

@@ -381,11 +381,16 @@ public class controller2 implements Initializable {
             reader.findError();
         } catch (IOException q) {
             Alert alert = new Alert(AlertType.WARNING, "Something went wrong! try again!", ButtonType.OK);
+            alert.showAndWait();
             q.printStackTrace();
             isEnded = true;
         }
         //Reading File Section
-         catch (Minus1Exception | Minus2Exception | ReadingException | Minus4Exception | Minus5Exception | Minus3Exception e) {
+         catch (Minus1Exception | Minus2Exception | Minus4Exception | Minus5Exception | Minus3Exception e) {
+            Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
+        }
+        catch (ReadingException e){
             Alert alert = new Alert(AlertType.ERROR, e.getMessage(), ButtonType.OK);
             alert.showAndWait();
             isEnded = true;
@@ -440,8 +445,6 @@ public class controller2 implements Initializable {
                             mainSecond = graphNodesHashMap.get(number);
                         else
                             mainSecond = graphNodes[0][node.getNameNumber() % 6 - 1];
-                        mainFirst.addConnectedNode(mainSecond);
-                        mainSecond.addConnectedNode(mainFirst);
                         int cnt = 0;
                         GraphNode [] subFirst = new GraphNode[4];
                         GraphNode [] subSecond = new GraphNode[4];

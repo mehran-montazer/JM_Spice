@@ -153,7 +153,7 @@ public class Reader {
                         }
                         else if ((tokens[0].startsWith("d") || tokens[0].startsWith("D")) && (value == 1)){
                             Diode diode;
-                            diode = new Diode(name, negativeTerminal, positiveTerminal);
+                            diode = new Diode(name, positiveTerminal, negativeTerminal);
                             elementHashMap.put(name, diode);
                             elements.add(diode);
                             addElement(positiveTerminal, negativeTerminal, diode);
