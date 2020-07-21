@@ -51,19 +51,20 @@ public class Solver {
     //    public  void updaate_elemnts(){
 //        for(int i=0 ; i <elements.size() ; i ++){
 //            elements.get(i).update_element(dt,dv);
-//        }
+//        }i kari n
 //    }
     public void  update_nodes() throws Minus2Exception, Minus3Exception, Minus4Exception {
         int count =0, kk =0 ;
         for (double zaman=0; zaman < t ;zaman += dt) {
+            for (Union union:unions){
+                union.checkKCL(zaman);
+                union.checkKVL(zaman);
+            }
             count ++;
             int cnt = 0;
             for (Union union : unions) {
                 union.setVisited(false);
             }
-//        for (Element element:elements){
-//            element.update_element(dt,dv);
-//        }
             for (Node n : this.nodes) {
                 n.I_n = 0;
                 n.I_p = 0;
@@ -136,10 +137,6 @@ public class Solver {
                     Node Main_present = null;
                     int number = n.getUnion();
                     int gereshomare_union=0;
-                    for (Union union:unions){
-                        union.checkKCL(zaman);
-                        union.checkKVL(zaman);
-                    }
                     for (Union union : unions) {
                         if (union.getNumber() == number) {
                             visited = union.isVisited();

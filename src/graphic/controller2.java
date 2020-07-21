@@ -128,15 +128,16 @@ public class controller2 implements Initializable {
         Alert alert = new Alert(Alert.AlertType.ERROR, "File directory is not valid", ButtonType.OK);
         String y = "";
         FileChooser fc = new FileChooser();
-        File selectedfile = fc.showOpenDialog(null);
-        FileChooser.ExtensionFilter extFilter =
-                new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
-        fc.getExtensionFilters().add(extFilter);
+            File selectedfile = fc.showOpenDialog(null);
+            FileChooser.ExtensionFilter extFilter =
+                    new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
+            fc.getExtensionFilters().add(extFilter);
 
         if (selectedfile != null) {
             y = selectedfile.getAbsolutePath();
-        } else
+        } else {
             alert.showAndWait();
+        }
 
         StringBuilder contentBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(y))) {
@@ -144,8 +145,10 @@ public class controller2 implements Initializable {
             while ((sCurrentLine = br.readLine()) != null) {
                 contentBuilder.append(sCurrentLine).append("\n");
             }
-        } catch (IOException q) {
+        } catch (FileNotFoundException q) {
             q.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
         textArea.setText(contentBuilder.toString());
     }
